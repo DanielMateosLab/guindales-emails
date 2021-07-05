@@ -8,14 +8,14 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
     super(db, "contacts")
   }
 
-  async getContacts(
-    filter: Partial<Omit<Contact, "_id">> = {},
-    sortyBy: { field: "_id" | "name"; order: "ascending" | "descending" } = {
+  async getContacts({
+    filter = {},
+    sortyBy = {
       field: "_id",
       order: "descending",
     },
-    page: number = 1
-  ): Promise<{ contacts: Contact[]; count: number }> {
+    page = 1,
+  }: GetContactsArgs): Promise<{ contacts: Contact[]; count: number }> {
     const cursor = this.collection
       .find(filter)
       .sort({ [sortyBy.field]: sortyBy.order == "ascending" ? 1 : -1 })
@@ -27,4 +27,10 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
 
     return { contacts, count }
   }
+}
+
+interface GetContactsArgs {
+  filter?: Partial<Omit<Contact, "_id">>
+  sortyBy?: { field: "_id" | "name"; order: "ascending" | "descending" }
+  page?: number
 }
