@@ -13,11 +13,12 @@ async function handler(
   const contactsDAO = new ContactsDAO(db)
 
   if (req.method == "GET") {
-    const { page } = await getContactsQueryParametersValidation.validate(
+    const { page, sort } = await getContactsQueryParametersValidation.validate(
       req.query
     )
 
-    const result = await contactsDAO.getContacts({ page })
+    const result = await contactsDAO.getContacts({ page, sort })
+
     res.status(200).json({ status: "success", ...result })
   }
 }

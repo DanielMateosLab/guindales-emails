@@ -1,5 +1,5 @@
 import CollectionDAO from "@danielmat/api-utils/dist/CollectionDAO"
-import { Db } from "mongodb"
+import { Cursor, Db } from "mongodb"
 import { pageSize } from "../utils/config"
 import { Contact } from "../utils/types"
 
@@ -10,15 +10,12 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
 
   async getContacts({
     filter = {},
-    sortyBy = {
-      field: "_id",
-      order: "descending",
-    },
+    sort = { _id: -1, name: 1 },
     page = 1,
   }: GetContactsArgs): Promise<{ contacts: Contact[]; count: number }> {
     const cursor = this.collection
       .find(filter)
-      .sort({ [sortyBy.field]: sortyBy.order == "ascending" ? 1 : -1 })
+      .sort(sort)
       .skip((page - 1) * pageSize)
       .limit(page * pageSize)
 
@@ -31,6 +28,6 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
 
 interface GetContactsArgs {
   filter?: Partial<Omit<Contact, "_id">>
-  sortyBy?: { field: "_id" | "name"; order: "ascending" | "descending" }
+  sort?: Parameters<Cursor<Contact>["sort"]>[0]
   page?: number
 }
