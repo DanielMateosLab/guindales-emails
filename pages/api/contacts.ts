@@ -3,7 +3,10 @@ import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiRequest, NextApiResponse } from "next"
 import ContactsDAO from "../../server/ContactsDAO"
 import { ContactsResponse } from "../../utils/types"
-import { getContactsQueryParametersValidation } from "../../utils/validation"
+import {
+  getContactsQueryParametersValidation,
+  removeUndefinedProperties,
+} from "../../utils/validation"
 
 async function handler(
   req: NextApiRequest,
@@ -13,11 +16,14 @@ async function handler(
   const contactsDAO = new ContactsDAO(db)
 
   if (req.method == "GET") {
-    const { page, sort } = await getContactsQueryParametersValidation.validate(
-      req.query
-    )
+    const { filter, sort, page } =
+      await getContactsQueryParametersValidation.validate(req.query)
 
-    const result = await contactsDAO.getContacts({ page, sort })
+    const result = await contactsDAO.getContacts(
+      removeUndefinedProperties(filter),
+      sort,
+      page
+    )
 
     res.status(200).json({ status: "success", ...result })
   }
