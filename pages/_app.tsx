@@ -1,5 +1,5 @@
 import CssBaseline from "@material-ui/core/CssBaseline"
-import { ThemeProvider } from "@material-ui/core/styles"
+import { StylesProvider, ThemeProvider } from "@material-ui/core/styles"
 import type { AppProps } from "next/app"
 import Head from "next/head"
 import React from "react"
@@ -31,8 +31,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content={theme.palette.primary.dark} />
       </Head>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...pageProps} />
+        <StylesProvider injectFirst>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </StylesProvider>
       </ThemeProvider>
     </>
   )
