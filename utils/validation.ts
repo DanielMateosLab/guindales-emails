@@ -2,7 +2,7 @@ import * as yup from "yup"
 
 export const getContactsQueryParametersValidation = yup.object().shape({
   sort: yup.object().shape({
-    _id: sortValueIsOneOrMinusOne(),
+    _id: sortValueIsOneOrMinusOne().default(-1),
     name: sortValueIsOneOrMinusOne(),
   }),
   filter: yup.object().shape({
