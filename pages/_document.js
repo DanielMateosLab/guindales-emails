@@ -13,7 +13,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <meta name="theme-color" content={theme.palette.primary.main} />
+          <meta name="theme-color" content={theme.palette.primary.dark} />
 
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link

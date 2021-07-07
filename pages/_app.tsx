@@ -28,7 +28,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
-        <meta name="theme-color" content={theme.palette.primary.dark} />
       </Head>
       <ThemeProvider theme={theme}>
         <StylesProvider injectFirst>
