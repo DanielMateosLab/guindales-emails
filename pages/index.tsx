@@ -1,11 +1,20 @@
-import { AppBar, Container, Toolbar, Typography } from "@material-ui/core"
+import {
+  AppBar,
+  Container,
+  LinearProgress,
+  Toolbar,
+  Typography,
+} from "@material-ui/core"
 import { useEffect, useState } from "react"
 import ContactList from "../client/components/ContactList"
 import { Contact, ContactsResponse } from "../utils/types"
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([])
-  const [contactsCount, setContactsCount] = useState(0)
+  const [contactsCount, setContactsCount] = useState<number | undefined>(
+    undefined
+  )
+  const [loadingContacts, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchContacts() {
@@ -17,6 +26,8 @@ export default function Home() {
         setContacts(res.contacts)
         setContactsCount(res.count)
       }
+
+      setLoading(false)
     }
 
     fetchContacts()
@@ -33,13 +44,17 @@ export default function Home() {
         <Typography variant="body1" className="emails-count">
           Emails encontrados: {contactsCount}
         </Typography>
-        <ContactList contacts={contacts} />
+        {loadingContacts ? (
+          <LinearProgress color="secondary" />
+        ) : (
+          <ContactList contacts={contacts} />
+        )}
       </Container>
 
       <style jsx>
         {`
           :global(.emails-count) {
-            margin-top: 1rem;
+            margin: 1rem 0;
           }
         `}
       </style>

@@ -15,9 +15,6 @@ const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => (
 
     <style jsx>
       {`
-        article:first-child {
-          margin-top: 1rem;
-        }
         article:last-child .divider {
           display: none;
         }
