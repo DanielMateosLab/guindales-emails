@@ -1,3 +1,5 @@
+import { ApiResponse } from "@danielmat/api-utils"
+
 export interface Contact {
   _id: string
   name: string
@@ -5,7 +7,7 @@ export interface Contact {
   phone?: string
 }
 
-export interface ContactsResponse {
+export type ContactsResponse = ApiResponse<{
   contacts: Contact[]
   count: number
-}
+}>

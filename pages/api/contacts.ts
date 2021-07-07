@@ -1,8 +1,4 @@
-import {
-  ApiResponse,
-  connectToDb,
-  MethodNotAllowedError,
-} from "@danielmat/api-utils"
+import { connectToDb, MethodNotAllowedError } from "@danielmat/api-utils"
 import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiRequest, NextApiResponse } from "next"
 import ContactsDAO from "../../server/ContactsDAO"
@@ -13,10 +9,7 @@ import {
 } from "../../utils/validation"
 
 interface ContactsHandler {
-  (
-    req: NextApiRequest,
-    res: NextApiResponse<ApiResponse<ContactsResponse>>
-  ): Promise<void>
+  (req: NextApiRequest, res: NextApiResponse<ContactsResponse>): Promise<void>
 }
 
 const handler: ContactsHandler = async (req, res) => {
