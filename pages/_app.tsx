@@ -17,8 +17,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>App</title>
-        <meta name="description" content="App Description" />
+        <title>Los Guindales - Emails</title>
+        <meta
+          name="description"
+          content="Lista de correos de Los Guindales.
+            En esta aplicación se guardan y administran contactos para informarles de
+            futuros eventos y productos."
+        />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
