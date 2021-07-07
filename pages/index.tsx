@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core"
 import { useEffect, useState } from "react"
 import ContactList from "../client/components/ContactList"
+import DatabaseErrorAlert from "../client/components/DatabaseErrorAlert"
 import { Contact, ContactsResponse } from "../utils/types"
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
     undefined
   )
   const [loadingContacts, setLoading] = useState(true)
+  const [contactsError, setError] = useState(false)
 
   useEffect(() => {
     async function fetchContacts() {
@@ -25,6 +27,9 @@ export default function Home() {
       if (res.status == "success") {
         setContacts(res.contacts)
         setContactsCount(res.count)
+      }
+      if (res.status == "error") {
+        setError(true)
       }
 
       setLoading(false)
@@ -40,10 +45,15 @@ export default function Home() {
           <Typography variant="h6">Emails</Typography>
         </Toolbar>
       </AppBar>
-      <Container component="main">
-        <Typography variant="body1" className="emails-count">
+
+      <div className="header">
+        <Typography variant="body1">
           Emails encontrados: {contactsCount}
         </Typography>
+        {contactsError && <DatabaseErrorAlert />}
+      </div>
+
+      <Container component="main">
         {loadingContacts ? (
           <LinearProgress color="secondary" />
         ) : (
@@ -53,8 +63,9 @@ export default function Home() {
 
       <style jsx>
         {`
-          :global(.emails-count) {
-            margin: 1rem 0;
+          .header {
+            padding: 1rem;
+            background-color: rgba(98, 172, 110, 0.2);
           }
         `}
       </style>
