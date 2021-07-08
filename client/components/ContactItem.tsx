@@ -1,5 +1,6 @@
 import Typography from "@material-ui/core/Typography"
 import { Contact } from "../../utils/types"
+import Divider from "./Divider"
 
 const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => (
   <article>
@@ -10,25 +11,15 @@ const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => (
     <Typography variant="body2" color="secondary">
       {contact.phone}
     </Typography>
-    <hr className="divider" />
+    <Divider />
 
     <style jsx>
       {`
-        article:last-child .divider {
-          display: none;
-        }
-        .divider {
-          width: calc(100vw - 1rem);
-        }
-
         @media screen and (min-width: 600px) {
           article {
             display: grid;
             grid-template-columns: 2fr 3fr 1fr;
             margin-top: 1rem;
-          }
-          article .divider {
-            display: none;
           }
         }
       `}

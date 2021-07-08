@@ -1,4 +1,10 @@
-import { AppBar, LinearProgress, Toolbar, Typography } from "@material-ui/core"
+import {
+  AppBar,
+  Button,
+  LinearProgress,
+  Toolbar,
+  Typography,
+} from "@material-ui/core"
 import ContactList from "../client/components/ContactList"
 import DatabaseErrorAlert from "../client/components/DatabaseErrorAlert"
 import FoundResultsText from "../client/components/FoundResultsText"
@@ -7,6 +13,9 @@ import theme from "../client/theme"
 
 export default function Home() {
   const { state, setUrl, reLoad } = useContacts()
+
+  const { contacts, contactsCount } = state.data
+  const allContactsShown = state.data.contacts.length > (contactsCount || 0)
 
   return (
     <div className="root">
@@ -19,8 +28,8 @@ export default function Home() {
 
         <section className="secondary-bar">
           <FoundResultsText
-            contactsLength={state.data.contacts.length}
-            count={state.data.contactsCount}
+            contactsLength={contacts.length}
+            count={contactsCount}
           />
 
           {state.isError && <DatabaseErrorAlert reLoad={reLoad} />}
@@ -30,7 +39,15 @@ export default function Home() {
       <main className="contact-list-container">
         {state.isLoading && <LinearProgress color="secondary" />}
 
-        <ContactList contacts={state.data.contacts} />
+        <ContactList contacts={contacts} />
+
+        {!allContactsShown && (
+          <div className="show-more-button">
+            <Button variant="contained" color="primary">
+              Mostrar más
+            </Button>
+          </div>
+        )}
       </main>
 
       <style jsx>
@@ -48,6 +65,12 @@ export default function Home() {
             top: 0;
             width: 100%;
             z-index: 1;
+          }
+
+          .show-more-button {
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
           }
 
           @media screen and (min-width: 600px) {
