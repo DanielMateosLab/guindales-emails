@@ -37,13 +37,13 @@ export default function Home() {
         {`
           .secondary-bar {
             padding: 1rem;
-            background-color: ${theme.palette.primary.light};
           }
           .contact-list-container {
             padding: .5rem 1rem 0}
           }
 
           header {
+            background-color: ${theme.palette.primary.light};
             position: sticky;
             top: 0;
             width: 100%;
