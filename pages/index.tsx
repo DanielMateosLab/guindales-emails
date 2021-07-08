@@ -22,15 +22,15 @@ export default function Home() {
             contactsLength={state.data.contacts.length}
             count={state.data.contactsCount}
           />
+
           {state.isError && <DatabaseErrorAlert reLoad={reLoad} />}
         </section>
       </header>
+
       <main className="contact-list-container">
-        {state.isLoading ? (
-          <LinearProgress color="secondary" />
-        ) : (
-          <ContactList contacts={state.data.contacts} />
-        )}
+        {state.isLoading && <LinearProgress color="secondary" />}
+
+        <ContactList contacts={state.data.contacts} />
       </main>
 
       <style jsx>
