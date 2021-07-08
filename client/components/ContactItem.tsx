@@ -1,6 +1,5 @@
 import Typography from "@material-ui/core/Typography"
 import { Contact } from "../../utils/types"
-import theme from "../theme"
 
 const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => (
   <article>
@@ -19,7 +18,7 @@ const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => (
           display: none;
         }
         .divider {
-          width: calc(100vw - ${theme.spacing(2)}px);
+          width: calc(100vw - 1rem);
         }
 
         @media screen and (min-width: 600px) {

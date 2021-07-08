@@ -1,45 +1,15 @@
-import {
-  AppBar,
-  Container,
-  LinearProgress,
-  Toolbar,
-  Typography,
-} from "@material-ui/core"
-import { useEffect, useState } from "react"
+import { AppBar, LinearProgress, Toolbar, Typography } from "@material-ui/core"
 import ContactList from "../client/components/ContactList"
 import DatabaseErrorAlert from "../client/components/DatabaseErrorAlert"
-import { Contact, ContactsResponse } from "../utils/types"
+import useContacts from "../client/hooks/useContacts"
 
 export default function Home() {
-  const [contacts, setContacts] = useState<Contact[]>([])
-  const [contactsCount, setContactsCount] = useState<number | undefined>(
-    undefined
-  )
-  const [loadingContacts, setLoading] = useState(true)
-  const [contactsError, setError] = useState(false)
-
-  useEffect(() => {
-    async function fetchContacts() {
-      const res: ContactsResponse = await fetch("/api/contacts").then((res) =>
-        res.json()
-      )
-
-      if (res.status == "success") {
-        setContacts(res.contacts)
-        setContactsCount(res.count)
-      }
-      if (res.status == "error") {
-        setError(true)
-      }
-
-      setLoading(false)
-    }
-
-    fetchContacts()
-  }, [])
+  const { state, setUrl, reLoad } = useContacts()
 
   return (
     <div>
+      {/* TODO: Make both app bars sticky and respondant to scrolling.
+       */}
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">Emails</Typography>
@@ -48,24 +18,34 @@ export default function Home() {
 
       <div className="header">
         <Typography variant="body1">
-          Emails encontrados: {contactsCount}
+          {/* Mostrando 10 de 1000 mails econtrados... */}
+          Emails encontrados: {state.data.contactsCount}
         </Typography>
-        {contactsError && <DatabaseErrorAlert />}
+        {state.isError && <DatabaseErrorAlert reLoad={reLoad} />}
       </div>
 
-      <Container component="main">
-        {loadingContacts ? (
+      <main className="contact-list-container">
+        {state.isLoading ? (
           <LinearProgress color="secondary" />
         ) : (
-          <ContactList contacts={contacts} />
+          <ContactList contacts={state.data.contacts} />
         )}
-      </Container>
+      </main>
 
       <style jsx>
         {`
           .header {
             padding: 1rem;
             background-color: rgba(98, 172, 110, 0.2);
+          }
+          .contact-list-container {
+            padding: .5rem 1rem 0}
+          }
+
+          @media screen and (min-width: 600px) {
+           .contact-list-container {
+            padding: .5rem 2rem 0}
+          } 
           }
         `}
       </style>
