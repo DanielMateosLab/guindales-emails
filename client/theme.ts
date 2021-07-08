@@ -1,4 +1,4 @@
-import { red } from "@material-ui/core/colors"
+import { green, red } from "@material-ui/core/colors"
 import { createMuiTheme } from "@material-ui/core/styles"
 
 // Color tool: https://material.io/resources/color/#!/?view.left=0&view.right=1&primary.color=65FC86
@@ -7,7 +7,7 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: "#65fc86",
-      light: "#9effb7",
+      light: green["A100"],
       dark: "#1bc857",
       contrastText: "#000000",
     },
