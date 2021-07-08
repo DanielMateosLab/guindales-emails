@@ -1,6 +1,7 @@
 import { AppBar, LinearProgress, Toolbar, Typography } from "@material-ui/core"
 import ContactList from "../client/components/ContactList"
 import DatabaseErrorAlert from "../client/components/DatabaseErrorAlert"
+import FoundResultsText from "../client/components/FoundResultsText"
 import useContacts from "../client/hooks/useContacts"
 import theme from "../client/theme"
 
@@ -17,10 +18,10 @@ export default function Home() {
         </AppBar>
 
         <section className="secondary-bar">
-          <Typography variant="body1">
-            {/* Mostrando 10 de 1000 mails econtrados... */}
-            Emails encontrados: {state.data.contactsCount}
-          </Typography>
+          <FoundResultsText
+            contactsLength={state.data.contacts.length}
+            count={state.data.contactsCount}
+          />
           {state.isError && <DatabaseErrorAlert reLoad={reLoad} />}
         </section>
       </header>
