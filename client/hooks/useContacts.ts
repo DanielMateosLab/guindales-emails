@@ -1,4 +1,5 @@
-import { useEffect, useReducer, useState } from "react"
+import { useEffect, useReducer } from "react"
+import { pageSize } from "../../utils/config"
 import { Contact, ContactsResponse } from "../../utils/types"
 
 interface State {
@@ -8,6 +9,7 @@ interface State {
   }
   isLoading: boolean
   isError: boolean
+  queryParams: string
 }
 
 type Action =
@@ -16,8 +18,11 @@ type Action =
     }
   | { type: "CONTACTS_ERROR" }
   | { type: "CONTACTS_SUCCESS"; payload: State["data"] }
+  | { type: "FETCH_MORE" }
+  | { type: "RELOAD" }
 
 const contactsReducer = (state: State, action: Action): State => {
+  let params: URLSearchParams
   switch (action.type) {
     case "CONTACTS_PENDING":
       return {
@@ -53,12 +58,42 @@ const contactsReducer = (state: State, action: Action): State => {
       })
 
       return {
+        ...state,
         data: {
           contactsCount: newContactsCount,
           contacts: mergedContacts,
         },
         isError: false,
         isLoading: false,
+      }
+
+    case "FETCH_MORE":
+      params = new URLSearchParams(state.queryParams)
+      const contactsLength = state.data.contacts.length
+
+      const currentPage = Math.trunc(contactsLength / pageSize)
+      const newPage = currentPage + 1
+
+      params.set("page", newPage.toString())
+      // Clean up reload attempts
+      params.delete("r")
+
+      return {
+        ...state,
+        queryParams: params.toString(),
+      }
+
+    case "RELOAD":
+      params = new URLSearchParams(state.queryParams)
+
+      let reloadAttempt = Number(params.get("r"))
+      reloadAttempt++
+
+      params.set("r", reloadAttempt.toString())
+
+      return {
+        ...state,
+        queryParams: params.toString(),
       }
   }
 }
@@ -70,25 +105,10 @@ const initialState: State = {
   },
   isError: false,
   isLoading: false,
+  queryParams: "",
 }
 
 const useContacts = () => {
-  const [url, setUrl] = useState("/api/contacts")
-
-  const [fetchCount, setFetchCount] = useState(0)
-  function reLoad() {
-    setUrl((url) => {
-      const queryString = url.match(/(?<=\?).*/) ?? [""]
-
-      const queryParams = new URLSearchParams(queryString[0])
-      queryParams.set("r", fetchCount.toString())
-
-      return "/api/contacts?" + queryParams.toString()
-    })
-
-    setFetchCount(fetchCount + 1)
-  }
-
   const [state, dispatch] = useReducer<typeof contactsReducer>(
     contactsReducer,
     initialState
@@ -107,6 +127,9 @@ const useContacts = () => {
       enhancedDispatch({ type: "CONTACTS_PENDING" })
 
       try {
+        const url =
+          "/api/contacts" + (state.queryParams ? "?" + state.queryParams : "")
+
         const res: ContactsResponse = await fetch(url, {
           signal: controller.signal,
         }).then((res) => res.json())
@@ -131,9 +154,13 @@ const useContacts = () => {
       componentIsMounted = false
       controller.abort()
     }
-  }, [url])
+  }, [state.queryParams])
 
-  return { state, setUrl, reLoad }
+  return {
+    state,
+    reLoad: () => dispatch({ type: "RELOAD" }),
+    fetchMore: () => dispatch({ type: "FETCH_MORE" }),
+  }
 }
 
 export default useContacts

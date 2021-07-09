@@ -17,7 +17,7 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
       .find(filter)
       .sort(sort)
       .skip((page - 1) * pageSize)
-      .limit(page * pageSize)
+      .limit(pageSize)
 
     const contacts = await cursor.toArray()
     const count = await cursor.count()

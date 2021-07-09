@@ -12,7 +12,7 @@ import useContacts from "../client/hooks/useContacts"
 import theme from "../client/theme"
 
 export default function Home() {
-  const { state, setUrl, reLoad } = useContacts()
+  const { state, reLoad, fetchMore } = useContacts()
 
   const { contacts, contactsCount } = state.data
   const allContactsShown = state.data.contacts.length > (contactsCount || 0)
@@ -43,7 +43,12 @@ export default function Home() {
 
         {!allContactsShown && (
           <div className="show-more-button">
-            <Button variant="contained" color="primary">
+            <Button
+              disabled={state.isLoading}
+              variant="contained"
+              color="primary"
+              onClick={fetchMore}
+            >
               Mostrar más
             </Button>
           </div>
