@@ -15,7 +15,7 @@ export default function Home() {
   const { state, reLoad, fetchMore } = useContacts()
 
   const { contacts, contactsCount } = state.data
-  const allContactsShown = state.data.contacts.length > (contactsCount || 0)
+  const allContactsShown = state.data.contacts.length >= (contactsCount || 0)
 
   return (
     <div className="root">
