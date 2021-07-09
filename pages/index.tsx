@@ -41,7 +41,7 @@ export default function Home() {
 
         <ContactList contacts={contacts} />
 
-        {!allContactsShown && (
+        {contactsCount && !allContactsShown && (
           <div className="show-more-button">
             <Button
               disabled={state.isLoading}
