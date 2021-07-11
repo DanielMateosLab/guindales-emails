@@ -61,7 +61,7 @@ export default function Home() {
             padding: 1rem;
           }
           .contact-list-container {
-            padding: .5rem 1rem 0}
+            padding: .5rem 1rem 1rem 1rem}
           }
 
           header {
