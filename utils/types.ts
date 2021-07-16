@@ -11,3 +11,8 @@ export type ContactsResponse = ApiResponse<{
   contacts: Contact[]
   count: number
 }>
+
+export interface ContactsSortQuery {
+  name?: number
+  _id?: number
+}

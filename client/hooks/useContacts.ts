@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react"
 import { pageSize } from "../../utils/config"
-import { Contact, ContactsResponse } from "../../utils/types"
+import { Contact, ContactsResponse, ContactsSortQuery } from "../../utils/types"
 
 interface State {
   data: {
@@ -20,6 +20,7 @@ type Action =
   | { type: "CONTACTS_SUCCESS"; payload: State["data"] }
   | { type: "FETCH_MORE" }
   | { type: "RELOAD" }
+  | { type: "UPDATE_SORT"; payload: ContactsSortQuery }
 
 const contactsReducer = (state: State, action: Action): State => {
   let params: URLSearchParams
@@ -95,6 +96,16 @@ const contactsReducer = (state: State, action: Action): State => {
         ...state,
         queryParams: params.toString(),
       }
+
+    case "UPDATE_SORT":
+      params = new URLSearchParams(state.queryParams)
+
+      params.set("sort", JSON.stringify(action.payload))
+
+      return {
+        ...state,
+        queryParams: params.toString(),
+      }
   }
 }
 
@@ -158,9 +169,18 @@ const useContacts = () => {
 
   return {
     state,
-    reLoad: () => dispatch({ type: "RELOAD" }),
-    fetchMore: () => dispatch({ type: "FETCH_MORE" }),
+    dispatch,
   }
+}
+
+export function getContactsSortQuery(state: State): ContactsSortQuery {
+  let sortQueryParam = new URLSearchParams(state.queryParams).get("sort")
+
+  if (typeof sortQueryParam == "string") {
+    return JSON.parse(sortQueryParam)
+  }
+
+  return {}
 }
 
 export default useContacts
