@@ -1,4 +1,5 @@
 import { Field, Form, Formik } from "formik"
+import theme from "../theme"
 
 const SortSettings: React.FC = () => {
   return (
@@ -28,6 +29,7 @@ const SortSettings: React.FC = () => {
                 <option value="_id">Antigüedad</option>
                 <option value="name">Nombre</option>
               </Field>
+
               <Field
                 as="select"
                 aria-label="Orden ascendente o descendente"
@@ -53,6 +55,36 @@ const SortSettings: React.FC = () => {
 
           .sort-options > select:first-child {
             margin-right: 0.5rem;
+          }
+
+          select {
+            box-sizing: border-box;
+
+            font-family: Roboto;
+            font-size: 0.75rem;
+            font-weight: 400;
+            line-height: normal;
+
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+
+            padding: 0.25em;
+
+            border: 1px solid #aaa;
+            border-radius: 0.25em;
+
+            background-image: linear-gradient(
+              ${theme.palette.primary.main},
+              ${theme.palette.primary.main}
+            );
+            transition: box-shadow 0.1s ease-in;
+          }
+
+          select:active,
+          select:focus {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            outline: none;
+            border: 1px solid rgba(75, 75, 75, 0.8);
+            font-weight: 500;
           }
 
           @media screen and (min-width: 600px) {
