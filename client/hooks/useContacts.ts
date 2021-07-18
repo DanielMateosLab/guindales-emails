@@ -104,6 +104,10 @@ const contactsReducer = (state: State, action: Action): State => {
 
       return {
         ...state,
+        data: {
+          contacts: [],
+          contactsCount: state.data.contactsCount,
+        },
         queryParams: params.toString(),
       }
   }
@@ -171,16 +175,6 @@ const useContacts = () => {
     state,
     dispatch,
   }
-}
-
-export function getContactsSortQuery(state: State): ContactsSortQuery {
-  let sortQueryParam = new URLSearchParams(state.queryParams).get("sort")
-
-  if (typeof sortQueryParam == "string") {
-    return JSON.parse(sortQueryParam)
-  }
-
-  return {}
 }
 
 export default useContacts

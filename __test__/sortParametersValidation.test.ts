@@ -1,15 +1,15 @@
-import { validSortFields, validSortValues } from "../utils/config"
+import { validSortFields, validSortOrders } from "../utils/config"
 import { getQueryValidation } from "../utils/validation"
 
 describe("Sort parameters validation", () => {
   it("should pass with valid sort paramters", () => {
-    expect.assertions(validSortValues.length * validSortFields.length)
+    expect.assertions(validSortOrders.length * validSortFields.length)
 
     try {
       validSortFields.forEach((field) =>
-        validSortValues.forEach((value) => {
+        validSortOrders.forEach((order) => {
           const result = getQueryValidation.validateSync({
-            sort: { field, value },
+            sort: { field, order },
           })
           expect(result).toBeDefined()
         })
@@ -23,7 +23,7 @@ describe("Sort parameters validation", () => {
     try {
       const result = getQueryValidation.validateSync({
         field: "aaaa",
-        value: 1,
+        order: 1,
       })
       expect(result).toBeUndefined()
     } catch (e) {
@@ -31,11 +31,11 @@ describe("Sort parameters validation", () => {
     }
   })
 
-  it("should fail with an invalid value", () => {
+  it("should fail with an invalid order", () => {
     try {
       const result = getQueryValidation.validateSync({
         field: "name",
-        value: 3,
+        order: 3,
       })
       expect(result).toBeUndefined()
     } catch (e) {

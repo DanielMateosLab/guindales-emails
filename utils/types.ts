@@ -12,4 +12,8 @@ export type ContactsResponse = ApiResponse<{
   count: number
 }>
 
-export type ContactsSortQuery = { name: number } | { _id: number }
+export interface ContactsSortQuery {
+  field: string
+  order: number
+}
+export type ContactsDAOSortQuery = { name: number } | { _id: number }

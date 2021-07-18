@@ -1,7 +1,11 @@
 import { Field, Form, Formik } from "formik"
+import useContacts from "../hooks/useContacts"
 import theme from "../theme"
 
-const SortSettings: React.FC = () => {
+const SortSettings: React.FC<{
+  dispatch: ReturnType<typeof useContacts>["dispatch"]
+  isLoading: boolean
+}> = ({ dispatch, isLoading }) => {
   return (
     <article>
       <Formik
@@ -10,7 +14,8 @@ const SortSettings: React.FC = () => {
           order: -1,
         }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(JSON.stringify(values)), setSubmitting(false)
+          dispatch({ type: "UPDATE_SORT", payload: values })
+          setSubmitting(false)
         }}
       >
         {(formik) => (
@@ -20,6 +25,7 @@ const SortSettings: React.FC = () => {
               <Field
                 as="select"
                 name="field"
+                disabled={isLoading}
                 aria-label="Propiedad para establecer el orden"
                 onChange={(e: Event) => {
                   formik.handleChange(e)
@@ -34,13 +40,14 @@ const SortSettings: React.FC = () => {
                 as="select"
                 aria-label="Orden ascendente o descendente"
                 name="order"
+                disabled={isLoading}
                 onChange={(e: Event) => {
                   formik.handleChange(e)
                   formik.submitForm()
                 }}
               >
-                <option value="1">Más recientes primero</option>
-                <option value="-1">Más antiguos primero</option>
+                <option value={1}>Más recientes primero</option>
+                <option value={-1}>Más antiguos primero</option>
               </Field>
             </div>
           </Form>
