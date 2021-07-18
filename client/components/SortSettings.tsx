@@ -46,8 +46,8 @@ const SortSettings: React.FC<{
                   formik.submitForm()
                 }}
               >
-                <option value={1}>Más recientes primero</option>
-                <option value={-1}>Más antiguos primero</option>
+                <option value={-1}>Más recientes primero</option>
+                <option value={1}>Más antiguos primero</option>
               </Field>
             </div>
           </Form>
