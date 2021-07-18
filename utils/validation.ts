@@ -1,9 +1,10 @@
 import * as yup from "yup"
+import { validSortFields, validSortValues } from "./config"
 
-export const getContactsQueryParametersValidation = yup.object().shape({
+export const getQueryValidation = yup.object().shape({
   sort: yup.object().shape({
-    _id: sortValueIsOneOrMinusOne().default(-1),
-    name: sortValueIsOneOrMinusOne(),
+    field: isValidField(),
+    value: sortValueIsOneOrMinusOne(),
   }),
   filter: yup.object().shape({
     name: yup.string().max(55),
@@ -13,17 +14,23 @@ export const getContactsQueryParametersValidation = yup.object().shape({
   page: yup.number().positive().integer(),
 })
 
-function sortValueIsOneOrMinusOne() {
+function isValidField() {
   return yup
-    .number()
+    .string()
     .test(
-      "sortTest",
-      "Sort value must be 1 for ascending order or -1 for descending order",
-      (value) => (valueIsDefined(value) ? value == 1 || value == -1 : true)
+      "allowedFields",
+      "Sort field must be _id or name",
+      (field) => field !== undefined && validSortFields.includes(field as any)
     )
 }
-function valueIsDefined(value: any) {
-  return value !== undefined
+function sortValueIsOneOrMinusOne() {
+  return yup.number().test(
+    "sortTest",
+    (context) =>
+      "Sort value must be 1 for ascending order or -1 for descending order. Given value: " +
+      JSON.stringify(context),
+    (value) => value !== undefined && validSortValues.includes(value)
+  )
 }
 
 interface Object {
