@@ -18,40 +18,48 @@ const SortSettings: React.FC<{
           setSubmitting(false)
         }}
       >
-        {(formik) => (
-          <Form className="sort-menu">
-            <h2 className="body-1 sort-title">Ordenar por</h2>
-            <div className="sort-options">
-              <Field
-                as="select"
-                name="field"
-                disabled={isLoading}
-                aria-label="Propiedad para establecer el orden"
-                onChange={(e: Event) => {
-                  formik.handleChange(e)
-                  formik.submitForm()
-                }}
-              >
-                <option value="_id">Antigüedad</option>
-                <option value="name">Nombre</option>
-              </Field>
+        {(formik) => {
+          const sortingByName = formik.values.field == "name"
 
-              <Field
-                as="select"
-                aria-label="Orden ascendente o descendente"
-                name="order"
-                disabled={isLoading}
-                onChange={(e: Event) => {
-                  formik.handleChange(e)
-                  formik.submitForm()
-                }}
-              >
-                <option value={-1}>Más recientes primero</option>
-                <option value={1}>Más antiguos primero</option>
-              </Field>
-            </div>
-          </Form>
-        )}
+          return (
+            <Form className="sort-menu">
+              <h2 className="body-1 sort-title">Ordenar por</h2>
+              <div className="sort-options">
+                <Field
+                  as="select"
+                  name="field"
+                  disabled={isLoading}
+                  aria-label="Propiedad para establecer el orden"
+                  onChange={(e: Event) => {
+                    formik.handleChange(e)
+                    formik.submitForm()
+                  }}
+                >
+                  <option value="_id">Antigüedad</option>
+                  <option value="name">Nombre</option>
+                </Field>
+
+                <Field
+                  as="select"
+                  aria-label="Orden ascendente o descendente"
+                  name="order"
+                  disabled={isLoading}
+                  onChange={(e: Event) => {
+                    formik.handleChange(e)
+                    formik.submitForm()
+                  }}
+                >
+                  <option value={-1}>
+                    {sortingByName ? "Z - A" : "Más recientes primero"}
+                  </option>
+                  <option value={1}>
+                    {sortingByName ? "A - Z" : "Más antiguos primero"}
+                  </option>
+                </Field>
+              </div>
+            </Form>
+          )
+        }}
       </Formik>
 
       <style jsx global>

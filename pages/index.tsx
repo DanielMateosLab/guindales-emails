@@ -13,6 +13,7 @@ import useContacts from "../client/hooks/useContacts"
 import theme from "../client/theme"
 
 export default function Home() {
+  // TODO: add redux, simplify and refactor code
   const { state, dispatch } = useContacts()
 
   const { contacts, contactsCount } = state.data
