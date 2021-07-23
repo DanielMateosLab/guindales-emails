@@ -28,7 +28,6 @@ const SortSettings: React.FC<{
                 <Field
                   as="select"
                   name="field"
-                  disabled={isLoading}
                   aria-label="Propiedad para establecer el orden"
                   onChange={(e: Event) => {
                     formik.handleChange(e)
@@ -43,7 +42,6 @@ const SortSettings: React.FC<{
                   as="select"
                   aria-label="Orden ascendente o descendente"
                   name="order"
-                  disabled={isLoading}
                   onChange={(e: Event) => {
                     formik.handleChange(e)
                     formik.submitForm()
