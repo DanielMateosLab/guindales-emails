@@ -4,8 +4,7 @@ import theme from "../theme"
 
 const SortSettings: React.FC<{
   dispatch: ReturnType<typeof useContacts>["dispatch"]
-  isLoading: boolean
-}> = ({ dispatch, isLoading }) => {
+}> = ({ dispatch }) => {
   return (
     <article>
       <Formik

@@ -31,7 +31,7 @@ export default function Home() {
         </AppBar>
 
         <section className="secondary-bar">
-          <SortSettings dispatch={dispatch} isLoading={state.isLoading} />
+          <SortSettings dispatch={dispatch} />
 
           <FoundResultsText
             contactsLength={contacts.length}
