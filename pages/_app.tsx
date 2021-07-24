@@ -3,6 +3,8 @@ import { StylesProvider, ThemeProvider } from "@material-ui/core/styles"
 import type { AppProps } from "next/app"
 import Head from "next/head"
 import React from "react"
+import { Provider } from "react-redux"
+import { store } from "../client/redux/store"
 import theme from "../client/theme"
 import "../styles/globals.css"
 
@@ -32,7 +34,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <StylesProvider injectFirst>
           <CssBaseline />
-          <Component {...pageProps} />
+          <Provider store={store}>
+            <Component {...pageProps} />
+          </Provider>
         </StylesProvider>
       </ThemeProvider>
     </>
