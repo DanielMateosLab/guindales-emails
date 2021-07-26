@@ -1,14 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { pageSize } from "../../utils/config"
 import { Contact } from "../../utils/types"
 
 interface ContactsState {
   contacts: Contact[]
   count: number
+  page: number
 }
 
 const initialState: ContactsState = {
   count: 0,
   contacts: [],
+  page: 1,
 }
 
 const contactsSlice = createSlice({
@@ -36,9 +39,12 @@ const contactsSlice = createSlice({
     resetResults() {
       return initialState
     },
+    updatePage(state) {
+      state.page = Math.trunc(state.contacts.length / pageSize) + 1
+    },
   },
 })
 
-export const { addResults, resetResults } = contactsSlice.actions
+export const { addResults, resetResults, updatePage } = contactsSlice.actions
 
 export default contactsSlice.reducer
