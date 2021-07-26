@@ -2,7 +2,7 @@ import { IconButton, Typography } from "@material-ui/core"
 import { Refresh } from "@material-ui/icons"
 import { Alert } from "@material-ui/lab"
 
-const DatabaseErrorAlert: React.FC<{ reLoad: Function }> = ({ reLoad }) => (
+const DatabaseErrorAlert: React.FC<{ reFetch: Function }> = ({ reFetch }) => (
   <div className="container">
     <Alert
       severity="warning"
@@ -10,7 +10,7 @@ const DatabaseErrorAlert: React.FC<{ reLoad: Function }> = ({ reLoad }) => (
         <IconButton
           color="inherit"
           aria-label="reintentar"
-          onClick={() => reLoad()}
+          onClick={() => reFetch()}
         >
           <Refresh />
         </IconButton>

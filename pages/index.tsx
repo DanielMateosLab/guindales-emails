@@ -8,16 +8,26 @@ import {
 import ContactList from "../client/components/ContactList"
 import DatabaseErrorAlert from "../client/components/DatabaseErrorAlert"
 import FoundResultsText from "../client/components/FoundResultsText"
-import SortSettings from "../client/components/SortSettings"
-import useContacts from "../client/hooks/useContacts"
+import { useGetContactsQuery } from "../client/redux/apiSlice"
 import theme from "../client/theme"
+import { Contact } from "../utils/types"
 
 export default function Home() {
-  // TODO: add redux, simplify and refactor code
-  const { state, dispatch } = useContacts()
+  const { data, isError, isFetching, refetch, isUninitialized } =
+    useGetContactsQuery({
+      page: 1,
+      sort: {
+        field: "_id",
+        order: -1,
+      },
+    })
 
-  const { contacts, contactsCount } = state.data
-  const allContactsShown = state.data.contacts.length >= (contactsCount || 0)
+  // useEffect(() => {
+  //   console.log(data)
+  // }, [data])
+
+  const contacts: Contact[] = data ? data.contacts : []
+  const allContactsShown = data ? data.contacts.length >= data.count : true
 
   return (
     <div className="root">
@@ -31,31 +41,31 @@ export default function Home() {
         </AppBar>
 
         <section className="secondary-bar">
-          <SortSettings dispatch={dispatch} />
+          {/* <SortSettings dispatch={dispatch} /> */}
 
           <FoundResultsText
             contactsLength={contacts.length}
-            count={contactsCount}
+            count={data?.count}
           />
 
-          {state.isError && (
-            <DatabaseErrorAlert reLoad={() => dispatch({ type: "RELOAD" })} />
-          )}
+          {isError && <DatabaseErrorAlert reFetch={refetch} />}
         </section>
       </header>
 
       <main className="contact-list-container">
-        {state.isLoading && <LinearProgress color="secondary" />}
+        {isFetching && <LinearProgress color="secondary" />}
 
         <ContactList contacts={contacts} />
 
-        {contactsCount && !allContactsShown && (
+        {!isUninitialized && !allContactsShown && (
           <div className="show-more-button">
             <Button
-              disabled={state.isLoading}
+              disabled={isFetching}
               variant="contained"
               color="primary"
-              onClick={() => dispatch({ type: "FETCH_MORE" })}
+              onClick={() => {
+                // dispatch({ type: "FETCH_MORE" })
+              }}
             >
               Mostrar más
             </Button>

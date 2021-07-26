@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { ContactsResponse, ContactsSortQuery } from "../../utils/types"
+import { ContactsSortQuery, SuccessContactsResponse } from "../../utils/types"
 
 export const contactsApi = createApi({
   reducerPath: "contactsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
   endpoints: (builder) => ({
     getContacts: builder.query<
-      ContactsResponse,
+      SuccessContactsResponse,
       { page: number; sort: ContactsSortQuery }
     >({
       query: ({ page, sort }) => {

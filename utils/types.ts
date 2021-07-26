@@ -7,10 +7,12 @@ export interface Contact {
   phone?: string
 }
 
-export type ContactsResponse = ApiResponse<{
+export interface SuccessContactsResponse {
   contacts: Contact[]
   count: number
-}>
+}
+
+export type ContactsResponse = ApiResponse<SuccessContactsResponse>
 
 export interface ContactsSortQuery {
   field: string
