@@ -8,11 +8,12 @@ import {
 import ContactList from "../client/components/ContactList"
 import DatabaseErrorAlert from "../client/components/DatabaseErrorAlert"
 import FoundResultsText from "../client/components/FoundResultsText"
+import { useAppSelector } from "../client/hooks/reduxHooks"
 import { useGetContactsQuery } from "../client/redux/apiSlice"
 import theme from "../client/theme"
-import { Contact } from "../utils/types"
 
 export default function Home() {
+  const { contacts, count } = useAppSelector((state) => state.contactResults)
   const { data, isError, isFetching, refetch, isUninitialized } =
     useGetContactsQuery({
       page: 1,
@@ -26,8 +27,7 @@ export default function Home() {
   //   console.log(data)
   // }, [data])
 
-  const contacts: Contact[] = data ? data.contacts : []
-  const allContactsShown = data ? data.contacts.length >= data.count : true
+  const allContactsShown = contacts.length == count
 
   return (
     <div className="root">

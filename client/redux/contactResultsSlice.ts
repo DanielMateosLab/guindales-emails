@@ -24,7 +24,13 @@ const contactsSlice = createSlice({
         count: number
       }>
     ) {
-      state.contacts.push(...contacts)
+      const contactIds = state.contacts.map((contact) => contact._id)
+      contacts.forEach((contact) => {
+        if (!contactIds.includes(contact._id)) {
+          state.contacts.push(contact)
+        }
+      })
+
       state.count = count
     },
     resetResults() {
