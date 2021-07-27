@@ -30,7 +30,7 @@ const getHandler: ContactsHandler = async (req, res) => {
 
   const result = await contactsDAO.getContacts(
     removeUndefinedProperties(filter),
-    { [sort.field as any]: sort.order } as any,
+    { [sort.field]: sort.order } as any,
     page
   )
 
