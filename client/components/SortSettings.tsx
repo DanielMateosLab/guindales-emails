@@ -1,19 +1,23 @@
 import { Field, Form, Formik } from "formik"
-import useContacts from "../hooks/useContacts"
+import { ContactsSortQuery } from "../../utils/types"
+import { useAppDispatch } from "../hooks/reduxHooks"
+import { updateSort } from "../redux/contactResultsSlice"
 import theme from "../theme"
 
-const SortSettings: React.FC<{
-  dispatch: ReturnType<typeof useContacts>["dispatch"]
-}> = ({ dispatch }) => {
+const SortSettings: React.FC = () => {
+  const dispatch = useAppDispatch()
+
   return (
     <article>
       <Formik
-        initialValues={{
-          field: "_id",
-          order: -1,
-        }}
+        initialValues={
+          {
+            field: "_id",
+            order: -1,
+          } as ContactsSortQuery
+        }
         onSubmit={(values, { setSubmitting }) => {
-          dispatch({ type: "UPDATE_SORT", payload: values })
+          dispatch(updateSort(values))
           setSubmitting(false)
         }}
       >

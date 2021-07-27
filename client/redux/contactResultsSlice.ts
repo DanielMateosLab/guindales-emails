@@ -1,24 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { pageSize } from "../../utils/config"
-import { Contact } from "../../utils/types"
+import { Contact, ContactsSortQuery } from "../../utils/types"
 
 interface ContactsState {
   contacts: Contact[]
   count: number
   page: number
+  sort: ContactsSortQuery
 }
 
 const initialState: ContactsState = {
   count: 0,
   contacts: [],
   page: 1,
+  sort: {
+    field: "_id",
+    order: -1,
+  },
 }
 
 const contactsSlice = createSlice({
   name: "contactResults",
   initialState,
   reducers: {
-    addResults(
+    updateResults(
       state,
       {
         payload: { contacts, count },
@@ -36,15 +41,15 @@ const contactsSlice = createSlice({
 
       state.count = count
     },
-    resetResults() {
-      return initialState
-    },
     updatePage(state) {
       state.page = Math.trunc(state.contacts.length / pageSize) + 1
+    },
+    updateSort(_, action: PayloadAction<ContactsSortQuery>) {
+      return { ...initialState, sort: action.payload }
     },
   },
 })
 
-export const { addResults, resetResults, updatePage } = contactsSlice.actions
+export const { updateResults, updatePage, updateSort } = contactsSlice.actions
 
 export default contactsSlice.reducer

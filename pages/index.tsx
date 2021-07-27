@@ -5,29 +5,32 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core"
+import { useEffect } from "react"
 import ContactList from "../client/components/ContactList"
 import DatabaseErrorAlert from "../client/components/DatabaseErrorAlert"
 import FoundResultsText from "../client/components/FoundResultsText"
+import SortSettings from "../client/components/SortSettings"
 import { useAppDispatch, useAppSelector } from "../client/hooks/reduxHooks"
 import { useGetContactsQuery } from "../client/redux/apiSlice"
-import { updatePage } from "../client/redux/contactResultsSlice"
+import { updatePage, updateResults } from "../client/redux/contactResultsSlice"
 import theme from "../client/theme"
 
 export default function Home() {
-  const { contacts, count, page } = useAppSelector(
+  const { contacts, count, page, sort } = useAppSelector(
     (state) => state.contactResults
   )
 
   const { data, isError, isFetching, refetch, isUninitialized } =
     useGetContactsQuery({
       page,
-      sort: {
-        field: "_id",
-        order: -1,
-      },
+      sort,
     })
 
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    data && dispatch(updateResults(data))
+  }, [data])
 
   const allContactsShown = contacts.length == count
 
@@ -43,7 +46,7 @@ export default function Home() {
         </AppBar>
 
         <section className="secondary-bar">
-          {/* <SortSettings dispatch={dispatch} /> */}
+          <SortSettings />
 
           <FoundResultsText
             contactsLength={contacts.length}

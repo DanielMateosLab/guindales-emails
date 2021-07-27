@@ -15,7 +15,7 @@ export interface SuccessContactsResponse {
 export type ContactsResponse = ApiResponse<SuccessContactsResponse>
 
 export interface ContactsSortQuery {
-  field: string
-  order: number
+  field: "_id" | "name"
+  order: 1 | -1
 }
 export type ContactsDAOSortQuery = { name: number } | { _id: number }
