@@ -1,21 +1,23 @@
 import { Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
+import { useAppSelector } from "../hooks/reduxHooks"
 
 const FoundResultsText: React.FC<{
-  contactsLength: number
-  count: number | undefined
-}> = ({ contactsLength, count }) => {
+  isUninitialized: boolean
+}> = ({ isUninitialized }) => {
+  const { contacts, count } = useAppSelector((state) => state.contactResults)
+
   const [text, setText] = useState("_")
 
   useEffect(() => {
-    if (count == undefined) {
+    if (isUninitialized) {
       setText("_")
-    } else if (contactsLength == 0) {
+    } else if (contacts.length == 0) {
       setText("No se han encontrado contactos.")
     } else {
-      setText(`Mostrando ${contactsLength} de ${count} emails encontrados`)
+      setText(`Mostrando ${contacts.length} de ${count} emails encontrados`)
     }
-  }, [contactsLength, count])
+  }, [contacts.length, count])
 
   return (
     <Typography

@@ -48,10 +48,7 @@ export default function Home() {
         <section className="secondary-bar">
           <SortSettings />
 
-          <FoundResultsText
-            contactsLength={contacts.length}
-            count={data?.count}
-          />
+          <FoundResultsText isUninitialized={!isUninitialized} />
 
           {isError && <DatabaseErrorAlert reFetch={refetch} />}
         </section>
