@@ -22,7 +22,7 @@ const FoundResultsText: React.FC<{
   return (
     <Typography
       variant="body2"
-      style={{ color: count == undefined ? "transparent" : "inherit" }}
+      style={{ color: isUninitialized ? "transparent" : "inherit" }}
     >
       {text}
     </Typography>
