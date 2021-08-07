@@ -1,5 +1,3 @@
-import { ApiResponse } from "@danielmat/api-utils"
-
 export interface Contact {
   _id: string
   name: string
@@ -12,7 +10,11 @@ export interface SuccessContactsResponse {
   count: number
 }
 
-export type ContactsResponse = ApiResponse<SuccessContactsResponse>
+export interface FailContactsResponse<FieldErrors = undefined> {
+  message: string
+  /** Used in forms field validation or to give more details */
+  fieldErrors?: FieldErrors
+}
 
 export interface ContactsSortQuery {
   field: "_id" | "name"

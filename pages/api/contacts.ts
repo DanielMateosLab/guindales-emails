@@ -2,14 +2,17 @@ import { connectToDb, MethodNotAllowedError } from "@danielmat/api-utils"
 import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiRequest, NextApiResponse } from "next"
 import ContactsDAO from "../../server/ContactsDAO"
-import { ContactsResponse } from "../../utils/types"
+import { SuccessContactsResponse } from "../../utils/types"
 import {
   getQueryValidation,
   removeUndefinedProperties,
 } from "../../utils/validation"
 
 interface ContactsHandler {
-  (req: NextApiRequest, res: NextApiResponse<ContactsResponse>): Promise<void>
+  (
+    req: NextApiRequest,
+    res: NextApiResponse<SuccessContactsResponse>
+  ): Promise<void>
 }
 
 const handler: ContactsHandler = async (req, res) => {
@@ -34,7 +37,7 @@ const getHandler: ContactsHandler = async (req, res) => {
     page
   )
 
-  res.status(200).json({ status: "success", ...result })
+  res.status(200).json({ ...result })
 }
 
 export default catchErrors(handler)
