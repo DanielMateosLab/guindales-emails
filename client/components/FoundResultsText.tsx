@@ -3,15 +3,15 @@ import { useEffect, useState } from "react"
 import { useAppSelector } from "../hooks/reduxHooks"
 
 const FoundResultsText: React.FC<{
-  isUninitialized: boolean
-}> = ({ isUninitialized }) => {
+  isLoading: boolean
+}> = ({ isLoading }) => {
   const { contacts, count } = useAppSelector((state) => state.contactResults)
 
-  const [text, setText] = useState("_")
+  const [text, setText] = useState("...")
 
   useEffect(() => {
-    if (isUninitialized) {
-      setText("_")
+    if (isLoading) {
+      setText("...")
     } else if (contacts.length == 0) {
       setText("No se han encontrado contactos.")
     } else {
@@ -22,7 +22,7 @@ const FoundResultsText: React.FC<{
   return (
     <Typography
       variant="body2"
-      style={{ color: isUninitialized ? "transparent" : "inherit" }}
+      style={{ color: isLoading ? "transparent" : "inherit" }}
     >
       {text}
     </Typography>

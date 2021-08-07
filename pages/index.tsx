@@ -20,7 +20,7 @@ export default function Home() {
     (state) => state.contactResults
   )
 
-  const { data, isError, isFetching, refetch, isUninitialized } =
+  const { data, isError, isFetching, refetch, isUninitialized, isLoading } =
     useGetContactsQuery({
       page,
       sort,
@@ -48,7 +48,7 @@ export default function Home() {
         <section className="secondary-bar">
           <SortSettings />
 
-          <FoundResultsText isUninitialized={!isUninitialized} />
+          <FoundResultsText isLoading={isLoading} />
 
           {isError && <DatabaseErrorAlert reFetch={refetch} />}
         </section>
