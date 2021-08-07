@@ -348,10 +348,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@danielmat/api-utils@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@danielmat/api-utils/-/api-utils-1.1.1.tgz#ad150c0cff656fa33db19eba9a6bcce848c574c7"
-  integrity sha512-Uc+kvMkq5Z/7qIpIpQk5CdjD2tlRc+jK1wQh18pBhcKmWL+0JmC3W7lCq+mTOS11scndr0yfayRWDHLM0XooGg==
+"@danielmat/api-utils@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@danielmat/api-utils/-/api-utils-2.0.0.tgz#cedf30784bd708d5ea25e6d2a7556423a3a19553"
+  integrity sha512-5YVkDSimZBriPVl93vVS3zwWzswa/u2RBPn7O01mkNazxdgu4GK8l6d4h8hSohzg8uTbYYTLxC79Mj3PVtOJxg==
   dependencies:
     formik "^2.2.9"
     mongodb "^3.6.9"
