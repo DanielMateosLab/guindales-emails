@@ -12,6 +12,7 @@ const config: Config.InitialOptions = {
   coverageDirectory: "__coverage__",
   moduleDirectories: ["<rootDir>/node_modules", "<rootDir>/."],
   roots: ["<rootDir>/."],
+  verbose: false,
 }
 
 export default config
