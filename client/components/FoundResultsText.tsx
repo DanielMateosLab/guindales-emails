@@ -17,7 +17,7 @@ const FoundResultsText: React.FC<{
     } else {
       setText(`Mostrando ${contacts.length} de ${count} emails encontrados`)
     }
-  }, [contacts.length, count])
+  }, [contacts.length, count, isLoading])
 
   return (
     <Typography
