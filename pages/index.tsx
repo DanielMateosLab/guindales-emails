@@ -13,11 +13,10 @@ export default function Home() {
     (state) => state.contactResults
   )
 
-  const { data, isError, isFetching, refetch, isUninitialized, isLoading } =
-    useGetContactsQuery({
-      page,
-      sort,
-    })
+  const { data, isFetching, isUninitialized } = useGetContactsQuery({
+    page,
+    sort,
+  })
 
   const dispatch = useAppDispatch()
 
