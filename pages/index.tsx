@@ -33,7 +33,7 @@ export default function Home() {
       <ContactListContainer>
         {isFetching && <LinearProgress color="secondary" />}
 
-        <ContactList contacts={contacts} />
+        <ContactList />
 
         {!isUninitialized && !allContactsShown && (
           <ShowMoreButton isFetching={isFetching} />
