@@ -1,19 +1,10 @@
-import {
-  AppBar,
-  Button,
-  LinearProgress,
-  Toolbar,
-  Typography,
-} from "@material-ui/core"
+import { Button, LinearProgress } from "@material-ui/core"
 import { useEffect } from "react"
 import ContactList from "../client/components/ContactList"
-import DatabaseErrorAlert from "../client/components/DatabaseErrorAlert"
-import FoundResultsText from "../client/components/FoundResultsText"
-import SortSettings from "../client/components/SortSettings"
+import Header from "../client/components/Header"
 import { useAppDispatch, useAppSelector } from "../client/hooks/reduxHooks"
 import { useGetContactsQuery } from "../client/redux/apiSlice"
 import { updatePage, updateResults } from "../client/redux/contactResultsSlice"
-import theme from "../client/theme"
 
 export default function Home() {
   const { contacts, count, page, sort } = useAppSelector(
@@ -36,23 +27,7 @@ export default function Home() {
 
   return (
     <div className="root">
-      <header className="app-bar">
-        <AppBar position="relative" component="section">
-          <Toolbar>
-            <Typography variant="h6" component="h1" className="app-bar-title">
-              Emails
-            </Typography>
-          </Toolbar>
-        </AppBar>
-
-        <section className="secondary-bar">
-          <SortSettings />
-
-          <FoundResultsText isLoading={isLoading} />
-
-          {isError && <DatabaseErrorAlert reFetch={refetch} />}
-        </section>
-      </header>
+      <Header {...{ isLoading, isError, refetch }} />
 
       <main className="contact-list-container">
         {isFetching && <LinearProgress color="secondary" />}
@@ -77,23 +52,8 @@ export default function Home() {
 
       <style jsx>
         {`
-          .secondary-bar {
-            padding: 1rem;
-          }
           .contact-list-container {
             padding: .5rem 1rem 1rem 1rem}
-          }
-
-          header {
-            background-color: ${theme.palette.primary.light};
-            position: sticky;
-            top: 0;
-            width: 100%;
-            z-index: 1;
-          }
-
-          :global(.app-bar-title) {
-            flex-grow: 1;
           }
 
           .show-more-button {
