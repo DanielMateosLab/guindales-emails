@@ -29,7 +29,7 @@ export default function Home() {
 
   return (
     <div className="root">
-      <Header {...{ isLoading, isError, refetch }} />
+      <Header />
 
       <ContactListContainer>
         {isFetching && <LinearProgress color="secondary" />}

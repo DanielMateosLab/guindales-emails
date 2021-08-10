@@ -1,15 +1,8 @@
 import { AppBar, Toolbar, Typography } from "@material-ui/core"
 import theme from "../theme"
-import DatabaseErrorAlert from "./DatabaseErrorAlert"
-import FoundResultsText from "./FoundResultsText"
-import SortSettings from "./SortSettings"
+import SecondaryBar from "./SecondaryBar"
 
-interface Props {
-  isLoading: boolean
-  isError: boolean
-  refetch: Function
-}
-const Header: React.FC<Props> = ({ isError, isLoading, refetch }) => (
+const Header: React.FC = () => (
   <header>
     <AppBar position="relative" component="section">
       <Toolbar>
@@ -19,20 +12,10 @@ const Header: React.FC<Props> = ({ isError, isLoading, refetch }) => (
       </Toolbar>
     </AppBar>
 
-    <section className="secondary-bar">
-      <SortSettings />
-
-      <FoundResultsText isLoading={isLoading} />
-
-      {isError && <DatabaseErrorAlert refetch={refetch} />}
-    </section>
+    <SecondaryBar />
 
     <style jsx>
-      {`
-          .secondary-bar {
-            padding: 1rem;
-          }
-          
+      {`          
           header {
             background-color: ${theme.palette.primary.light};
             position: sticky;
