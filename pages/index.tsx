@@ -1,6 +1,7 @@
 import { LinearProgress } from "@material-ui/core"
 import { useEffect } from "react"
 import ContactList from "../client/components/ContactList"
+import ContactListContainer from "../client/components/ContactListContainer"
 import Header from "../client/components/Header"
 import ShowMoreButton from "../client/components/ShowMoreButton"
 import { useAppDispatch, useAppSelector } from "../client/hooks/reduxHooks"
@@ -30,7 +31,7 @@ export default function Home() {
     <div className="root">
       <Header {...{ isLoading, isError, refetch }} />
 
-      <main className="contact-list-container">
+      <ContactListContainer>
         {isFetching && <LinearProgress color="secondary" />}
 
         <ContactList contacts={contacts} />
@@ -38,21 +39,7 @@ export default function Home() {
         {!isUninitialized && !allContactsShown && (
           <ShowMoreButton isFetching={isFetching} />
         )}
-      </main>
-
-      <style jsx>
-        {`
-          .contact-list-container {
-            padding: .5rem 1rem 1rem 1rem}
-          }
-
-          @media screen and (min-width: 600px) {
-           .contact-list-container {
-            padding: .5rem 2rem 0}
-          } 
-          }
-        `}
-      </style>
+      </ContactListContainer>
     </div>
   )
 }
