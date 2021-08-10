@@ -1,10 +1,11 @@
-import { Button, LinearProgress } from "@material-ui/core"
+import { LinearProgress } from "@material-ui/core"
 import { useEffect } from "react"
 import ContactList from "../client/components/ContactList"
 import Header from "../client/components/Header"
+import ShowMoreButton from "../client/components/ShowMoreButton"
 import { useAppDispatch, useAppSelector } from "../client/hooks/reduxHooks"
 import { useGetContactsQuery } from "../client/redux/apiSlice"
-import { updatePage, updateResults } from "../client/redux/contactResultsSlice"
+import { updateResults } from "../client/redux/contactResultsSlice"
 
 export default function Home() {
   const { contacts, count, page, sort } = useAppSelector(
@@ -35,18 +36,7 @@ export default function Home() {
         <ContactList contacts={contacts} />
 
         {!isUninitialized && !allContactsShown && (
-          <div className="show-more-button">
-            <Button
-              disabled={isFetching}
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                dispatch(updatePage())
-              }}
-            >
-              Mostrar más
-            </Button>
-          </div>
+          <ShowMoreButton isFetching={isFetching} />
         )}
       </main>
 
@@ -54,12 +44,6 @@ export default function Home() {
         {`
           .contact-list-container {
             padding: .5rem 1rem 1rem 1rem}
-          }
-
-          .show-more-button {
-            margin: 1rem 0;
-            display: flex;
-            justify-content: center;
           }
 
           @media screen and (min-width: 600px) {
