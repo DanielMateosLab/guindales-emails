@@ -5,7 +5,6 @@ export const contactsApi = createApi({
   reducerPath: "contactsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "/api/",
-    fetchFn: process.env.NODE_ENV == "test" ? require("node-fetch") : undefined,
   }),
   endpoints: (builder) => ({
     getContacts: builder.query<
