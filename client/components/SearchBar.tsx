@@ -4,7 +4,7 @@ import DatabaseErrorAlert from "./DatabaseErrorAlert"
 import FoundResultsText from "./FoundResultsText"
 import SortSettings from "./SortSettings"
 
-const SecondaryBar: React.FC = () => {
+const SearchBar: React.FC = () => {
   const { page, sort } = useAppSelector((state) => state.contactResults)
 
   const { isError, refetch, isLoading } = useGetContactsQuery({
@@ -31,4 +31,4 @@ const SecondaryBar: React.FC = () => {
   )
 }
 
-export default SecondaryBar
+export default SearchBar
