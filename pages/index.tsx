@@ -1,17 +1,12 @@
 import { useEffect } from "react"
 import ContactListContainer from "../client/components/ContactListContainer"
 import Header from "../client/components/Header"
-import { useAppDispatch, useAppSelector } from "../client/hooks/reduxHooks"
-import { useGetContactsQuery } from "../client/redux/apiSlice"
+import { useAppDispatch } from "../client/hooks/reduxHooks"
+import useSearchBarContactsQuery from "../client/hooks/useSearchBarContactsQuery"
 import { updateResults } from "../client/redux/contactResultsSlice"
 
 export default function Home() {
-  const { page, sort } = useAppSelector((state) => state.contactResults)
-
-  const { data } = useGetContactsQuery({
-    page,
-    sort,
-  })
+  const { data } = useSearchBarContactsQuery()
 
   const dispatch = useAppDispatch()
 
