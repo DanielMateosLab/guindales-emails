@@ -1,12 +1,12 @@
 import { LinearProgress } from "@material-ui/core"
 import { useAppSelector } from "../hooks/reduxHooks"
 import useSearchBarContactsQuery from "../hooks/useSearchBarContactsQuery"
-import useSyncInfiniteScrollingContactList from "../hooks/useSyncInfiniteScrollingContactList"
+import useSyncContactResults from "../hooks/useSyncContactResults"
 import ContactList from "./ContactList"
 import ShowMoreButton from "./ShowMoreButton"
 
 const ContactListContainer: React.FC = () => {
-  useSyncInfiniteScrollingContactList()
+  useSyncContactResults()
 
   const { isFetching, isUninitialized } = useSearchBarContactsQuery()
 

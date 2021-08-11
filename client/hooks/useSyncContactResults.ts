@@ -3,7 +3,7 @@ import { updateResults } from "../redux/contactResultsSlice"
 import { useAppDispatch } from "./reduxHooks"
 import useSearchBarContactsQuery from "./useSearchBarContactsQuery"
 
-const useSyncInfiniteScrollingContactList = () => {
+const useSyncContactResults = () => {
   const { data } = useSearchBarContactsQuery()
 
   const dispatch = useAppDispatch()
@@ -13,4 +13,4 @@ const useSyncInfiniteScrollingContactList = () => {
   }, [data])
 }
 
-export default useSyncInfiniteScrollingContactList
+export default useSyncContactResults
