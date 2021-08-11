@@ -9,13 +9,13 @@ export const contactsApi = createApi({
       SuccessContactsResponse,
       { page: number; sort: ContactsSortQuery }
     >({
-      query: ({ page, sort }) => {
-        const queryParams = new URLSearchParams()
-        queryParams.set("page", page.toString())
-        queryParams.set("sort", JSON.stringify(sort))
-
-        return `contacts?` + queryParams.toString()
-      },
+      query: ({ page, sort }) => ({
+        url: "contacts",
+        params: {
+          page,
+          sort: JSON.stringify(sort),
+        },
+      }),
     }),
   }),
 })
