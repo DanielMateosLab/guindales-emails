@@ -1,24 +1,46 @@
-/**
- * Adds styles to the main element
- */
-const ContactListContainer: React.FC = ({ children }) => (
-  <main>
-    {children}
+import { LinearProgress } from "@material-ui/core"
+import { useAppSelector } from "../hooks/reduxHooks"
+import { useGetContactsQuery } from "../redux/apiSlice"
+import ContactList from "./ContactList"
+import ShowMoreButton from "./ShowMoreButton"
 
-    <style jsx>
-      {`
-        main {
-          padding: 0.5rem 1rem 1rem 1rem;
-        }
+const ContactListContainer: React.FC = () => {
+  const { contacts, count, page, sort } = useAppSelector(
+    (state) => state.contactResults
+  )
 
-        @media screen and (min-width: 600px) {
+  const { isFetching, isUninitialized } = useGetContactsQuery({
+    page,
+    sort,
+  })
+
+  const allContactsShown = contacts.length == count
+
+  return (
+    <main>
+      {isFetching && <LinearProgress color="secondary" />}
+
+      <ContactList contacts={contacts} />
+
+      {!isUninitialized && !allContactsShown && (
+        <ShowMoreButton isFetching={isFetching} />
+      )}
+
+      <style jsx>
+        {`
           main {
-            padding: 0.5rem 2rem 0;
+            padding: 0.5rem 1rem 1rem 1rem;
           }
-        }
-      `}
-    </style>
-  </main>
-)
+
+          @media screen and (min-width: 600px) {
+            main {
+              padding: 0.5rem 2rem 0;
+            }
+          }
+        `}
+      </style>
+    </main>
+  )
+}
 
 export default ContactListContainer
