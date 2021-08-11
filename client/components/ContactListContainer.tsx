@@ -31,7 +31,7 @@ const ContactListContainer: React.FC = () => {
 
           @media screen and (min-width: 600px) {
             main {
-              padding: 0.5rem 2rem 0;
+              padding: 0.5rem 2rem;
             }
           }
         `}
