@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { pageSize } from "../../utils/config"
 import { Contact, ContactsSortQuery } from "../../utils/types"
+import { useAppSelector } from "../hooks/reduxHooks"
 
 interface ContactsState {
   contacts: Contact[]
@@ -53,3 +54,6 @@ const contactsSlice = createSlice({
 export const { updateResults, updatePage, updateSort } = contactsSlice.actions
 
 export default contactsSlice.reducer
+
+export const useContactResultsSelector = () =>
+  useAppSelector((state) => state.contactResults)

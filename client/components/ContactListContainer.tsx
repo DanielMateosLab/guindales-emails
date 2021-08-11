@@ -1,7 +1,7 @@
 import { LinearProgress } from "@material-ui/core"
-import { useAppSelector } from "../hooks/reduxHooks"
 import useSearchBarContactsQuery from "../hooks/useSearchBarContactsQuery"
 import useSyncContactResults from "../hooks/useSyncContactResults"
+import { useContactResultsSelector } from "../redux/contactResultsSlice"
 import ContactList from "./ContactList"
 import ShowMoreButton from "./ShowMoreButton"
 
@@ -10,7 +10,7 @@ const ContactListContainer: React.FC = () => {
 
   const { isFetching, isUninitialized } = useSearchBarContactsQuery()
 
-  const { contacts, count } = useAppSelector((state) => state.contactResults)
+  const { contacts, count } = useContactResultsSelector()
   const allContactsShown = contacts.length == count
 
   return (

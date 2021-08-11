@@ -1,8 +1,8 @@
 import { useGetContactsQuery } from "../redux/apiSlice"
-import { useAppSelector } from "./reduxHooks"
+import { useContactResultsSelector } from "../redux/contactResultsSlice"
 
 const useSearchBarContactsQuery = () => {
-  const { page, sort } = useAppSelector((state) => state.contactResults)
+  const { page, sort } = useContactResultsSelector()
 
   const result = useGetContactsQuery({
     page,
