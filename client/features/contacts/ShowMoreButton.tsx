@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core"
-import { useAppDispatch } from "../hooks/reduxHooks"
-import { updatePage } from "../redux/contactResultsSlice"
+import { useAppDispatch } from "client/common/reduxHooks"
+import { updatePage } from "client/features/contacts/contactResultsSlice"
 
 interface Props {
   isFetching: boolean

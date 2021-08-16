@@ -1,7 +1,7 @@
 import { LinearProgress } from "@material-ui/core"
-import useSearchBarContactsQuery from "../hooks/useSearchBarContactsQuery"
-import useSyncContactResults from "../hooks/useSyncContactResults"
-import { useContactResultsSelector } from "../redux/contactResultsSlice"
+import useSearchBarContactsQuery from "client/common/useSearchBarContactsQuery"
+import useSyncContactResults from "client/common/useSyncContactResults"
+import { useContactResultsSelector } from "client/features/contacts/contactResultsSlice"
 import ContactList from "./ContactList"
 import ShowMoreButton from "./ShowMoreButton"
 

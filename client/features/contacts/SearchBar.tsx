@@ -1,5 +1,5 @@
-import useSearchBarContactsQuery from "../hooks/useSearchBarContactsQuery"
-import DatabaseErrorAlert from "./DatabaseErrorAlert"
+import DatabaseErrorAlert from "../../common/DatabaseErrorAlert"
+import useSearchBarContactsQuery from "../../common/useSearchBarContactsQuery"
 import FoundResultsText from "./FoundResultsText"
 import SortSettings from "./SortSettings"
 

@@ -1,8 +1,8 @@
+import theme from "client/app/theme"
 import { Field, Form, Formik } from "formik"
-import { ContactsSortQuery } from "../../utils/types"
-import { useAppDispatch } from "../hooks/reduxHooks"
-import { updateSort } from "../redux/contactResultsSlice"
-import theme from "../theme"
+import { ContactsSortQuery } from "../../../utils/types"
+import { useAppDispatch } from "../../common/reduxHooks"
+import { updateSort } from "./contactResultsSlice"
 
 const SortSettings: React.FC = () => {
   const dispatch = useAppDispatch()

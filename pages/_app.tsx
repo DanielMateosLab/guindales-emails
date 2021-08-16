@@ -4,8 +4,8 @@ import type { AppProps } from "next/app"
 import Head from "next/head"
 import React from "react"
 import { Provider } from "react-redux"
-import { store } from "../client/redux/store"
-import theme from "../client/theme"
+import { store } from "../client/app/store"
+import theme from "../client/app/theme"
 import "../styles/globals.css"
 
 function MyApp({ Component, pageProps }: AppProps) {

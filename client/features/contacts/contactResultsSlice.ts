@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { pageSize } from "../../utils/config"
-import { Contact, ContactsSortQuery } from "../../utils/types"
-import { useAppSelector } from "../hooks/reduxHooks"
+import { pageSize } from "../../../utils/config"
+import { Contact, ContactsSortQuery } from "../../../utils/types"
+import { useAppSelector } from "../../common/reduxHooks"
 
 interface ContactsState {
   data: {

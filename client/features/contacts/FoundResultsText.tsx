@@ -1,6 +1,6 @@
 import { Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
-import { useContactResultsSelector } from "../redux/contactResultsSlice"
+import { useContactResultsSelector } from "./contactResultsSlice"
 
 const FoundResultsText: React.FC<{
   isLoading: boolean

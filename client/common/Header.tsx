@@ -1,6 +1,6 @@
-import theme from "../theme"
+import theme from "../app/theme"
+import SearchBar from "../features/contacts/SearchBar"
 import MainBar from "./MainBar"
-import SearchBar from "./SearchBar"
 
 const Header: React.FC = () => (
   <header>

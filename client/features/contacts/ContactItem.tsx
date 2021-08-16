@@ -1,6 +1,6 @@
 import Typography from "@material-ui/core/Typography"
-import { Contact } from "../../utils/types"
-import Divider from "./Divider"
+import { Contact } from "../../../utils/types"
+import Divider from "../../common/Divider"
 
 const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => (
   <article>
