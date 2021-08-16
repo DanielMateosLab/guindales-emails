@@ -1,12 +1,11 @@
 import { Button } from "@material-ui/core"
 import { useAppDispatch } from "client/common/reduxHooks"
+import useSearchBarContactsQuery from "client/common/useSearchBarContactsQuery"
 import { updatePage } from "client/features/contacts/contactResultsSlice"
 
-interface Props {
-  isFetching: boolean
-}
-const ShowMoreButton: React.FC<Props> = ({ isFetching }) => {
+const ShowMoreButton: React.FC = () => {
   const dispatch = useAppDispatch()
+  const { isFetching } = useSearchBarContactsQuery()
 
   return (
     <div className="show-more-button">

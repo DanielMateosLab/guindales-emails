@@ -7,7 +7,7 @@ import ShowMoreButton from "./ShowMoreButton"
 const ContactListContainer: React.FC = () => {
   useSyncContactResults()
 
-  const { isFetching, isUninitialized } = useSearchBarContactsQuery()
+  const { isUninitialized } = useSearchBarContactsQuery()
 
   const { contacts, count } = useContactResultsSelector()
   const allContactsShown = contacts.length == count
@@ -16,9 +16,7 @@ const ContactListContainer: React.FC = () => {
     <main>
       <ContactList contacts={contacts} />
 
-      {!isUninitialized && !allContactsShown && (
-        <ShowMoreButton isFetching={isFetching} />
-      )}
+      {!isUninitialized && !allContactsShown && <ShowMoreButton />}
 
       <style jsx>
         {`
