@@ -1,11 +1,11 @@
 import { Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
-import { useAppSelector } from "../hooks/reduxHooks"
+import { useContactResultsSelector } from "../redux/contactResultsSlice"
 
 const FoundResultsText: React.FC<{
   isLoading: boolean
 }> = ({ isLoading }) => {
-  const { contacts, count } = useAppSelector((state) => state.contactResults)
+  const { contacts, count } = useContactResultsSelector()
 
   const [text, setText] = useState("...")
 

@@ -4,19 +4,27 @@ import { Contact, ContactsSortQuery } from "../../utils/types"
 import { useAppSelector } from "../hooks/reduxHooks"
 
 interface ContactsState {
-  contacts: Contact[]
-  count: number
-  page: number
-  sort: ContactsSortQuery
+  data: {
+    contacts: Contact[]
+    count: number
+  }
+  params: {
+    page: number
+    sort: ContactsSortQuery
+  }
 }
 
 const initialState: ContactsState = {
-  count: 0,
-  contacts: [],
-  page: 1,
-  sort: {
-    field: "_id",
-    order: -1,
+  data: {
+    count: 0,
+    contacts: [],
+  },
+  params: {
+    page: 1,
+    sort: {
+      field: "_id",
+      order: -1,
+    },
   },
 }
 
@@ -33,20 +41,24 @@ const contactsSlice = createSlice({
         count: number
       }>
     ) {
-      const contactIds = state.contacts.map((contact) => contact._id)
+      const contactIds = state.data.contacts.map((contact) => contact._id)
       contacts.forEach((contact) => {
         if (!contactIds.includes(contact._id)) {
-          state.contacts.push(contact)
+          state.data.contacts.push(contact)
         }
       })
 
-      state.count = count
+      state.data.count = count
     },
     updatePage(state) {
-      state.page = Math.trunc(state.contacts.length / pageSize) + 1
+      state.params.page = Math.trunc(state.data.contacts.length / pageSize) + 1
     },
-    updateSort(_, action: PayloadAction<ContactsSortQuery>) {
-      return { ...initialState, sort: action.payload }
+    updateSort(state, action: PayloadAction<ContactsSortQuery>) {
+      state.data = initialState.data
+      state.params = {
+        page: 1,
+        sort: action.payload,
+      }
     },
   },
 })
@@ -56,4 +68,7 @@ export const { updateResults, updatePage, updateSort } = contactsSlice.actions
 export default contactsSlice.reducer
 
 export const useContactResultsSelector = () =>
-  useAppSelector((state) => state.contactResults)
+  useAppSelector((state) => state.contactResults.data)
+
+export const useParamsOfContactResultsSelector = () =>
+  useAppSelector((state) => state.contactResults.params)
