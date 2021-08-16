@@ -1,10 +1,12 @@
+import { LinearProgress } from "@material-ui/core"
 import DatabaseErrorAlert from "../../common/DatabaseErrorAlert"
 import useSearchBarContactsQuery from "../../common/useSearchBarContactsQuery"
 import FoundResultsText from "./FoundResultsText"
 import SortSettings from "./SortSettings"
 
 const SearchBar: React.FC = () => {
-  const { isError, refetch, isLoading } = useSearchBarContactsQuery()
+  const { isError, refetch, isLoading, isFetching } =
+    useSearchBarContactsQuery()
 
   return (
     <section>
@@ -14,10 +16,20 @@ const SearchBar: React.FC = () => {
 
       {isError && <DatabaseErrorAlert refetch={refetch} />}
 
+      {isFetching && <LinearProgress color="secondary" className="progress" />}
+
       <style jsx>
         {`
           section {
             padding: 1rem;
+            position: relative;
+          }
+
+          :global(.progress) {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
           }
         `}
       </style>

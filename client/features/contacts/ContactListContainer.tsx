@@ -1,4 +1,3 @@
-import { LinearProgress } from "@material-ui/core"
 import useSearchBarContactsQuery from "client/common/useSearchBarContactsQuery"
 import useSyncContactResults from "client/common/useSyncContactResults"
 import { useContactResultsSelector } from "client/features/contacts/contactResultsSlice"
@@ -15,8 +14,6 @@ const ContactListContainer: React.FC = () => {
 
   return (
     <main>
-      {isFetching && <LinearProgress color="secondary" />}
-
       <ContactList contacts={contacts} />
 
       {!isUninitialized && !allContactsShown && (
