@@ -1,6 +1,6 @@
 import { LinearProgress } from "@material-ui/core"
-import DatabaseErrorAlert from "../../common/DatabaseErrorAlert"
-import useSearchBarContactsQuery from "../../common/useSearchBarContactsQuery"
+import DatabaseErrorAlert from "client/common/DatabaseErrorAlert"
+import useSearchBarContactsQuery from "client/common/useSearchBarContactsQuery"
 import FoundResultsText from "./FoundResultsText"
 import SortSettings from "./SortSettings"
 

@@ -1,7 +1,7 @@
 import CollectionDAO from "@danielmat/api-utils/dist/CollectionDAO"
 import { Db } from "mongodb"
-import { pageSize } from "../utils/config"
-import { Contact, ContactsDAOSortQuery } from "../utils/types"
+import { pageSize } from "utils/config"
+import { Contact, ContactsDAOSortQuery } from "utils/types"
 
 export default class ContactsDAO extends CollectionDAO<Contact> {
   constructor(db: Db) {

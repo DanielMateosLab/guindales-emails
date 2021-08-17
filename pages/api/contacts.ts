@@ -1,12 +1,9 @@
 import { connectToDb, MethodNotAllowedError } from "@danielmat/api-utils"
 import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiRequest, NextApiResponse } from "next"
-import ContactsDAO from "../../server/ContactsDAO"
-import { SuccessContactsResponse } from "../../utils/types"
-import {
-  getQueryValidation,
-  removeUndefinedProperties,
-} from "../../utils/validation"
+import ContactsDAO from "server/ContactsDAO"
+import { SuccessContactsResponse } from "utils/types"
+import { getQueryValidation, removeUndefinedProperties } from "utils/validation"
 
 interface ContactsHandler {
   (

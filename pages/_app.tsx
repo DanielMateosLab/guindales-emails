@@ -1,11 +1,11 @@
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { StylesProvider, ThemeProvider } from "@material-ui/core/styles"
+import { store } from "client/app/store"
+import theme from "client/app/theme"
 import type { AppProps } from "next/app"
 import Head from "next/head"
 import React from "react"
 import { Provider } from "react-redux"
-import { store } from "../client/app/store"
-import theme from "../client/app/theme"
 import "../styles/globals.css"
 
 function MyApp({ Component, pageProps }: AppProps) {

@@ -1,5 +1,5 @@
-import Header from "../client/common/Header"
-import ContactListContainer from "../client/features/contacts/ContactListContainer"
+import Header from "client/common/Header"
+import ContactListContainer from "client/features/contacts/ContactListContainer"
 
 export default function Home() {
   return (

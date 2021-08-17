@@ -1,4 +1,4 @@
-import { Contact } from "../../utils/types"
+import { Contact } from "utils/types"
 import ContactItem from "./ContactItem"
 
 const ContactList: React.FC<{ contacts: Contact[] }> = ({ contacts }) => (

@@ -1,5 +1,5 @@
+import { updateResults } from "client/features/contacts/contactResultsSlice"
 import { useEffect } from "react"
-import { updateResults } from "../features/contacts/contactResultsSlice"
 import { useAppDispatch } from "./reduxHooks"
 import useSearchBarContactsQuery from "./useSearchBarContactsQuery"
 
