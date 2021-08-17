@@ -22,8 +22,10 @@ describe("Sort parameters validation", () => {
   it("should fail with an invalid field", () => {
     try {
       const result = getQueryValidation.validateSync({
-        field: "aaaa",
-        order: 1,
+        sort: {
+          field: "aaaa",
+          order: 1,
+        },
       })
       expect(result).toBeUndefined()
     } catch (e) {
@@ -34,8 +36,10 @@ describe("Sort parameters validation", () => {
   it("should fail with an invalid order", () => {
     try {
       const result = getQueryValidation.validateSync({
-        field: "name",
-        order: 3,
+        sort: {
+          field: "name",
+          order: 3,
+        },
       })
       expect(result).toBeUndefined()
     } catch (e) {
