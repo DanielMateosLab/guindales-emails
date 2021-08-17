@@ -9,7 +9,10 @@ export const getQueryValidation = yup.object().shape({
   filter: yup.object().shape({
     name: yup.string().max(55),
     email: yup.string().email(),
-    phone: yup.string().matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/),
+    phone: yup
+      .string()
+      .transform(removeWhitespaces)
+      .matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/),
   }),
   page: yup.number().positive().integer(),
 })
@@ -49,4 +52,8 @@ export function removeUndefinedProperties(object: Object): Object {
   }
 
   return parsedObject
+}
+
+function removeWhitespaces(value: string) {
+  return value.replace(/ /g, "")
 }
