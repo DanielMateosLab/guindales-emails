@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { ContactsSortQuery, SuccessContactsResponse } from "utils/types"
+import {
+  ContactsFilter,
+  ContactsSortQuery,
+  SuccessContactsResponse,
+} from "utils/types"
 
 export const contactsApi = createApi({
   reducerPath: "contactsApi",
@@ -7,13 +11,14 @@ export const contactsApi = createApi({
   endpoints: (builder) => ({
     getContacts: builder.query<
       SuccessContactsResponse,
-      { page: number; sort: ContactsSortQuery }
+      { page: number; sort: ContactsSortQuery; filter: ContactsFilter }
     >({
-      query: ({ page, sort }) => ({
+      query: ({ page, sort, filter }) => ({
         url: "contacts",
         params: {
           page,
           sort: JSON.stringify(sort),
+          filter: JSON.stringify(filter),
         },
       }),
     }),

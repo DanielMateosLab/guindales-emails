@@ -2,12 +2,9 @@ import { useParamsOfContactResultsSelector } from "client/features/contacts/cont
 import { useGetContactsQuery } from "client/features/contacts/contactsApiSlice"
 
 const useSearchBarContactsQuery = () => {
-  const { page, sort } = useParamsOfContactResultsSelector()
+  const params = useParamsOfContactResultsSelector()
 
-  const result = useGetContactsQuery({
-    page,
-    sort,
-  })
+  const result = useGetContactsQuery(params)
 
   return result
 }
