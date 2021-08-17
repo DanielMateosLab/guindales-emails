@@ -1,19 +1,24 @@
 import * as yup from "yup"
 import { validSortFields, validSortOrders } from "./config"
 
+export const filterValidation = yup.object().shape({
+  name: yup.string().max(55, "Debe tener menos de 55 caracteres"),
+  email: yup.string().email("Debe ser un correo electrónico válido"),
+  phone: yup
+    .string()
+    .transform(removeWhitespaces)
+    .matches(
+      /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
+      "Debe ser un número de teléfono"
+    ),
+})
+
 export const getQueryValidation = yup.object().shape({
   sort: yup.object().shape({
     field: isValidField(),
     order: sortOrderIsOneOrMinusOne(),
   }),
-  filter: yup.object().shape({
-    name: yup.string().max(55),
-    email: yup.string().email(),
-    phone: yup
-      .string()
-      .transform(removeWhitespaces)
-      .matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/),
-  }),
+  filter: filterValidation,
   page: yup.number().positive().integer(),
 })
 
