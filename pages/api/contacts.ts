@@ -3,7 +3,7 @@ import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiRequest, NextApiResponse } from "next"
 import ContactsDAO from "server/ContactsDAO"
 import { SuccessContactsResponse } from "utils/types"
-import { getQueryValidation, removeUndefinedProperties } from "utils/validation"
+import { getQueryValidation } from "utils/validation"
 
 interface ContactsHandler {
   (
@@ -29,7 +29,7 @@ const getHandler: ContactsHandler = async (req, res) => {
   const { filter, sort, page } = await getQueryValidation.validate(req.query)
 
   const result = await contactsDAO.getContacts(
-    removeUndefinedProperties(filter),
+    filter,
     { [sort.field]: sort.order } as any,
     page
   )

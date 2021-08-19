@@ -1,6 +1,7 @@
 import { LinearProgress } from "@material-ui/core"
 import DatabaseErrorAlert from "client/common/DatabaseErrorAlert"
 import useSearchBarContactsQuery from "client/common/useSearchBarContactsQuery"
+import FilterForm from "./FilterForm"
 import FoundResultsText from "./FoundResultsText"
 import SortSettings from "./SortSettings"
 
@@ -10,6 +11,7 @@ const SearchBar: React.FC = () => {
 
   return (
     <section>
+      <FilterForm />
       <SortSettings />
 
       <FoundResultsText isLoading={isLoading} />

@@ -21,5 +21,3 @@ export interface ContactsSortQuery {
   order: 1 | -1
 }
 export type ContactsDAOSortQuery = { name: number } | { _id: number }
-
-export type ContactsFilter = Partial<Omit<Contact, "_id">>

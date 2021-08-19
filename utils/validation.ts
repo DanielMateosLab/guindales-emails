@@ -1,7 +1,7 @@
 import * as yup from "yup"
 import { validSortFields, validSortOrders } from "./config"
 
-export const filterValidation = yup.object().shape({
+export const contactValidation = yup.object().shape({
   name: yup.string().max(55, "Debe tener menos de 55 caracteres"),
   email: yup.string().email("Debe ser un correo electrónico válido"),
   phone: yup
@@ -12,6 +12,10 @@ export const filterValidation = yup.object().shape({
       "Debe ser un número de teléfono"
     ),
 })
+
+export const filterValidation = yup
+  .string()
+  .max(100, "El máximo de caracteres permitidos es 100")
 
 export const getQueryValidation = yup.object().shape({
   sort: yup.object().shape({
