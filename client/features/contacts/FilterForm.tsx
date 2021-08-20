@@ -23,7 +23,7 @@ const FilterForm: React.FC = () => {
       >
         {(formik) => (
           <Form>
-            <TextField name="filter" label="Buscar">
+            <TextField name="filter" label="Buscar" className="search-settings">
               <IconButton
                 type="submit"
                 aria-label="Buscar resultados"

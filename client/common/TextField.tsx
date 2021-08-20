@@ -15,12 +15,15 @@ const TextField: React.FC<Props & InputProps> = ({
   children,
   label,
   type = "text",
+  className,
   ...props
 }) => {
   const [field, meta, helpers] = useField(props)
   return (
-    <div className="root">
-      <label htmlFor={props.name}>{label}</label>
+    <div className={`root ${className}`}>
+      <label htmlFor={props.name} className="body-1">
+        {label}
+      </label>
       <input id={props.name} {...field} {...props} type={type} />
       {meta.touched && meta.error ? (
         <p className="error">{meta.error}</p>

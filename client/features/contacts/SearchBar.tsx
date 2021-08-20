@@ -16,7 +16,7 @@ const SearchBar: React.FC = () => {
 
       <FoundResultsText isLoading={isLoading} />
 
-      {isError && <DatabaseErrorAlert refetch={refetch} />}
+      {true && <DatabaseErrorAlert refetch={refetch} />}
 
       {isFetching && <LinearProgress color="secondary" className="progress" />}
 
@@ -35,6 +35,23 @@ const SearchBar: React.FC = () => {
             bottom: 0;
             left: 0;
             width: 100%;
+          }
+
+          // TODO: split the content in two rows for medium screens. Maybe use grid instead of flex
+          // See material design breakpoints
+
+          @media screen and (min-width: 800px) {
+            section {
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+            }
+
+            :global(.search-settings) {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+            }
           }
         `}
       </style>

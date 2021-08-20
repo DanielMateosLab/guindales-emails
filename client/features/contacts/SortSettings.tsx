@@ -25,8 +25,8 @@ const SortSettings: React.FC = () => {
           const sortingByName = formik.values.field == "name"
 
           return (
-            <Form>
-              <h2 className="body-1 sort-title">Ordenar por</h2>
+            <Form className="search-settings">
+              <h2 className="body-1">Ordenar por</h2>
               <div className="sort-options">
                 <Field
                   as="select"
@@ -97,16 +97,6 @@ const SortSettings: React.FC = () => {
             outline: none;
             border: 1px solid rgba(75, 75, 75, 0.8);
             font-weight: 500;
-          }
-
-          @media screen and (min-width: 600px) {
-            .sort-menu {
-              display: flex;
-              align-items: center;
-            }
-            .sort-title {
-              margin-right: 0.5rem;
-            }
           }
         `}
       </style>
