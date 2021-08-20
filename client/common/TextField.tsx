@@ -12,6 +12,7 @@ type InputProps = DetailedHTMLProps<
   HTMLInputElement
 >
 const TextField: React.FC<Props & InputProps> = ({
+  children,
   label,
   type = "text",
   ...props
@@ -24,11 +25,12 @@ const TextField: React.FC<Props & InputProps> = ({
       {meta.touched && meta.error ? (
         <p className="error">{meta.error}</p>
       ) : null}
+      {children}
 
-      {/* TODO: put the search button inside the input, style for big screens */}
+      {/* style for big screens */}
       <style jsx>{`
         .root {
-          padding: 0.25rem 0;
+          position: relative;
         }
         label {
           display: block;

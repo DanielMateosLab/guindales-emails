@@ -21,21 +21,31 @@ const FilterForm: React.FC = () => {
           setSubmitting(false)
         }}
       >
-        {/* TODO: style this and add the text search index to the mongodb atlas cluster */}
         {(formik) => (
           <Form>
-            <TextField name="filter" label="Buscar" />
-            <IconButton
-              type="submit"
-              aria-label="Buscar resultados"
-              color="secondary"
-              size="medium"
-            >
-              <SearchIcon />
-            </IconButton>
+            <TextField name="filter" label="Buscar">
+              <IconButton
+                type="submit"
+                aria-label="Buscar resultados"
+                color="secondary"
+                size="small"
+                className="search-button"
+              >
+                <SearchIcon />
+              </IconButton>
+            </TextField>
           </Form>
         )}
       </Formik>
+      <style jsx>
+        {`
+          :global(.search-button) {
+            position: absolute;
+            right: 0.25rem;
+            bottom: 0;
+          }
+        `}
+      </style>
     </article>
   )
 }

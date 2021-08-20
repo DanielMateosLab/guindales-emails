@@ -25,6 +25,9 @@ const SearchBar: React.FC = () => {
           section {
             padding: 1rem;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
           }
 
           :global(.progress) {

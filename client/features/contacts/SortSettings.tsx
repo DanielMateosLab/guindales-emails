@@ -25,7 +25,7 @@ const SortSettings: React.FC = () => {
           const sortingByName = formik.values.field == "name"
 
           return (
-            <Form className="sort-menu">
+            <Form>
               <h2 className="body-1 sort-title">Ordenar por</h2>
               <div className="sort-options">
                 <Field
@@ -65,10 +65,6 @@ const SortSettings: React.FC = () => {
 
       <style jsx global>
         {`
-          .sort-menu {
-            margin-bottom: 0.5rem;
-          }
-
           .sort-options > select:first-child {
             margin-right: 0.5rem;
           }
