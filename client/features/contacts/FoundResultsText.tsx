@@ -20,7 +20,7 @@ const FoundResultsText: React.FC<{
   }, [contacts.length, count, isLoading])
 
   return (
-    <article>
+    <article className="found-results">
       <Typography
         variant="body2"
         style={{ color: isLoading ? "transparent" : "inherit" }}

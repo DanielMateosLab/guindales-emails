@@ -4,12 +4,14 @@ import { Alert } from "@material-ui/lab"
 
 const DatabaseErrorAlert: React.FC<{ refetch: Function }> = ({ refetch }) => (
   <Alert
+    className="error-alert"
     severity="warning"
     action={
       <IconButton
         color="inherit"
         aria-label="reintentar"
         onClick={() => refetch()}
+        size="small"
       >
         <Refresh />
       </IconButton>

@@ -14,9 +14,9 @@ const SearchBar: React.FC = () => {
       <FilterForm />
       <SortSettings />
 
-      <FoundResultsText isLoading={isLoading} />
+      {!isError && <FoundResultsText isLoading={isLoading} />}
 
-      {true && <DatabaseErrorAlert refetch={refetch} />}
+      {isError && <DatabaseErrorAlert refetch={refetch} />}
 
       {isFetching && <LinearProgress color="secondary" className="progress" />}
 
@@ -27,7 +27,7 @@ const SearchBar: React.FC = () => {
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 1rem;
           }
 
           :global(.progress) {
@@ -37,14 +37,30 @@ const SearchBar: React.FC = () => {
             width: 100%;
           }
 
-          // TODO: split the content in two rows for medium screens. Maybe use grid instead of flex
-          // See material design breakpoints
-
-          @media screen and (min-width: 800px) {
+          @media screen and (min-width: 600px) {
             section {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              grid-template-areas:
+                "a b"
+                "c c";
+            }
+
+            :global(.found-results) {
+              grid-area: c;
+            }
+
+            :global(.error-alert) {
+              grid-area: c;
+            }
+          }
+
+          @media screen and (min-width: 960px) {
+            section {
+              display: flex;
               flex-direction: row;
-              justify-content: space-between;
               align-items: center;
+              column-gap: 2rem;
             }
 
             :global(.search-settings) {
