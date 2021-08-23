@@ -10,43 +10,39 @@ const FilterForm: React.FC = () => {
   const dispatch = useAppDispatch()
 
   return (
-    <article>
-      <Formik
-        initialValues={{
-          filter: "",
-        }}
-        validationSchema={filterValidation}
-        onSubmit={({ filter }, { setSubmitting }) => {
-          dispatch(updateFilter(filter))
-          setSubmitting(false)
-        }}
-      >
-        {(formik) => (
-          <Form>
-            <TextField name="filter" label="Buscar" className="search-settings">
-              <IconButton
-                type="submit"
-                aria-label="Buscar resultados"
-                color="secondary"
-                size="small"
-                className="search-button"
-              >
-                <SearchIcon />
-              </IconButton>
-            </TextField>
-          </Form>
-        )}
-      </Formik>
-      <style jsx>
-        {`
-          :global(.search-button) {
-            position: absolute;
-            right: 0.25rem;
-            bottom: 0;
-          }
-        `}
-      </style>
-    </article>
+    <Formik
+      initialValues={{
+        filter: "",
+      }}
+      validationSchema={filterValidation}
+      onSubmit={({ filter }, { setSubmitting }) => {
+        dispatch(updateFilter(filter))
+        setSubmitting(false)
+      }}
+    >
+      <Form>
+        <TextField name="filter" label="Buscar" className="search-settings">
+          <IconButton
+            type="submit"
+            aria-label="Buscar resultados"
+            color="secondary"
+            size="small"
+            className="search-button"
+          >
+            <SearchIcon />
+          </IconButton>
+        </TextField>
+        <style jsx>
+          {`
+            :global(.search-button) {
+              position: absolute;
+              right: 0.25rem;
+              bottom: 0;
+            }
+          `}
+        </style>
+      </Form>
+    </Formik>
   )
 }
 
