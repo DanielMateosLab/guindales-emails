@@ -14,9 +14,11 @@ const SearchBar: React.FC = () => {
       <FilterForm />
       <SortSettings />
 
-      {!isError && <FoundResultsText isLoading={isLoading} />}
-
-      {isError && <DatabaseErrorAlert refetch={refetch} />}
+      {isError ? (
+        <DatabaseErrorAlert refetch={refetch} />
+      ) : (
+        <FoundResultsText isLoading={isLoading} />
+      )}
 
       {isFetching && <LinearProgress color="secondary" className="progress" />}
 
