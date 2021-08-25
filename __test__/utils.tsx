@@ -1,9 +1,9 @@
 import { ThemeProvider } from "@material-ui/core"
 import { render as rtlRender, RenderOptions } from "@testing-library/react"
+import { RootState, store } from "client/app/store"
+import theme from "client/app/theme"
 import { RouterContext } from "next/dist/next-server/lib/router-context"
 import { Provider } from "react-redux"
-import { RootState, store } from "../client/redux/store"
-import theme from "../client/theme"
 
 /**
  * Re-usable mockPush that is provided to all the tests.
