@@ -1,6 +1,7 @@
 import useSearchBarContactsQuery from "client/common/useSearchBarContactsQuery"
 import useSyncContactResults from "client/common/useSyncContactResults"
 import { useContactResultsSelector } from "client/features/contacts/contactResultsSlice"
+import AddContactButton from "./AddContactButton"
 import ContactList from "./ContactList"
 import ShowMoreButton from "./ShowMoreButton"
 
@@ -17,6 +18,8 @@ const ContactListContainer: React.FC = () => {
       <ContactList contacts={contacts} />
 
       {!isUninitialized && !allContactsShown && <ShowMoreButton />}
+
+      <AddContactButton />
 
       <style jsx>
         {`
