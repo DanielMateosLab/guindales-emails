@@ -1,12 +1,16 @@
 import { Fab } from "@material-ui/core"
 import { Add } from "@material-ui/icons"
 
-const AddContactButton: React.FC = () => {
+interface Props {
+  onClick: () => void
+}
+const AddContactButton: React.FC<Props> = ({ onClick }) => {
   return (
     <Fab
       aria-label="Añadir contacto"
       className="add-contact-button"
       color="primary"
+      onClick={onClick}
     >
       <Add />
 
