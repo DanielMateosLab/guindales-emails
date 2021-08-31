@@ -1,7 +1,6 @@
 import useSearchBarContactsQuery from "client/common/useSearchBarContactsQuery"
 import useSyncContactResults from "client/common/useSyncContactResults"
 import { useContactResultsSelector } from "client/features/contacts/contactResultsSlice"
-import AddContactButton from "./AddContactButton"
 import ContactList from "./ContactList"
 import ShowMoreButton from "./ShowMoreButton"
 
@@ -14,21 +13,18 @@ const ContactListContainer: React.FC = () => {
   const allContactsShown = contacts.length == count
 
   return (
-    <main>
+    <main className="app-container">
       <ContactList contacts={contacts} />
 
       {!isUninitialized && !allContactsShown && <ShowMoreButton />}
-
-      <AddContactButton />
-
-      <style jsx>
+      <style global jsx>
         {`
-          main {
+          .app-container {
             padding: 0.5rem 1rem 1rem 1rem;
           }
 
           @media screen and (min-width: 600px) {
-            main {
+            .app-container {
               padding: 0.5rem 2rem;
             }
           }
