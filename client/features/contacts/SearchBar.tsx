@@ -41,6 +41,7 @@ const SearchBar: React.FC = () => {
 
           @media screen and (min-width: 600px) {
             section {
+              padding: 1rem 2rem;
               display: grid;
               grid-template-columns: 1fr 1fr;
               grid-template-areas:
