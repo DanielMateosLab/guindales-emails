@@ -20,7 +20,7 @@ const TextField: React.FC<Props & InputProps> = ({
 }) => {
   const [field, meta, helpers] = useField(props)
   return (
-    <div className={`root ${className}`}>
+    <div className={`root ${className ? className : ""}`}>
       <label htmlFor={props.name} className="body-1">
         {label}
       </label>
