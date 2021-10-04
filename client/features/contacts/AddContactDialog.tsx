@@ -14,6 +14,7 @@ import CloseIcon from "@material-ui/icons/Close"
 import TextField from "client/common/TextField"
 import { Form, Formik, FormikHelpers } from "formik"
 import { forwardRef, useState } from "react"
+import { contactValidation } from "utils/validation"
 import AddContactButton from "./AddContactButton"
 
 const SlideTransition = forwardRef<
@@ -50,7 +51,11 @@ const AddContactDialog: React.FC = ({}) => {
         onClose={handleClose}
         TransitionComponent={SlideTransition}
       >
-        <Formik initialValues={formInitialValues} onSubmit={handleSubmit}>
+        <Formik
+          initialValues={formInitialValues}
+          validationSchema={contactValidation}
+          onSubmit={handleSubmit}
+        >
           {(formik) => (
             <Form>
               <AppBar position="relative" component="section">

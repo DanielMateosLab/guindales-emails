@@ -1,9 +1,17 @@
 import * as yup from "yup"
 import { validSortFields, validSortOrders } from "./config"
 
+const requiredErrorText = "Campo obligatorio"
+
 export const contactValidation = yup.object().shape({
-  name: yup.string().max(55, "Debe tener menos de 55 caracteres"),
-  email: yup.string().email("Debe ser un correo electrónico válido"),
+  name: yup
+    .string()
+    .required(requiredErrorText)
+    .max(55, "Debe tener menos de 55 caracteres"),
+  email: yup
+    .string()
+    .required(requiredErrorText)
+    .email("Debe ser un correo electrónico válido"),
   phone: yup
     .string()
     .transform(removeWhitespaces)
