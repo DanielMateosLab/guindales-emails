@@ -19,6 +19,7 @@ const TextField: React.FC<Props & InputProps> = ({
   ...props
 }) => {
   const [field, meta, helpers] = useField(props)
+
   return (
     <div className={`root ${className ? className : ""}`}>
       <label htmlFor={props.name} className="body-1">
@@ -43,8 +44,16 @@ const TextField: React.FC<Props & InputProps> = ({
           width: 100%;
           font-family: Roboto;
           font-size: 1rem;
-          padding: 0.25rem;
-          outline-color: ${theme.palette.secondary.main};
+          padding: 0.5rem;
+          border: ${meta.error
+            ? "1px solid " + theme.palette.error.main
+            : "default"};
+          outline-color: ${meta.error
+            ? theme.palette.error.main
+            : theme.palette.secondary.dark};
+        }
+        .error {
+          color: ${theme.palette.error.main};
         }
       `}</style>
     </div>
