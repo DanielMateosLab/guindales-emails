@@ -1,7 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { ContactsSortQuery, SuccessContactsResponse } from "utils/types"
+import {
+  Contact,
+  ContactsSortQuery,
+  SuccessContactsResponse,
+  WithoutId,
+} from "utils/types"
 
-// TODO: parse the query params so if they match the default values
+// TODO: parse the query params so if they match the default values #6
 // (page = 1, filter = "", sort ~= _id, -1) they are not sent in the request
 
 export const contactsApi = createApi({
@@ -21,7 +26,15 @@ export const contactsApi = createApi({
         },
       }),
     }),
+    // TODO: add invalidate tags
+    addContact: builder.mutation<Contact, WithoutId<Contact>>({
+      query: (contact) => ({
+        url: "contacts",
+        method: "POST",
+        body: contact,
+      }),
+    }),
   }),
 })
 
-export const { useGetContactsQuery } = contactsApi
+export const { useGetContactsQuery, useAddContactMutation } = contactsApi
