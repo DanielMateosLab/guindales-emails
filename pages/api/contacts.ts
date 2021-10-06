@@ -3,7 +3,7 @@ import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiHandler } from "next"
 import ContactsDAO from "server/ContactsDAO"
 import { Contact, SuccessContactsResponse } from "utils/types"
-import { getQueryValidation } from "utils/validation"
+import { contactValidation, getQueryValidation } from "utils/validation"
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -38,7 +38,11 @@ const getHandler: NextApiHandler<SuccessContactsResponse> = async (
 const postHandler: NextApiHandler<Contact> = async (req, res) => {
   const contactsDAO = await setUpContactsDAO()
 
-  // TODO: finish postHandler and keep going with contactsApiSlice
+  const contact = await contactValidation.validate(req.body)
+
+  const contactId = await contactsDAO.addContact(contact)
+
+  res.status(201).json({ ...contact, _id: contactId })
 }
 
 async function setUpContactsDAO() {
