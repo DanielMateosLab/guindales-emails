@@ -15,6 +15,8 @@ export const contactValidation = yup.object().shape({
   phone: yup
     .string()
     .transform(removeWhitespaces)
+    // Avoid empty string phones to cause a validation error because of the regExp match
+    .transform(setUndefinedIfEmptyString)
     .matches(
       /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
       "El número de teléfono proporcionado no es válido"
@@ -73,4 +75,10 @@ export function removeUndefinedProperties(object: Object): Object {
 
 function removeWhitespaces(value: string) {
   return value.replace(/ /g, "")
+}
+
+function setUndefinedIfEmptyString(value: any) {
+  if (value === "") {
+    return undefined
+  }
 }
