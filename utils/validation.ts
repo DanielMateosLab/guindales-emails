@@ -11,13 +11,13 @@ export const contactValidation = yup.object().shape({
   email: yup
     .string()
     .required(requiredErrorText)
-    .email("Debe ser un correo electrónico válido"),
+    .email("El correo electrónico proporcionado no es válido"),
   phone: yup
     .string()
     .transform(removeWhitespaces)
     .matches(
       /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
-      "Debe ser un número de teléfono"
+      "El número de teléfono proporcionado no es válido"
     ),
 })
 
