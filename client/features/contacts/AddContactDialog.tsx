@@ -17,6 +17,8 @@ import { forwardRef, useState } from "react"
 import { contactValidation } from "utils/validation"
 import AddContactButton from "./AddContactButton"
 import { useAddContactMutation } from "./contactsApiSlice"
+import NewContactCreatedText from "./NewContactCreatedText"
+import parseFieldErrors from "./parseFieldErrors"
 
 const SlideTransition = forwardRef<
   unknown,
@@ -34,7 +36,8 @@ const AddContactDialog: React.FC = ({}) => {
     setOpen(false)
   }
 
-  const [addContact, { isLoading, isError, data }] = useAddContactMutation()
+  const [addContact, { isLoading, isError, isSuccess, data }] =
+    useAddContactMutation()
 
   const [hasFieldErrors, setHasFieldErrors] = useState(false)
 
@@ -45,18 +48,10 @@ const AddContactDialog: React.FC = ({}) => {
     addContact(values)
       .unwrap()
       .catch((err) => {
-        const fieldErrors = err.data?.fieldErrors
-
-        setHasFieldErrors(!!fieldErrors)
-
-        if (fieldErrors) {
-          Object.keys(err.data.fieldErrors).forEach((key) =>
-            setFieldError(key, fieldErrors[key])
-          )
-        }
+        setHasFieldErrors(!!err.data.fieldErrors)
+        parseFieldErrors(err, setFieldError)
       })
 
-    // TODO: clean code and manage successful contact creation
     setSubmitting(false)
   }
 
@@ -69,6 +64,8 @@ const AddContactDialog: React.FC = ({}) => {
         fullScreen={isSmallScreen}
         onClose={handleClose}
         TransitionComponent={SlideTransition}
+        fullWidth
+        maxWidth="xs"
       >
         <Formik
           initialValues={formInitialValues}
@@ -120,7 +117,7 @@ const AddContactDialog: React.FC = ({}) => {
                   placeholder="34 685 546 387"
                 />
 
-                <Typography>{JSON.stringify(data)}</Typography>
+                {data && <NewContactCreatedText {...data} />}
 
                 {isError && !hasFieldErrors && (
                   <Typography color="error">
