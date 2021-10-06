@@ -16,6 +16,7 @@ import { Form, Formik, FormikHelpers } from "formik"
 import { forwardRef, useState } from "react"
 import { contactValidation } from "utils/validation"
 import AddContactButton from "./AddContactButton"
+import { useAddContactMutation } from "./contactsApiSlice"
 
 const SlideTransition = forwardRef<
   unknown,
@@ -33,11 +34,29 @@ const AddContactDialog: React.FC = ({}) => {
     setOpen(false)
   }
 
-  const handleSubmit = (
+  const [addContact, { isLoading, isError, data }] = useAddContactMutation()
+
+  const [hasFieldErrors, setHasFieldErrors] = useState(false)
+
+  const handleSubmit = async (
     values: typeof formInitialValues,
-    { setSubmitting }: FormikHelpers<typeof formInitialValues>
+    { setSubmitting, setFieldError }: FormikHelpers<typeof formInitialValues>
   ) => {
-    console.log(values)
+    addContact(values)
+      .unwrap()
+      .catch((err) => {
+        const fieldErrors = err.data?.fieldErrors
+
+        setHasFieldErrors(!!fieldErrors)
+
+        if (fieldErrors) {
+          Object.keys(err.data.fieldErrors).forEach((key) =>
+            setFieldError(key, fieldErrors[key])
+          )
+        }
+      })
+
+    // TODO: clean code and manage successful contact creation
     setSubmitting(false)
   }
 
@@ -81,7 +100,7 @@ const AddContactDialog: React.FC = ({}) => {
                     autoFocus
                     color="inherit"
                     type="submit"
-                    disabled={formik.isSubmitting}
+                    disabled={formik.isSubmitting || isLoading}
                   >
                     Guardar
                   </Button>
@@ -100,6 +119,15 @@ const AddContactDialog: React.FC = ({}) => {
                   name="phone"
                   placeholder="34 685 546 387"
                 />
+
+                <Typography>{JSON.stringify(data)}</Typography>
+
+                {isError && !hasFieldErrors && (
+                  <Typography color="error">
+                    Debido a un error desconocido no se ha podido añadir el
+                    usuario. Vuelve a intentarlo más tarde.
+                  </Typography>
+                )}
               </main>
             </Form>
           )}
