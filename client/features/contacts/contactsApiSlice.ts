@@ -12,6 +12,7 @@ import {
 export const contactsApi = createApi({
   reducerPath: "contactsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
+  tagTypes: ["Contacts"],
   endpoints: (builder) => ({
     getContacts: builder.query<
       SuccessContactsResponse,
@@ -25,14 +26,15 @@ export const contactsApi = createApi({
           filter,
         },
       }),
+      providesTags: [{ type: "Contacts", id: "LIST" }],
     }),
-    // TODO: add invalidate tags
     addContact: builder.mutation<Contact, WithoutId<Contact>>({
       query: (contact) => ({
         url: "contacts",
         method: "POST",
         body: contact,
       }),
+      invalidatesTags: [{ type: "Contacts", id: "LIST" }],
     }),
   }),
 })
