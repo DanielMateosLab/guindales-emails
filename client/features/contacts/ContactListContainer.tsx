@@ -13,19 +13,18 @@ const ContactListContainer: React.FC = () => {
   const allContactsShown = contacts.length == count
 
   return (
-    <main>
+    <main className="app-container">
       <ContactList contacts={contacts} />
 
       {!isUninitialized && !allContactsShown && <ShowMoreButton />}
-
-      <style jsx>
+      <style global jsx>
         {`
-          main {
+          .app-container {
             padding: 0.5rem 1rem 1rem 1rem;
           }
 
           @media screen and (min-width: 600px) {
-            main {
+            .app-container {
               padding: 0.5rem 2rem;
             }
           }

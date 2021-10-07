@@ -21,3 +21,5 @@ export interface ContactsSortQuery {
   order: 1 | -1
 }
 export type ContactsDAOSortQuery = { name: number } | { _id: number }
+
+export type WithoutId<T> = Omit<T, "_id">

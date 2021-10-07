@@ -62,7 +62,7 @@ const contactsSlice = createSlice({
       state.params.sort = action.payload
     },
     updateFilter(state, action: PayloadAction<string>) {
-      if (action.payload === "") return
+      if (state.params.filter === "" && action.payload === "") return
 
       state.data = initialState.data
       state.params.page = 1

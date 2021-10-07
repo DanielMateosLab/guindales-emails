@@ -11,8 +11,7 @@ const ShowMoreButton: React.FC = () => {
     <div className="show-more-button">
       <Button
         disabled={isFetching}
-        variant="contained"
-        color="primary"
+        variant="outlined"
         onClick={() => {
           dispatch(updatePage())
         }}

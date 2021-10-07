@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom/extend-expect"
+import { enableFetchMocks } from "jest-fetch-mock"
 
 require("dotenv").config({ path: ".env.local" })
 
@@ -8,3 +9,5 @@ jest.mock("next/dynamic", () => () => {
   DynamicComponent.preload = jest.fn()
   return DynamicComponent
 })
+
+enableFetchMocks()

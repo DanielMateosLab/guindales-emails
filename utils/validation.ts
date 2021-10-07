@@ -1,15 +1,25 @@
 import * as yup from "yup"
 import { validSortFields, validSortOrders } from "./config"
 
+const requiredErrorText = "Campo obligatorio"
+
 export const contactValidation = yup.object().shape({
-  name: yup.string().max(55, "Debe tener menos de 55 caracteres"),
-  email: yup.string().email("Debe ser un correo electrónico válido"),
+  name: yup
+    .string()
+    .required(requiredErrorText)
+    .max(55, "Debe tener menos de 55 caracteres"),
+  email: yup
+    .string()
+    .required(requiredErrorText)
+    .email("El correo electrónico proporcionado no es válido"),
   phone: yup
     .string()
     .transform(removeWhitespaces)
+    // Avoid empty string phones to cause a validation error because of the regExp match
+    .transform(setUndefinedIfEmptyString)
     .matches(
       /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
-      "Debe ser un número de teléfono"
+      "El número de teléfono proporcionado no es válido"
     ),
 })
 
@@ -65,4 +75,10 @@ export function removeUndefinedProperties(object: Object): Object {
 
 function removeWhitespaces(value: string) {
   return value.replace(/ /g, "")
+}
+
+function setUndefinedIfEmptyString(value: any) {
+  if (value === "") {
+    return undefined
+  }
 }
