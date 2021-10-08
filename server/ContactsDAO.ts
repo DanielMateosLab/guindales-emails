@@ -10,7 +10,7 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
 
   async getContacts(
     filter?: string,
-    sort: ContactsDAOSortQuery = { _id: 1 },
+    sort: ContactsDAOSortQuery = { _id: -1 },
     page: number = 1
   ): Promise<{ contacts: Contact[]; count: number }> {
     const cursor = this.collection

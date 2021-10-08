@@ -49,7 +49,7 @@ function isValidField() {
 function sortOrderIsOneOrMinusOne() {
   return yup
     .number()
-    .default(1)
+    .default(-1)
     .test(
       "sortTest",
       "Sort order must be 1 for ascending order or -1 for descending order.",
