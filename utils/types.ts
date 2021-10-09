@@ -1,3 +1,5 @@
+import { ContactsState } from "client/features/contacts/contactResultsSlice"
+
 export interface Contact {
   _id: string
   name: string
@@ -23,3 +25,5 @@ export interface ContactsSortQuery {
 export type ContactsDAOSortQuery = { name: number } | { _id: number }
 
 export type WithoutId<T> = Omit<T, "_id">
+
+export type ContactsQueryParams = ContactsState["params"]

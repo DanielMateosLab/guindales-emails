@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {
   Contact,
-  ContactsSortQuery,
+  ContactsQueryParams,
   SuccessContactsResponse,
   WithoutId,
 } from "utils/types"
+import removeDefaultParamsAndStringifySort from "./removeDefaultParamsAndStringifySort"
 
 // TODO: parse the query params so if they match the default values #6
 // (page = 1, filter = "", sort ~= _id, -1) they are not sent in the request
@@ -14,17 +15,10 @@ export const contactsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
   tagTypes: ["Contacts"],
   endpoints: (builder) => ({
-    getContacts: builder.query<
-      SuccessContactsResponse,
-      { page: number; sort: ContactsSortQuery; filter: string }
-    >({
-      query: ({ page, sort, filter }) => ({
+    getContacts: builder.query<SuccessContactsResponse, ContactsQueryParams>({
+      query: (params) => ({
         url: "contacts",
-        params: {
-          page,
-          sort: JSON.stringify(sort),
-          filter,
-        },
+        params: removeDefaultParamsAndStringifySort(params),
       }),
       providesTags: [{ type: "Contacts", id: "LIST" }],
     }),

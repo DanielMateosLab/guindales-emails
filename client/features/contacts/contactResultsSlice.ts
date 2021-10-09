@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { useAppSelector } from "client/common/reduxHooks"
-import { pageSize } from "utils/config"
+import { contactResultsDefaultParams, pageSize } from "utils/config"
 import { Contact, ContactsSortQuery } from "utils/types"
 
-interface ContactsState {
+export interface ContactsState {
   data: {
     contacts: Contact[]
     count: number
@@ -20,14 +20,7 @@ const initialState: ContactsState = {
     count: 0,
     contacts: [],
   },
-  params: {
-    page: 1,
-    sort: {
-      field: "_id",
-      order: -1,
-    },
-    filter: "",
-  },
+  params: contactResultsDefaultParams,
 }
 
 const contactsSlice = createSlice({
