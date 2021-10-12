@@ -37,7 +37,7 @@ const FilterForm: React.FC = () => {
             :global(.search-button) {
               position: absolute;
               right: 0.25rem;
-              bottom: 0;
+              bottom: 0.25rem;
             }
           `}
         </style>
