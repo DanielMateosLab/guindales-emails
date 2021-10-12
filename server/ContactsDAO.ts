@@ -1,21 +1,25 @@
 import CollectionDAO from "@danielmat/api-utils/dist/CollectionDAO"
 import { Db } from "mongodb"
 import { pageSize } from "utils/config"
-import { Contact, ContactsDAOSortQuery, WithoutId } from "utils/types"
+import { Contact, ContactsParams, WithoutId } from "utils/types"
 
 export default class ContactsDAO extends CollectionDAO<Contact> {
   constructor(db: Db) {
     super(db, "contacts")
   }
 
-  async getContacts(
-    filter?: string,
-    sort: ContactsDAOSortQuery = { _id: -1 },
-    page: number = 1
-  ): Promise<{ contacts: Contact[]; count: number }> {
+  async getContacts({
+    filter,
+    sortField = "_id",
+    sortOrder = -1,
+    page = 1,
+  }: Partial<ContactsParams>): Promise<{
+    contacts: Contact[]
+    count: number
+  }> {
     const cursor = this.collection
       .find(filter ? { $text: { $search: filter } } : {})
-      .sort(sort)
+      .sort({ [sortField]: sortOrder })
       .skip((page - 1) * pageSize)
       .limit(pageSize)
 

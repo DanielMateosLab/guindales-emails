@@ -1,7 +1,7 @@
 import theme from "client/app/theme"
 import { useAppDispatch } from "client/common/reduxHooks"
 import { Field, Form, Formik } from "formik"
-import { ContactsSortQuery } from "utils/types"
+import { ContactsSortParams } from "utils/types"
 import { updateSort } from "./contactResultsSlice"
 
 const SortSettings: React.FC = () => {
@@ -11,9 +11,9 @@ const SortSettings: React.FC = () => {
     <Formik
       initialValues={
         {
-          field: "_id",
-          order: -1,
-        } as ContactsSortQuery
+          sortField: "_id",
+          sortOrder: -1,
+        } as ContactsSortParams
       }
       onSubmit={(values, { setSubmitting }) => {
         dispatch(updateSort(values))
@@ -21,7 +21,7 @@ const SortSettings: React.FC = () => {
       }}
     >
       {(formik) => {
-        const sortingByName = formik.values.field == "name"
+        const sortingByName = formik.values.sortField == "name"
 
         return (
           <Form className="search-settings">
@@ -29,7 +29,7 @@ const SortSettings: React.FC = () => {
             <div className="sort-options">
               <Field
                 as="select"
-                name="field"
+                name="sortField"
                 aria-label="Propiedad para establecer el orden"
                 onChange={(e: Event) => {
                   formik.handleChange(e)
@@ -43,7 +43,7 @@ const SortSettings: React.FC = () => {
               <Field
                 as="select"
                 aria-label="Orden ascendente o descendente"
-                name="order"
+                name="sortOrder"
                 onChange={(e: Event) => {
                   formik.handleChange(e)
                   formik.submitForm()

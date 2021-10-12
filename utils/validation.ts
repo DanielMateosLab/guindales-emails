@@ -1,5 +1,6 @@
 import * as yup from "yup"
 import { validSortFields, validSortOrders } from "./config"
+import { ContactsSortParams } from "./types"
 
 const requiredErrorText = "Campo obligatorio"
 
@@ -27,18 +28,16 @@ export const filterValidation = yup
   .string()
   .max(100, "El máximo de caracteres permitidos es 100")
 
-export const getQueryValidation = yup.object().shape({
-  sort: yup.object().shape({
-    field: isValidField(),
-    order: sortOrderIsOneOrMinusOne(),
-  }),
+export const getQueryParamsValidation = yup.object({
   filter: filterValidation,
   page: yup.number().positive().integer(),
+  sortField: isValidField(),
+  sortOrder: sortOrderIsOneOrMinusOne(),
 })
 
 function isValidField() {
   return yup
-    .string()
+    .mixed<ContactsSortParams["sortField"]>()
     .default("_id")
     .test(
       "allowedFields",
@@ -48,8 +47,9 @@ function isValidField() {
 }
 function sortOrderIsOneOrMinusOne() {
   return yup
-    .number()
+    .mixed<ContactsSortParams["sortOrder"]>()
     .default(-1)
+    .transform((value) => Number(value))
     .test(
       "sortTest",
       "Sort order must be 1 for ascending order or -1 for descending order.",

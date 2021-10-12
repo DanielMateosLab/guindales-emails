@@ -18,12 +18,8 @@ export interface FailContactsResponse<FieldErrors = undefined> {
   fieldErrors?: FieldErrors
 }
 
-export interface ContactsSortQuery {
-  field: "_id" | "name"
-  order: 1 | -1
-}
-export type ContactsDAOSortQuery = { name: number } | { _id: number }
-
 export type WithoutId<T> = Omit<T, "_id">
 
-export type ContactsQueryParams = ContactsState["params"]
+export type ContactsParams = ContactsState["params"]
+
+export type ContactsSortParams = Pick<ContactsParams, "sortField" | "sortOrder">

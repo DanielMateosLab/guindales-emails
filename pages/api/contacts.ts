@@ -3,7 +3,7 @@ import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiHandler } from "next"
 import ContactsDAO from "server/ContactsDAO"
 import { Contact, SuccessContactsResponse } from "utils/types"
-import { contactValidation, getQueryValidation } from "utils/validation"
+import { contactValidation, getQueryParamsValidation } from "utils/validation"
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -24,13 +24,9 @@ const getHandler: NextApiHandler<SuccessContactsResponse> = async (
 ) => {
   const contactsDAO = await setUpContactsDAO()
 
-  const { filter, sort, page } = await getQueryValidation.validate(req.query)
+  const params = await getQueryParamsValidation.validate(req.query)
 
-  const result = await contactsDAO.getContacts(
-    filter,
-    { [sort.field]: sort.order } as any,
-    page
-  )
+  const result = await contactsDAO.getContacts(params)
 
   res.status(200).json({ ...result })
 }
