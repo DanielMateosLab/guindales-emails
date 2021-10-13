@@ -4,17 +4,27 @@ import { Contact } from "utils/types"
 
 const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => (
   <article>
-    <Typography variant="body1">{contact.name}</Typography>
-    <Typography variant="body1" color="secondary">
-      {contact.email}
-    </Typography>
-    <Typography variant="body2" color="secondary">
-      {contact.phone}
-    </Typography>
+    <div className="main-content">
+      <input type="checkbox" />
+      <div className="contact-details">
+        <Typography variant="body1">{contact.name}</Typography>
+        <Typography variant="body1" color="secondary">
+          {contact.email}
+        </Typography>
+        <Typography variant="body2" color="secondary">
+          {contact.phone}
+        </Typography>
+      </div>
+    </div>
     <Divider />
 
     <style jsx>
       {`
+        .main-content {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
         @media screen and (min-width: 600px) {
           article {
             display: grid;
