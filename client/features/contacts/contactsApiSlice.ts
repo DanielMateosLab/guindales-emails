@@ -33,6 +33,17 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: [contactListTag],
     }),
+    updateContactById: builder.mutation<
+      Contact,
+      { _id: string; updatedData: Partial<WithoutId<Contact>> }
+    >({
+      query: ({ _id, updatedData }) => ({
+        url: `contacts/${_id}`,
+        method: "PUT",
+        body: updatedData,
+      }),
+      invalidatesTags: [contactListTag],
+    }),
     deleteContactById: builder.mutation<void, string>({
       query: (_id) => ({
         url: `contacts/${_id}`,
@@ -47,4 +58,5 @@ export const {
   useGetContactsQuery,
   useAddContactMutation,
   useDeleteContactByIdMutation,
+  useUpdateContactByIdMutation,
 } = contactsApi
