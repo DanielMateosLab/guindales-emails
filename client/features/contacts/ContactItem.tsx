@@ -5,12 +5,20 @@ import EditIcon from "@material-ui/icons/Edit"
 import Divider from "client/common/Divider"
 import React from "react"
 import { Contact } from "utils/types"
+import { useDeleteContactByIdMutation } from "./contactsApiSlice"
 
 const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => {
   const email = contact.email
   const isLongEmail = email.length >= 25
   const shortenEmail = (email: string): string =>
     email.slice(0, 25).concat("...")
+
+  const [deleteContact, { isLoading: deleteIsLoading }] =
+    useDeleteContactByIdMutation()
+
+  function handleDeleteClick() {
+    deleteContact(contact._id)
+  }
 
   return (
     <article>
@@ -45,6 +53,8 @@ const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => {
             color="secondary"
             aria-label="delete-contact"
             size="small"
+            onClick={handleDeleteClick}
+            disabled={deleteIsLoading}
           >
             <Delete />
           </IconButton>
