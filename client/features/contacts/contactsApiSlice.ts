@@ -4,6 +4,7 @@ import {
   Contact,
   ContactsParams,
   SuccessContactsResponse,
+  UpdateContactData,
   WithoutId,
 } from "utils/types"
 import removeDefaultParams from "./removeDefaultParams"
@@ -35,7 +36,7 @@ export const contactsApi = createApi({
     }),
     updateContactById: builder.mutation<
       Contact,
-      { _id: string; updatedData: Partial<WithoutId<Contact>> }
+      { _id: string; updatedData: UpdateContactData }
     >({
       query: ({ _id, updatedData }) => ({
         url: `contacts/${_id}`,

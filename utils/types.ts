@@ -23,3 +23,5 @@ export type WithoutId<T> = Omit<T, "_id">
 export type ContactsParams = ContactsState["params"]
 
 export type ContactsSortParams = Pick<ContactsParams, "sortField" | "sortOrder">
+
+export type UpdateContactData = Partial<WithoutId<Contact>>
