@@ -3,6 +3,8 @@ import Typography from "@material-ui/core/Typography"
 import Delete from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
 import Divider from "client/common/Divider"
+import { useAppDispatch } from "client/common/reduxHooks"
+import { deleteContactResultById } from "client/features/contacts/contactResultsSlice"
 import React from "react"
 import { Contact } from "utils/types"
 import { useDeleteContactByIdMutation } from "./contactsApiSlice"
@@ -16,8 +18,14 @@ const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => {
   const [deleteContact, { isLoading: deleteIsLoading }] =
     useDeleteContactByIdMutation()
 
+  const dispatch = useAppDispatch()
+
   function handleDeleteClick() {
     deleteContact(contact._id)
+      .unwrap()
+      .then(() => {
+        dispatch(deleteContactResultById(contact._id))
+      })
   }
 
   return (
