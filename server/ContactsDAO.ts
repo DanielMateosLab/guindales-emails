@@ -36,4 +36,14 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
 
     return result.insertedId
   }
+
+  /**
+   * Removes the contact with the given id.
+   * Returns true if one contact was deleted or false otherwise.
+   */
+  async deleteContactById(_id: string): Promise<boolean> {
+    const result = await this.collection.deleteOne({ _id })
+
+    return result.deletedCount == 1
+  }
 }
