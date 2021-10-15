@@ -81,4 +81,5 @@ function setUndefinedIfEmptyString(value: any) {
   if (value === "") {
     return undefined
   }
+  return value
 }
