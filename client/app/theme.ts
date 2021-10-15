@@ -1,9 +1,9 @@
 import { green } from "@material-ui/core/colors"
-import { createMuiTheme } from "@material-ui/core/styles"
+import { createTheme } from "@material-ui/core/styles"
 
 // Color tool: https://material.io/resources/color/#!/?view.left=0&view.right=1&primary.color=65FC86
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: "#65fc86",
