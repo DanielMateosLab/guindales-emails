@@ -7,30 +7,24 @@ import React from "react"
 import { Contact } from "utils/types"
 
 const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => {
-  const isLongEmail = (email: string) => email.length >= 25
-
-  function parseLongEmails(email: string): string {
-    return isLongEmail(email) ? email.slice(0, 25).concat("...") : email
-  }
-
-  const EmailText = (
-    <Typography variant="body1" color="secondary">
-      {parseLongEmails(contact.email)}
-    </Typography>
-  )
+  const email = contact.email
+  const isLongEmail = email.length >= 25
+  const shortenEmail = (email: string): string =>
+    email.slice(0, 25).concat("...")
 
   return (
     <article>
       <div className="main-content">
         <div className="contact-details">
           <Typography variant="body1">{contact.name}</Typography>
+
           <Typography variant="body1" color="secondary">
-            {isLongEmail(contact.email) ? (
-              <Tooltip title={contact.email}>
-                <span>{parseLongEmails(contact.email)}</span>
+            {isLongEmail ? (
+              <Tooltip title={email}>
+                <span>{shortenEmail(email)}</span>
               </Tooltip>
             ) : (
-              contact.email
+              email
             )}
           </Typography>
 
