@@ -21,7 +21,7 @@ const deleteHandler: NextApiHandler = async (req, res) => {
   const success = await contactsDAO.deleteContactById(_id)
 
   if (success) {
-    res.status(204)
+    res.status(204).end()
   } else {
     throw new UserNotFoundError()
   }
