@@ -1,5 +1,5 @@
 import CollectionDAO from "@danielmat/api-utils/dist/CollectionDAO"
-import { Db } from "mongodb"
+import { Db, ObjectId } from "mongodb"
 import { pageSize } from "utils/config"
 import { Contact, ContactsParams, WithoutId } from "utils/types"
 
@@ -42,7 +42,9 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
    * Returns true if one contact was deleted or false otherwise.
    */
   async deleteContactById(_id: string): Promise<boolean> {
-    const result = await this.collection.deleteOne({ _id })
+    const result = await this.collection.deleteOne({
+      _id: new ObjectId(_id) as any,
+    })
 
     return result.deletedCount == 1
   }
