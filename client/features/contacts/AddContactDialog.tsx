@@ -36,8 +36,7 @@ const AddContactDialog: React.FC = ({}) => {
     setOpen(false)
   }
 
-  const [addContact, { isLoading, isError, isSuccess, data }] =
-    useAddContactMutation()
+  const [addContact, { isLoading, isError, data }] = useAddContactMutation()
 
   const [hasFieldErrors, setHasFieldErrors] = useState(false)
 
