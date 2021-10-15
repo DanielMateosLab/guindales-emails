@@ -65,11 +65,25 @@ const contactsSlice = createSlice({
 
       state.params.filter = action.payload
     },
+    deleteContactResultById(state, action: PayloadAction<string>) {
+      const contactIndex = state.data.contacts.findIndex(
+        ({ _id }) => _id == action.payload
+      )
+
+      if (contactIndex >= 0) {
+        state.data.contacts.splice(contactIndex, 1)
+      }
+    },
   },
 })
 
-export const { updateResults, updatePage, updateSort, updateFilter } =
-  contactsSlice.actions
+export const {
+  updateResults,
+  updatePage,
+  updateSort,
+  updateFilter,
+  deleteContactResultById,
+} = contactsSlice.actions
 
 export default contactsSlice.reducer
 

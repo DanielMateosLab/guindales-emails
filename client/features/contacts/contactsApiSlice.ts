@@ -1,3 +1,4 @@
+import { FullTagDescription } from "@reduxjs/toolkit/dist/query/endpointDefinitions"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {
   Contact,
@@ -6,6 +7,11 @@ import {
   WithoutId,
 } from "utils/types"
 import removeDefaultParams from "./removeDefaultParams"
+
+const contactListTag: FullTagDescription<"Contacts"> = {
+  type: "Contacts",
+  id: "LIST",
+}
 
 export const contactsApi = createApi({
   reducerPath: "contactsApi",
@@ -17,7 +23,7 @@ export const contactsApi = createApi({
         url: "contacts",
         params: removeDefaultParams(params),
       }),
-      providesTags: [{ type: "Contacts", id: "LIST" }],
+      providesTags: [contactListTag],
     }),
     addContact: builder.mutation<Contact, WithoutId<Contact>>({
       query: (contact) => ({
@@ -25,9 +31,20 @@ export const contactsApi = createApi({
         method: "POST",
         body: contact,
       }),
-      invalidatesTags: [{ type: "Contacts", id: "LIST" }],
+      invalidatesTags: [contactListTag],
+    }),
+    deleteContactById: builder.mutation<void, string>({
+      query: (_id) => ({
+        url: `contacts/${_id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [contactListTag],
     }),
   }),
 })
 
-export const { useGetContactsQuery, useAddContactMutation } = contactsApi
+export const {
+  useGetContactsQuery,
+  useAddContactMutation,
+  useDeleteContactByIdMutation,
+} = contactsApi
