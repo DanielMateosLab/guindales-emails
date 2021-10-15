@@ -1,7 +1,7 @@
-import { connectToDb, MethodNotAllowedError } from "@danielmat/api-utils"
+import { MethodNotAllowedError } from "@danielmat/api-utils"
 import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiHandler } from "next"
-import ContactsDAO from "server/ContactsDAO"
+import setUpContactsDAO from "server/setUpContactsDAO"
 import { Contact, SuccessContactsResponse } from "utils/types"
 import { contactValidation, getQueryParamsValidation } from "utils/validation"
 
@@ -39,11 +39,6 @@ const postHandler: NextApiHandler<Contact> = async (req, res) => {
   const contactId = await contactsDAO.addContact(contact)
 
   res.status(201).json({ ...contact, _id: contactId })
-}
-
-async function setUpContactsDAO() {
-  const db = await connectToDb()
-  return new ContactsDAO(db)
 }
 
 export default catchErrors(handler)
