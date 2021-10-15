@@ -33,7 +33,7 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: [contactListTag],
     }),
-    deleteContactById: builder.mutation<string, string>({
+    deleteContactById: builder.mutation<void, string>({
       query: (_id) => ({
         url: `contacts/${_id}`,
         method: "DELETE",
