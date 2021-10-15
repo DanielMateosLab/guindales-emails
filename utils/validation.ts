@@ -4,25 +4,29 @@ import { ContactsSortParams } from "./types"
 
 const requiredErrorText = "Campo obligatorio"
 
-export const contactValidation = yup.object().shape({
-  name: yup
-    .string()
-    .required(requiredErrorText)
-    .max(55, "Debe tener menos de 55 caracteres"),
-  email: yup
-    .string()
-    .required(requiredErrorText)
-    .email("El correo electrónico proporcionado no es válido"),
-  phone: yup
-    .string()
-    .transform(removeWhitespaces)
-    // Avoid empty string phones to cause a validation error because of the regExp match
-    .transform(setUndefinedIfEmptyString)
-    .matches(
-      /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
-      "El número de teléfono proporcionado no es válido"
-    ),
+const name = yup.string().max(55, "Debe tener menos de 55 caracteres")
+const email = yup
+  .string()
+  .email("El correo electrónico proporcionado no es válido")
+const phone = yup
+  .string()
+  .transform(removeWhitespaces)
+  // Avoid empty string phones to cause a validation error because of the regExp match
+  .transform(setUndefinedIfEmptyString)
+  .matches(
+    /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
+    "El número de teléfono proporcionado no es válido"
+  )
+
+export const addContactValidation = yup.object().shape({
+  name: name.required(requiredErrorText),
+  email: email.required(requiredErrorText),
+  phone,
 })
+
+export const updateContactValidation = yup
+  .object()
+  .shape({ email, name, phone })
 
 export const filterValidation = yup
   .string()

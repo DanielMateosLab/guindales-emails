@@ -14,7 +14,7 @@ import CloseIcon from "@material-ui/icons/Close"
 import TextField from "client/common/TextField"
 import { Form, Formik, FormikHelpers } from "formik"
 import { forwardRef, useState } from "react"
-import { contactValidation } from "utils/validation"
+import { addContactValidation } from "utils/validation"
 import AddContactButton from "./AddContactButton"
 import { useAddContactMutation } from "./contactsApiSlice"
 import NewContactCreatedText from "./NewContactCreatedText"
@@ -36,8 +36,7 @@ const AddContactDialog: React.FC = ({}) => {
     setOpen(false)
   }
 
-  const [addContact, { isLoading, isError, isSuccess, data }] =
-    useAddContactMutation()
+  const [addContact, { isLoading, isError, data }] = useAddContactMutation()
 
   const [hasFieldErrors, setHasFieldErrors] = useState(false)
 
@@ -69,7 +68,7 @@ const AddContactDialog: React.FC = ({}) => {
       >
         <Formik
           initialValues={formInitialValues}
-          validationSchema={contactValidation}
+          validationSchema={addContactValidation}
           onSubmit={handleSubmit}
         >
           {(formik) => (
