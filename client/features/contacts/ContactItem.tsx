@@ -15,8 +15,10 @@ const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => {
   const shortenEmail = (email: string): string =>
     email.slice(0, 25).concat("...")
 
-  const [deleteContact, { isLoading: deleteIsLoading }] =
-    useDeleteContactByIdMutation()
+  const [
+    deleteContact,
+    { isLoading: deleteIsLoading, isError: deleteIsError },
+  ] = useDeleteContactByIdMutation()
 
   const dispatch = useAppDispatch()
 
@@ -47,6 +49,12 @@ const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => {
           <Typography variant="body2" color="secondary">
             {contact.phone}
           </Typography>
+
+          {deleteIsError && (
+            <Typography variant="body2" color="error">
+              No se ha podido eliminar el contacto.
+            </Typography>
+          )}
         </div>
         <div className="action-buttons">
           <IconButton
@@ -90,7 +98,7 @@ const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => {
             }
             .contact-details {
               display: grid;
-              grid-template-columns: 2fr 3fr 1fr;
+              grid-template-columns: 2fr 3fr 1fr max-content;
               align-items: center;
               gap: 1rem;
             }
