@@ -39,7 +39,9 @@ const CreateOrUpdateContactDialog: React.FC<{
     openDialog: React.MouseEventHandler<HTMLButtonElement>
   ) => JSX.Element
 }> = ({ contact, children }) => {
-  const formInitialValues = contact
+  const isUpdate = !!contact
+
+  const formInitialValues = isUpdate
     ? { name: contact.name, email: contact.email, phone: contact.phone || "" }
     : { name: "", email: "", phone: "" }
 
@@ -51,7 +53,7 @@ const CreateOrUpdateContactDialog: React.FC<{
   const theme = useTheme()
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
 
-  const [addOrUpdateContact, { isLoading, isError, data }] = contact
+  const [addOrUpdateContact, { isLoading, isError, data }] = isUpdate
     ? useUpdateContactByIdMutation()
     : useAddContactMutation()
 
@@ -61,7 +63,7 @@ const CreateOrUpdateContactDialog: React.FC<{
     values: typeof formInitialValues,
     { setSubmitting, setFieldError }: FormikHelpers<typeof formInitialValues>
   ) => {
-    const mutationPayload = contact
+    const mutationPayload = isUpdate
       ? { _id: contact._id, updateData: values }
       : values
 
@@ -110,7 +112,7 @@ const CreateOrUpdateContactDialog: React.FC<{
                     component="h1"
                     className="app-bar-title dialog-title"
                   >
-                    {contact ? "Editar" : "Nuevo"} Contacto
+                    {isUpdate ? "Editar" : "Nuevo"} Contacto
                   </Typography>
 
                   <Button
@@ -139,7 +141,7 @@ const CreateOrUpdateContactDialog: React.FC<{
 
                 {data && (
                   <NewContactCreatedOrUpdatedText
-                    updated={!!contact}
+                    updated={isUpdate}
                     contact={data}
                   />
                 )}
@@ -147,7 +149,7 @@ const CreateOrUpdateContactDialog: React.FC<{
                 {isError && !hasFieldErrors && (
                   <Typography color="error">
                     Debido a un error desconocido no se ha podido{" "}
-                    {contact ? "modificar" : "añadir"} el usuario. Vuelve a
+                    {isUpdate ? "modificar" : "añadir"} el usuario. Vuelve a
                     intentarlo más tarde.
                   </Typography>
                 )}
