@@ -8,6 +8,7 @@ import { deleteContactResultById } from "client/features/contacts/contactResults
 import React from "react"
 import { Contact } from "utils/types"
 import { useDeleteContactByIdMutation } from "./contactsApiSlice"
+import CreateOrUpdateContactDialog from "./CreateOrUpdateContactDialog"
 
 const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => {
   const email = contact.email
@@ -57,14 +58,20 @@ const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => {
           )}
         </div>
         <div className="action-buttons">
-          <IconButton
-            color="secondary"
-            aria-label="update-contact"
-            size="small"
-            className="first-button"
-          >
-            <EditIcon />
-          </IconButton>
+          <CreateOrUpdateContactDialog contact={contact}>
+            {(openDialog) => (
+              <IconButton
+                color="secondary"
+                aria-label="update-contact"
+                size="small"
+                className="first-button"
+                onClick={openDialog}
+              >
+                <EditIcon />
+              </IconButton>
+            )}
+          </CreateOrUpdateContactDialog>
+
           <IconButton
             color="secondary"
             aria-label="delete-contact"
