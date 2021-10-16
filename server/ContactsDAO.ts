@@ -54,9 +54,9 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
         $set: {
           ...updatedData,
         },
-      }
+      },
+      { returnDocument: "after" }
     )
-
     return result.value
   }
 
