@@ -41,8 +41,6 @@ const CreateOrUpdateContactDialog: React.FC<{
     openDialog: React.MouseEventHandler<HTMLButtonElement>
   ) => JSX.Element
 }> = ({ contact, children }) => {
-  const isUpdate = !!contact
-
   const formInitialValues = contact
     ? { name: contact.name, email: contact.email, phone: contact.phone || "" }
     : { name: "", email: "", phone: "" }
@@ -55,7 +53,7 @@ const CreateOrUpdateContactDialog: React.FC<{
   const theme = useTheme()
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
 
-  const [addOrUpdateContact, { isLoading, isError, data }] = isUpdate
+  const [addOrUpdateContact, { isLoading, isError, data }] = contact
     ? useUpdateContactByIdMutation()
     : useAddContactMutation()
 
@@ -66,15 +64,15 @@ const CreateOrUpdateContactDialog: React.FC<{
     values: typeof formInitialValues,
     { setSubmitting, setFieldError }: FormikHelpers<typeof formInitialValues>
   ) => {
-    const mutationPayload = isUpdate
+    const mutationPayload = contact
       ? { _id: contact._id, updateData: values }
       : values
 
     addOrUpdateContact(mutationPayload as any)
       .unwrap()
-      .then((contact) => {
-        if (isUpdate) {
-          dispatch(updateContactResult(contact))
+      .then((newContact) => {
+        if (contact) {
+          dispatch(updateContactResult(newContact))
         }
       })
       .catch((err) => {
@@ -120,7 +118,7 @@ const CreateOrUpdateContactDialog: React.FC<{
                     component="h1"
                     className="app-bar-title dialog-title"
                   >
-                    {isUpdate ? "Editar" : "Nuevo"} Contacto
+                    {contact ? "Editar" : "Nuevo"} Contacto
                   </Typography>
 
                   <Button
@@ -149,7 +147,7 @@ const CreateOrUpdateContactDialog: React.FC<{
 
                 {data && (
                   <NewContactCreatedOrUpdatedText
-                    updated={isUpdate}
+                    updated={!!contact}
                     contact={data}
                   />
                 )}
@@ -157,7 +155,7 @@ const CreateOrUpdateContactDialog: React.FC<{
                 {isError && !hasFieldErrors && (
                   <Typography color="error">
                     Debido a un error desconocido no se ha podido{" "}
-                    {isUpdate ? "modificar" : "añadir"} el usuario. Vuelve a
+                    {contact ? "modificar" : "añadir"} el usuario. Vuelve a
                     intentarlo más tarde.
                   </Typography>
                 )}
