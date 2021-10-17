@@ -51,6 +51,14 @@ const contactsSlice = createSlice({
 
       state.data.count = count
     },
+    deleteContactResultById(state, action: PayloadAction<string>) {
+      contactsAdapter.removeOne(state.data.contacts, action.payload)
+    },
+    updateContactResult(state, action: PayloadAction<Contact>) {
+      const { _id: id, ...changes } = action.payload
+      contactsAdapter.updateOne(state.data.contacts, { id, changes })
+    },
+
     updatePage(state) {
       state.params.page =
         Math.trunc(state.data.contacts.ids.length / pageSize) + 1
@@ -70,13 +78,6 @@ const contactsSlice = createSlice({
       state.params.page = 1
 
       state.params.filter = action.payload
-    },
-    deleteContactResultById(state, action: PayloadAction<string>) {
-      contactsAdapter.removeOne(state.data.contacts, action.payload)
-    },
-    updateContactResult(state, action: PayloadAction<Contact>) {
-      const { _id: id, ...changes } = action.payload
-      contactsAdapter.updateOne(state.data.contacts, { id, changes })
     },
   },
 })
