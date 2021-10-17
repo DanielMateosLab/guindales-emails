@@ -1,7 +1,12 @@
 import CollectionDAO from "@danielmat/api-utils/dist/CollectionDAO"
 import { Db, ObjectId } from "mongodb"
 import { pageSize } from "utils/config"
-import { Contact, ContactsParams, WithoutId } from "utils/types"
+import {
+  Contact,
+  ContactsParams,
+  UpdateContactData,
+  WithoutId,
+} from "utils/types"
 
 export default class ContactsDAO extends CollectionDAO<Contact> {
   constructor(db: Db) {
@@ -35,6 +40,24 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
     const result = await this.collection.insertOne(contact as any)
 
     return result.insertedId
+  }
+
+  async updateContactById(
+    _id: string,
+    updatedData: UpdateContactData
+  ): Promise<Contact | undefined> {
+    const result = await this.collection.findOneAndUpdate(
+      {
+        _id: new ObjectId(_id) as any,
+      },
+      {
+        $set: {
+          ...updatedData,
+        },
+      },
+      { returnDocument: "after" }
+    )
+    return result.value
   }
 
   /**

@@ -11,13 +11,18 @@ import Dialog from "@material-ui/core/Dialog"
 import Slide from "@material-ui/core/Slide"
 import { TransitionProps } from "@material-ui/core/transitions"
 import CloseIcon from "@material-ui/icons/Close"
+import { useAppDispatch } from "client/common/reduxHooks"
 import TextField from "client/common/TextField"
 import { Form, Formik, FormikHelpers } from "formik"
-import { forwardRef, useState } from "react"
-import { contactValidation } from "utils/validation"
-import AddContactButton from "./AddContactButton"
-import { useAddContactMutation } from "./contactsApiSlice"
-import NewContactCreatedText from "./NewContactCreatedText"
+import React, { forwardRef, useState } from "react"
+import { Contact } from "utils/types"
+import { addContactValidation } from "utils/validation"
+import { updateContactResult } from "./contactResultsSlice"
+import {
+  useAddContactMutation,
+  useUpdateContactByIdMutation,
+} from "./contactsApiSlice"
+import NewContactCreatedOrUpdatedText from "./NewContactCreatedOrUpdatedText"
 import parseFieldErrors from "./parseFieldErrors"
 
 const SlideTransition = forwardRef<
@@ -25,28 +30,51 @@ const SlideTransition = forwardRef<
   TransitionProps & { children?: React.ReactElement }
 >((props, ref) => <Slide direction="up" ref={ref} {...props} />)
 
-const formInitialValues = { name: "", email: "", phone: "" }
+/** Dialog to update or create a new contact.
+ * - If a contact prop is provided it will be updated.
+ * If no contact is provided one will be created.
+ * - Uses Render Props Technique in the children to provide the dialog trigger element.
+ * */
+const CreateOrUpdateContactDialog: React.FC<{
+  contact?: Contact
+  children: (
+    openDialog: React.MouseEventHandler<HTMLButtonElement>
+  ) => JSX.Element
+}> = ({ contact, children }) => {
+  const formInitialValues = contact
+    ? { name: contact.name, email: contact.email, phone: contact.phone || "" }
+    : { name: "", email: "", phone: "" }
 
-const AddContactDialog: React.FC = ({}) => {
   const [open, setOpen] = useState(false)
-  const theme = useTheme()
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
-
   function handleClose() {
     setOpen(false)
   }
 
-  const [addContact, { isLoading, isError, isSuccess, data }] =
-    useAddContactMutation()
+  const theme = useTheme()
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
+
+  const [addOrUpdateContact, { isLoading, isError, data }] = contact
+    ? useUpdateContactByIdMutation()
+    : useAddContactMutation()
 
   const [hasFieldErrors, setHasFieldErrors] = useState(false)
+  const dispatch = useAppDispatch()
 
   const handleSubmit = async (
     values: typeof formInitialValues,
     { setSubmitting, setFieldError }: FormikHelpers<typeof formInitialValues>
   ) => {
-    addContact(values)
+    const mutationPayload = contact
+      ? { _id: contact._id, updateData: values }
+      : values
+
+    addOrUpdateContact(mutationPayload as any)
       .unwrap()
+      .then((newContact) => {
+        if (contact) {
+          dispatch(updateContactResult(newContact))
+        }
+      })
       .catch((err) => {
         setHasFieldErrors(!!err.data.fieldErrors)
         parseFieldErrors(err, setFieldError)
@@ -57,7 +85,7 @@ const AddContactDialog: React.FC = ({}) => {
 
   return (
     <>
-      <AddContactButton onClick={() => setOpen(true)} />
+      {children(() => setOpen(true))}
 
       <Dialog
         open={open}
@@ -69,7 +97,7 @@ const AddContactDialog: React.FC = ({}) => {
       >
         <Formik
           initialValues={formInitialValues}
-          validationSchema={contactValidation}
+          validationSchema={addContactValidation}
           onSubmit={handleSubmit}
         >
           {(formik) => (
@@ -88,9 +116,9 @@ const AddContactDialog: React.FC = ({}) => {
                   <Typography
                     variant="h6"
                     component="h1"
-                    className="app-bar-title add-contact-title"
+                    className="app-bar-title dialog-title"
                   >
-                    Nuevo Contacto
+                    {contact ? "Editar" : "Nuevo"} Contacto
                   </Typography>
 
                   <Button
@@ -104,7 +132,7 @@ const AddContactDialog: React.FC = ({}) => {
                 </Toolbar>
               </AppBar>
 
-              <main className="app-container add-contact-form">
+              <main className="app-container dialog-form">
                 <TextField label="Nombre" name="name" placeholder="Jhon Doe" />
                 <TextField
                   label="Email"
@@ -117,12 +145,18 @@ const AddContactDialog: React.FC = ({}) => {
                   placeholder="34 685 546 387"
                 />
 
-                {data && <NewContactCreatedText {...data} />}
+                {data && (
+                  <NewContactCreatedOrUpdatedText
+                    updated={!!contact}
+                    contact={data}
+                  />
+                )}
 
                 {isError && !hasFieldErrors && (
                   <Typography color="error">
-                    Debido a un error desconocido no se ha podido añadir el
-                    usuario. Vuelve a intentarlo más tarde.
+                    Debido a un error desconocido no se ha podido{" "}
+                    {contact ? "modificar" : "añadir"} el usuario. Vuelve a
+                    intentarlo más tarde.
                   </Typography>
                 )}
               </main>
@@ -131,11 +165,11 @@ const AddContactDialog: React.FC = ({}) => {
         </Formik>
       </Dialog>
       <style global jsx>{`
-        .add-contact-title {
+        .dialog-title {
           margin-inline: 1rem;
         }
 
-        .add-contact-form {
+        .dialog-form {
           display: flex;
           flex-direction: column;
           padding: 1rem;
@@ -144,7 +178,7 @@ const AddContactDialog: React.FC = ({}) => {
           margin: auto;
         }
 
-        .add-contact-form label {
+        .dialog-form label {
           color: ${theme.palette.secondary.dark};
           margin-bottom: 0.25rem;
         }
@@ -153,4 +187,4 @@ const AddContactDialog: React.FC = ({}) => {
   )
 }
 
-export default AddContactDialog
+export default CreateOrUpdateContactDialog

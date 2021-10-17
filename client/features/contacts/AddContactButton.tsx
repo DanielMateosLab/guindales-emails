@@ -2,7 +2,7 @@ import { Fab } from "@material-ui/core"
 import { Add } from "@material-ui/icons"
 
 interface Props {
-  onClick: () => void
+  onClick: React.MouseEventHandler<HTMLButtonElement>
 }
 const AddContactButton: React.FC<Props> = ({ onClick }) => {
   return (

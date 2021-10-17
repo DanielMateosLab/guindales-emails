@@ -3,11 +3,15 @@ import { Done } from "@material-ui/icons"
 import theme from "client/app/theme"
 import { Contact } from "utils/types"
 
-const NewContactCreatedText: React.FC<Contact> = ({ name, email, phone }) => (
+const NewContactCreatedOrUpdatedText: React.FC<{
+  contact: Contact
+  updated?: boolean
+}> = ({ updated, contact: { name, email, phone } }) => (
   <div className="root">
     <Done style={{ color: theme.palette.success.dark }} fontSize="large" />
     <Typography>
-      Se ha añadido correctamente el contacto <b>{name} </b>
+      Se ha {updated ? "modificado" : "añadido"} correctamente el contacto{" "}
+      <b>{name} </b>
       con email <b> {email}</b>
       {phone && (
         <span>
@@ -30,4 +34,4 @@ const NewContactCreatedText: React.FC<Contact> = ({ name, email, phone }) => (
   </div>
 )
 
-export default NewContactCreatedText
+export default NewContactCreatedOrUpdatedText

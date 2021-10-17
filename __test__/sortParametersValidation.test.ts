@@ -27,7 +27,7 @@ describe("Sort parameters validation", () => {
           order: 1,
         },
       })
-      expect(result).toBeUndefined()
+      expect(result).toBeDefined()
     } catch (e: any) {
       expect(e.name).toEqual("ValidationError")
     }
@@ -41,7 +41,7 @@ describe("Sort parameters validation", () => {
           order: 3,
         },
       })
-      expect(result).toBeUndefined()
+      expect(result).toBeDefined()
     } catch (e: any) {
       expect(e.name).toEqual("ValidationError")
     }

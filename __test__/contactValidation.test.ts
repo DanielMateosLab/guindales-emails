@@ -1,5 +1,5 @@
 import { Contact, WithoutId } from "utils/types"
-import { contactValidation } from "utils/validation"
+import { addContactValidation } from "utils/validation"
 
 describe("contact validation", () => {
   it("should pass with a valid name and email and no phone", () => {
@@ -9,7 +9,7 @@ describe("contact validation", () => {
       phone: "",
     }
 
-    const isValid = contactValidation.isValidSync(contact)
+    const isValid = addContactValidation.isValidSync(contact)
 
     expect(isValid).toBeTruthy()
   })

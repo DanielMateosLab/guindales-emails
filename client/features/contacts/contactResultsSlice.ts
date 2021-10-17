@@ -1,11 +1,20 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit"
+import { RootState } from "client/app/store"
 import { useAppSelector } from "client/common/reduxHooks"
 import { contactResultsDefaultParams, pageSize } from "utils/config"
 import { Contact, ContactsSortParams } from "utils/types"
 
+const contactsAdapter = createEntityAdapter<Contact>({
+  selectId: (contact) => contact._id,
+})
+
 export interface ContactsState {
   data: {
-    contacts: Contact[]
+    contacts: ReturnType<typeof contactsAdapter.getInitialState>
     count: number
   }
   params: {
@@ -19,7 +28,7 @@ export interface ContactsState {
 const initialState: ContactsState = {
   data: {
     count: 0,
-    contacts: [],
+    contacts: contactsAdapter.getInitialState(),
   },
   params: contactResultsDefaultParams,
 }
@@ -37,17 +46,13 @@ const contactsSlice = createSlice({
         count: number
       }>
     ) {
-      const contactIds = state.data.contacts.map((contact) => contact._id)
-      contacts.forEach((contact) => {
-        if (!contactIds.includes(contact._id)) {
-          state.data.contacts.push(contact)
-        }
-      })
+      contactsAdapter.setMany(state.data.contacts, contacts)
 
       state.data.count = count
     },
     updatePage(state) {
-      state.params.page = Math.trunc(state.data.contacts.length / pageSize) + 1
+      state.params.page =
+        Math.trunc(state.data.contacts.ids.length / pageSize) + 1
     },
     updateSort(state, action: PayloadAction<ContactsSortParams>) {
       state.data = initialState.data
@@ -66,13 +71,11 @@ const contactsSlice = createSlice({
       state.params.filter = action.payload
     },
     deleteContactResultById(state, action: PayloadAction<string>) {
-      const contactIndex = state.data.contacts.findIndex(
-        ({ _id }) => _id == action.payload
-      )
-
-      if (contactIndex >= 0) {
-        state.data.contacts.splice(contactIndex, 1)
-      }
+      contactsAdapter.removeOne(state.data.contacts, action.payload)
+    },
+    updateContactResult(state, action: PayloadAction<Contact>) {
+      const { _id: id, ...changes } = action.payload
+      contactsAdapter.updateOne(state.data.contacts, { id, changes })
     },
   },
 })
@@ -82,13 +85,24 @@ export const {
   updatePage,
   updateSort,
   updateFilter,
+  updateContactResult,
   deleteContactResultById,
 } = contactsSlice.actions
 
 export default contactsSlice.reducer
 
-export const useContactResultsSelector = () =>
-  useAppSelector((state) => state.contactResults.data)
+const contactSelectors = contactsAdapter.getSelectors<RootState>(
+  (state) => state.contactResults.data.contacts
+)
+
+export const useContactResultsSelector: () => {
+  contacts: Contact[]
+  count: number
+} = () =>
+  useAppSelector((state) => ({
+    count: state.contactResults.data.count,
+    contacts: contactSelectors.selectAll(state),
+  }))
 
 export const useParamsOfContactResultsSelector = () =>
   useAppSelector((state) => state.contactResults.params)
