@@ -11,12 +11,13 @@ const email = yup
 const phone = yup
   .string()
   .transform(removeWhitespaces)
-  // Avoid empty string phones to cause a validation error because of the regExp match
-  .transform(setUndefinedIfEmptyString)
-  .matches(
-    /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
-    "El número de teléfono proporcionado no es válido"
-  )
+  .test("phoneNumber", "El teléfono no es válido", (value) => {
+    const pattern = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
+
+    if (value == undefined || value == "" || pattern.test(value)) return true
+
+    return false
+  })
 
 export const addContactValidation = yup.object().shape({
   name: name.required(requiredErrorText),
