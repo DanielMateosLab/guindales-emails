@@ -43,7 +43,7 @@ const CreateOrUpdateContactDialog: React.FC<{
 }> = ({ contact, children }) => {
   const isUpdate = !!contact
 
-  const formInitialValues = isUpdate
+  const formInitialValues = contact
     ? { name: contact.name, email: contact.email, phone: contact.phone || "" }
     : { name: "", email: "", phone: "" }
 
