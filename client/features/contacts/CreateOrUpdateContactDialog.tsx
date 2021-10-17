@@ -11,11 +11,13 @@ import Dialog from "@material-ui/core/Dialog"
 import Slide from "@material-ui/core/Slide"
 import { TransitionProps } from "@material-ui/core/transitions"
 import CloseIcon from "@material-ui/icons/Close"
+import { useAppDispatch } from "client/common/reduxHooks"
 import TextField from "client/common/TextField"
 import { Form, Formik, FormikHelpers } from "formik"
 import React, { forwardRef, useState } from "react"
 import { Contact } from "utils/types"
 import { addContactValidation } from "utils/validation"
+import { updateContactResult } from "./contactResultsSlice"
 import {
   useAddContactMutation,
   useUpdateContactByIdMutation,
@@ -58,6 +60,7 @@ const CreateOrUpdateContactDialog: React.FC<{
     : useAddContactMutation()
 
   const [hasFieldErrors, setHasFieldErrors] = useState(false)
+  const dispatch = useAppDispatch()
 
   const handleSubmit = async (
     values: typeof formInitialValues,
@@ -69,6 +72,11 @@ const CreateOrUpdateContactDialog: React.FC<{
 
     addOrUpdateContact(mutationPayload as any)
       .unwrap()
+      .then((contact) => {
+        if (isUpdate) {
+          dispatch(updateContactResult(contact))
+        }
+      })
       .catch((err) => {
         setHasFieldErrors(!!err.data.fieldErrors)
         parseFieldErrors(err, setFieldError)
