@@ -17,10 +17,12 @@ const SearchBar: React.FC = () => {
       {isError ? (
         <DatabaseErrorAlert refetch={refetch} />
       ) : (
-        <FoundResultsText isLoading={isLoading} />
+        <FoundResultsText isLoading={isLoading || isFetching} />
       )}
 
-      {isFetching && <LinearProgress color="secondary" className="progress" />}
+      {(isLoading || isFetching) && (
+        <LinearProgress color="secondary" className="progress" />
+      )}
 
       <style jsx>
         {`
