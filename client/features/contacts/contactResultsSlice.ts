@@ -15,6 +15,7 @@ const contactsAdapter = createEntityAdapter<Contact>({
 export interface ContactsState {
   data: {
     contacts: ReturnType<typeof contactsAdapter.getInitialState>
+    // This is the total contacts count in the DB, not the above contacts length.
     count: number
   }
   params: {
