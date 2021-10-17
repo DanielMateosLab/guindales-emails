@@ -45,8 +45,12 @@ const CreateOrUpdateContactDialog: React.FC<{
     ? { name: contact.name, email: contact.email, phone: contact.phone || "" }
     : { name: "", email: "", phone: "" }
 
+  // isNewDialog flag avoids new dialogs from showing success or error messages
+  // from old api calls.
+  const [isNewDialog, setIsNew] = useState(true)
   const [open, setOpen] = useState(false)
   function handleClose() {
+    setIsNew(true)
     setOpen(false)
   }
 
@@ -79,6 +83,8 @@ const CreateOrUpdateContactDialog: React.FC<{
         setHasFieldErrors(!!err.data.fieldErrors)
         parseFieldErrors(err, setFieldError)
       })
+
+    setIsNew(false)
 
     setSubmitting(false)
   }
@@ -145,14 +151,14 @@ const CreateOrUpdateContactDialog: React.FC<{
                   placeholder="34 685 546 387"
                 />
 
-                {data && (
+                {!isNewDialog && data && (
                   <NewContactCreatedOrUpdatedText
                     updated={!!contact}
                     contact={data}
                   />
                 )}
 
-                {isError && !hasFieldErrors && (
+                {!isNewDialog && isError && !hasFieldErrors && (
                   <Typography color="error">
                     Debido a un error desconocido no se ha podido{" "}
                     {contact ? "modificar" : "añadir"} el usuario. Vuelve a
