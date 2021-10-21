@@ -1,18 +1,19 @@
 import { LinearProgress } from "@material-ui/core"
 import DatabaseErrorAlert from "client/common/DatabaseErrorAlert"
+import { HeaderState } from "client/common/Header"
 import useSearchBarContactsQuery from "client/common/useSearchBarContactsQuery"
 import FilterForm from "./FilterForm"
 import FoundResultsText from "./FoundResultsText"
 import SortSettings from "./SortSettings"
 
-const SearchBar: React.FC = () => {
+const SearchBar: React.FC<{ headerState: HeaderState }> = ({ headerState }) => {
   const { isError, refetch, isLoading, isFetching } =
     useSearchBarContactsQuery()
 
   return (
     <section>
-      <FilterForm />
-      <SortSettings />
+      {headerState.search && <FilterForm />}
+      {headerState.sort && <SortSettings />}
 
       {isError ? (
         <DatabaseErrorAlert refetch={refetch} />
