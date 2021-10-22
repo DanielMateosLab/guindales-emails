@@ -1,6 +1,6 @@
 # Guindales Emails
 
-Welcome to Guindales Emails. An email list app where you can manage all your contacts.
+Welcome to Guindales Emails. A mobile-first, responsive, SPA email list app where you can manage all your contacts.
 Feel free to see the live version [here](https://guindales-emails.vercel.app/) or clone the repository and run a local version using the scripts.
 
 ## Tech Stack
