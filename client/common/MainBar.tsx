@@ -1,5 +1,5 @@
 import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core"
-import { FileCopy, Search, Sort } from "@material-ui/icons"
+import { Search, Sort } from "@material-ui/icons"
 import { MenuState, SwitchMenu } from "utils/types"
 
 interface Props {
@@ -26,9 +26,6 @@ const MainBar: React.FC<Props> = ({ menuState, switchMenu }) => (
           aria-label="Mostrar/ocultar menú de orden de resultados"
         >
           <Sort />
-        </IconButton>
-        <IconButton aria-label="Obtener todos los emails">
-          <FileCopy />
         </IconButton>
       </section>
     </Toolbar>
