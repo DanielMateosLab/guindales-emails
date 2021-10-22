@@ -1,12 +1,12 @@
 import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core"
 import { FileCopy, Search, Sort } from "@material-ui/icons"
-import { HeaderDispatch, HeaderState } from "./Header"
+import { MenuState, SwitchMenu } from "utils/types"
 
 interface Props {
-  headerState: HeaderState
-  headerDispatch: HeaderDispatch
+  menuState: MenuState
+  switchMenu: SwitchMenu
 }
-const MainBar: React.FC<Props> = ({ headerState, headerDispatch }) => (
+const MainBar: React.FC<Props> = ({ menuState, switchMenu }) => (
   <AppBar position="relative" component="section">
     <Toolbar>
       <Typography variant="h6" component="h1" className="app-bar-title">
@@ -14,19 +14,15 @@ const MainBar: React.FC<Props> = ({ headerState, headerDispatch }) => (
       </Typography>
       <section className="menu-buttons">
         <IconButton
-          className={headerState.search ? "active" : ""}
-          onClick={() =>
-            headerDispatch({ type: "switchMenu", payload: "search" })
-          }
+          className={menuState.searchMenu ? "active" : ""}
+          onClick={() => switchMenu("searchMenu")}
           aria-label="Mostrar/ocultar menú de búsqueda"
         >
           <Search />
         </IconButton>
         <IconButton
-          className={headerState.sort ? "active" : ""}
-          onClick={() =>
-            headerDispatch({ type: "switchMenu", payload: "sort" })
-          }
+          className={menuState.sortMenu ? "active" : ""}
+          onClick={() => switchMenu("sortMenu")}
           aria-label="Mostrar/ocultar menú de orden de resultados"
         >
           <Sort />

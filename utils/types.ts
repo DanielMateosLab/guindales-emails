@@ -1,3 +1,4 @@
+import { initialMenuState } from "client/common/menuReducer"
 import { ContactsState } from "client/features/contacts/contactResultsSlice"
 
 export interface Contact {
@@ -25,3 +26,13 @@ export type ContactsParams = ContactsState["params"]
 export type ContactsSortParams = Pick<ContactsParams, "sortField" | "sortOrder">
 
 export type UpdateContactData = Partial<WithoutId<Contact>>
+
+// Menu Reducer
+export type MenuState = typeof initialMenuState
+export type MenuReducerAction = {
+  type: "switchMenu"
+  payload: keyof MenuState
+}
+export interface SwitchMenu {
+  (menu: keyof MenuState): void
+}

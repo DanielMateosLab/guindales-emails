@@ -1,35 +1,16 @@
 import theme from "client/app/theme"
 import SearchBar from "client/features/contacts/SearchBar"
-import React, { useReducer } from "react"
+import React from "react"
 import MainBar from "./MainBar"
-
-const initialState = {
-  search: true,
-  sort: true,
-}
-
-export type HeaderState = typeof initialState
-export type HeaderReducerAction = {
-  type: "switchMenu"
-  payload: keyof typeof initialState
-}
-export type HeaderDispatch = React.Dispatch<HeaderReducerAction>
-
-const reducer = (
-  state: typeof initialState,
-  { payload }: HeaderReducerAction
-) => ({
-  ...state,
-  [payload]: !state[payload],
-})
+import { useMenuReducer } from "./menuReducer"
 
 const Header: React.FC = () => {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const { state, switchMenu } = useMenuReducer()
 
   return (
     <header>
-      <MainBar headerState={state} headerDispatch={dispatch} />
-      <SearchBar headerState={state} />
+      <MainBar {...{ menuState: state, switchMenu }} />
+      <SearchBar menuState={state} />
 
       <style jsx>
         {`
