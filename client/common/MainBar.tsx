@@ -1,5 +1,5 @@
 import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core"
-import { FileCopy, Search, SortByAlpha } from "@material-ui/icons"
+import { FileCopy, Search, Sort } from "@material-ui/icons"
 import { HeaderDispatch, HeaderState } from "./Header"
 
 interface Props {
@@ -12,7 +12,7 @@ const MainBar: React.FC<Props> = ({ headerState, headerDispatch }) => (
       <Typography variant="h6" component="h1" className="app-bar-title">
         Emails
       </Typography>
-      <section>
+      <section className="menu-buttons">
         <IconButton
           className={headerState.search ? "active" : ""}
           onClick={() =>
@@ -29,7 +29,7 @@ const MainBar: React.FC<Props> = ({ headerState, headerDispatch }) => (
           }
           aria-label="Mostrar/ocultar menú de orden de resultados"
         >
-          <SortByAlpha />
+          <Sort />
         </IconButton>
         <IconButton aria-label="Obtener todos los emails">
           <FileCopy />
@@ -39,11 +39,19 @@ const MainBar: React.FC<Props> = ({ headerState, headerDispatch }) => (
 
     <style global jsx>
       {`
+        .menu-buttons > button {
+          margin-right: 0.5rem;
+          padding: 8px;
+        }
+        .menu-buttons > button:last-child {
+          margin-right: 0;
+        }
+
         .app-bar-title {
           flex-grow: 1;
         }
         .active {
-          background-color: rgba(0, 0, 0, 0.2);
+          background-color: rgba(0, 0, 0, 0.15) !important;
         }
       `}
     </style>
