@@ -1,34 +1,24 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Guindales Emails
 
-## Getting Started
+Welcome to Guindales Emails. An email list app where you can manage all your contacts.
+Feel free to see the live version [here](https://guindales-emails.vercel.app/) or clone the repository and run a local version using the scripts.
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- Typescript
+- Next.js & React
+- Redux (RTK and RTK Query)
+- Material UI
+- Styled-JSX
+- MongoDB
+- Jest
+- Docker
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Coming soon
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+I recommend having a look at the [MVP Project](https://github.com/DanielMateosLab/guindales-emails/projects/1).
+Some of the features that I will implement soon are:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.tsx`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Fetch all emails results as raw text. This will allow all emails to be copied and pasted in any email service desired.
+- Authentication (and multiple user). At the moment the app is a single email list and is obviously not valid for production use.
+- Tags: to better classify the emails. Useful to manage complex or huge email lists.
