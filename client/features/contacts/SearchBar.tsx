@@ -7,7 +7,7 @@ import FoundResultsText from "./FoundResultsText"
 import SortSettings from "./SortSettings"
 
 const SearchBar: React.FC<{ menuState: MenuState }> = ({ menuState }) => {
-  const { isError, refetch, isLoading, isFetching } =
+  const { isError, refetch, isLoading, isFetching, isUninitialized } =
     useSearchBarContactsQuery()
 
   return (
@@ -18,7 +18,9 @@ const SearchBar: React.FC<{ menuState: MenuState }> = ({ menuState }) => {
       {isError ? (
         <DatabaseErrorAlert refetch={refetch} />
       ) : (
-        <FoundResultsText isLoading={isLoading || isFetching} />
+        <FoundResultsText
+          isLoading={isUninitialized || isLoading || isFetching}
+        />
       )}
 
       {(isLoading || isFetching) && (

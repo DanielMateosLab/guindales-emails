@@ -8,12 +8,10 @@ const FoundResultsText: React.FC<{
 }> = ({ isLoading }) => {
   const { contacts, count } = useContactResultsSelector()
 
-  const [text, setText] = useState("...")
+  const [text, setText] = useState("")
 
   useEffect(() => {
-    if (isLoading) {
-      setText("...")
-    } else if (contacts.length == 0) {
+    if (contacts.length == 0) {
       setText("No se han encontrado contactos.")
     } else {
       setText(`Mostrando ${contacts.length} de ${count} resultados. `)
@@ -22,20 +20,20 @@ const FoundResultsText: React.FC<{
 
   return (
     <article className="found-results">
-      <Typography
-        variant="body2"
-        style={{ color: isLoading ? "transparent" : "inherit" }}
-      >
-        {text}
-        {!isLoading && (
+      {!isLoading && (
+        <Typography variant="body2">
+          {text}
           <Button size="small" className="see-all-button">
             Ver todos
           </Button>
-        )}
-      </Typography>
+        </Typography>
+      )}
 
       <style global jsx>
         {`
+          .found-results {
+            min-height: 1.875rem;
+          }
           .see-all-button {
             color: ${theme.palette.secondary.dark};
           }
