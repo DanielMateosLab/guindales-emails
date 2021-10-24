@@ -1,6 +1,6 @@
-import { Button, Typography } from "@material-ui/core"
-import theme from "client/app/theme"
+import { Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
+import AllContactsDialog from "./AllContactsDialog"
 import { useContactResultsSelector } from "./contactResultsSlice"
 
 const FoundResultsText: React.FC<{
@@ -23,9 +23,7 @@ const FoundResultsText: React.FC<{
       {!isLoading && (
         <Typography variant="body2">
           {text}
-          <Button size="small" className="see-all-button">
-            Ver todos
-          </Button>
+          <AllContactsDialog />
         </Typography>
       )}
 
@@ -33,9 +31,6 @@ const FoundResultsText: React.FC<{
         {`
           .found-results {
             min-height: 1.875rem;
-          }
-          .see-all-button {
-            color: ${theme.palette.secondary.dark};
           }
         `}
       </style>
