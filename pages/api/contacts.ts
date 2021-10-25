@@ -2,7 +2,11 @@ import { MethodNotAllowedError } from "@danielmat/api-utils"
 import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiHandler } from "next"
 import setUpContactsDAO from "server/setUpContactsDAO"
-import { Contact, SuccessContactsResponse } from "utils/types"
+import {
+  Contact,
+  ContactsEmailsResponse,
+  SuccessContactsResponse,
+} from "utils/types"
 import {
   addContactValidation,
   getQueryParamsValidation,
@@ -21,15 +25,18 @@ const handler: NextApiHandler = async (req, res) => {
   }
 }
 
-const getHandler: NextApiHandler<SuccessContactsResponse> = async (
-  req,
-  res
-) => {
+const getHandler: NextApiHandler<
+  SuccessContactsResponse | ContactsEmailsResponse
+> = async (req, res) => {
   const contactsDAO = await setUpContactsDAO()
 
-  const params = await getQueryParamsValidation.validate(req.query)
+  const { allEmails, ...restOfParams } = req.query
 
-  const result = await contactsDAO.getContacts(params)
+  const params = await getQueryParamsValidation.validate(restOfParams)
+
+  const result = allEmails
+    ? await contactsDAO.getAllEmails(params)
+    : await contactsDAO.getContacts(params)
 
   res.status(200).json({ ...result })
 }
