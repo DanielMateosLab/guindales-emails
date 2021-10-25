@@ -3,6 +3,8 @@ import { Db, ObjectId } from "mongodb"
 import { pageSize } from "utils/config"
 import {
   Contact,
+  ContactsEmailsParams,
+  ContactsEmailsResponse,
   ContactsParams,
   UpdateContactData,
   WithoutId,
@@ -32,6 +34,34 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
     const count = await cursor.count()
 
     return { contacts, count }
+  }
+
+  async getAllEmails({
+    filter,
+    sortField = "_id",
+    sortOrder = -1,
+  }: Partial<ContactsEmailsParams>): Promise<ContactsEmailsResponse> {
+    const pipeline = []
+
+    if (filter) {
+      pipeline.push({ $match: { $text: { $search: filter } } })
+    }
+    pipeline.push(
+      { $sort: { [sortField]: sortOrder } },
+      {
+        $group: {
+          _id: null,
+          contacts: { $push: "$email" },
+        },
+      },
+      { $project: { _id: 0 } }
+    )
+
+    const result = (await this.collection
+      .aggregate(pipeline)
+      .next()) as unknown as ContactsEmailsResponse
+
+    return result
   }
 
   /** Adds a contact and returns the generated _id */
