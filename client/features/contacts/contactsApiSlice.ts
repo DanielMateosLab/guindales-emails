@@ -36,7 +36,7 @@ export const contactsApi = createApi({
         url: "contacts",
         params: {
           ...removeDefaultParams(params),
-          allEmails: true,
+          allEmails: 1,
         },
       }),
     }),
