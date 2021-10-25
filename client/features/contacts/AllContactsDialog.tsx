@@ -1,6 +1,7 @@
 import { Button, Dialog } from "@material-ui/core"
 import theme from "client/app/theme"
 import DialogController from "client/common/DialogController"
+import DialogHeader from "client/common/DialogHeader"
 
 const AllContactsDialog: React.FC = () => {
   return (
@@ -15,8 +16,12 @@ const AllContactsDialog: React.FC = () => {
             >
               Ver todos
             </Button>
+
             <Dialog {...dialogProps} fullScreen>
-              Todos los emails
+              <DialogHeader
+                title="Todos los resultados"
+                onClose={dialogProps.onClose}
+              />
             </Dialog>
           </>
         )}
