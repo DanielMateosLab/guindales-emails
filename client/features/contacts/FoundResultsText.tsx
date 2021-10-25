@@ -1,5 +1,6 @@
 import { Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
+import AllContactsDialog from "./AllContactsDialog"
 import { useContactResultsSelector } from "./contactResultsSlice"
 
 const FoundResultsText: React.FC<{
@@ -7,26 +8,32 @@ const FoundResultsText: React.FC<{
 }> = ({ isLoading }) => {
   const { contacts, count } = useContactResultsSelector()
 
-  const [text, setText] = useState("...")
+  const [text, setText] = useState("")
 
   useEffect(() => {
-    if (isLoading) {
-      setText("...")
-    } else if (contacts.length == 0) {
+    if (contacts.length == 0) {
       setText("No se han encontrado contactos.")
     } else {
-      setText(`Mostrando ${contacts.length} de ${count} emails encontrados`)
+      setText(`Mostrando ${contacts.length} de ${count} resultados. `)
     }
   }, [contacts.length, count, isLoading])
 
   return (
     <article className="found-results">
-      <Typography
-        variant="body2"
-        style={{ color: isLoading ? "transparent" : "inherit" }}
-      >
-        {text}
-      </Typography>
+      {!isLoading && (
+        <Typography variant="body2">
+          {text}
+          <AllContactsDialog />
+        </Typography>
+      )}
+
+      <style global jsx>
+        {`
+          .found-results {
+            min-height: 1.875rem;
+          }
+        `}
+      </style>
     </article>
   )
 }

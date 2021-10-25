@@ -13,6 +13,10 @@ export interface SuccessContactsResponse {
   count: number
 }
 
+export interface ContactsEmailsResponse {
+  contacts: string[]
+}
+
 export interface FailContactsResponse<FieldErrors = undefined> {
   message: string
   /** Used in forms field validation or to give more details */
@@ -22,6 +26,7 @@ export interface FailContactsResponse<FieldErrors = undefined> {
 export type WithoutId<T> = Omit<T, "_id">
 
 export type ContactsParams = ContactsState["params"]
+export type ContactsEmailsParams = Omit<ContactsState["params"], "page">
 
 export type ContactsSortParams = Pick<ContactsParams, "sortField" | "sortOrder">
 

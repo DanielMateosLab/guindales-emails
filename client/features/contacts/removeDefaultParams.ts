@@ -2,7 +2,7 @@ import { contactResultsDefaultParams as defaultParams } from "utils/config"
 import { ContactsParams } from "utils/types"
 
 const removeDefaultParams = (
-  params: ContactsParams
+  params: Partial<ContactsParams>
 ): Partial<ContactsParams> => {
   let param: keyof typeof params
   let newParams = { ...params }
