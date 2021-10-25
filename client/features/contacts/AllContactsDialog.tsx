@@ -1,9 +1,15 @@
-import { Button, Dialog } from "@material-ui/core"
+import { Button, Dialog, LinearProgress, Typography } from "@material-ui/core"
 import theme from "client/app/theme"
+import DatabaseErrorAlert from "client/common/DatabaseErrorAlert"
 import DialogController from "client/common/DialogController"
 import DialogHeader from "client/common/DialogHeader"
+import { useGetContactsEmailsParamsSelector } from "./contactResultsSlice"
+import { useGetContactsEmailsQuery } from "./contactsApiSlice"
 
 const AllContactsDialog: React.FC = () => {
+  const params = useGetContactsEmailsParamsSelector()
+  const { data, isError, refetch } = useGetContactsEmailsQuery(params)
+
   return (
     <>
       <DialogController>
@@ -22,6 +28,13 @@ const AllContactsDialog: React.FC = () => {
                 title="Todos los resultados"
                 onClose={dialogProps.onClose}
               />
+              {!data && !isError && <LinearProgress color="secondary" />}
+
+              <main className="app-container">
+                {data && <Typography> {data.contacts.join("; ")} </Typography>}
+
+                {isError && <DatabaseErrorAlert refetch={refetch} />}
+              </main>
             </Dialog>
           </>
         )}
