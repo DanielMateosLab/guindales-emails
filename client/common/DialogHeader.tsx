@@ -20,16 +20,21 @@ const DialogHeader: React.FC<Props> = ({ title, onClose, children }) => (
         <Close />
       </IconButton>
 
-      <Typography
-        variant="h6"
-        component="h1"
-        className="app-bar-title dialog-title"
-      >
+      <Typography variant="h6" component="h1" className="dialog-title">
         {title}
       </Typography>
 
       {children}
     </Toolbar>
+
+    <style global jsx>
+      {`
+        .dialog-title {
+          margin-inline: 1rem;
+          flex-grow: 1;
+        }
+      `}
+    </style>
   </AppBar>
 )
 

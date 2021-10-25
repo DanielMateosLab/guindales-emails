@@ -147,10 +147,6 @@ const CreateOrUpdateContactDialog: React.FC<{
           </Dialog>
 
           <style global jsx>{`
-            .dialog-title {
-              margin-inline: 1rem;
-            }
-
             .dialog-form {
               display: flex;
               flex-direction: column;
