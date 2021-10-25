@@ -1,15 +1,7 @@
-import {
-  AppBar,
-  Button,
-  IconButton,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core"
+import { Button, Typography, useMediaQuery, useTheme } from "@material-ui/core"
 import Dialog from "@material-ui/core/Dialog"
-import CloseIcon from "@material-ui/icons/Close"
 import DialogController from "client/common/DialogController"
+import DialogHeader from "client/common/DialogHeader"
 import { useAppDispatch } from "client/common/reduxHooks"
 import TextField from "client/common/TextField"
 import { Form, Formik, FormikHelpers } from "formik"
@@ -47,7 +39,8 @@ const CreateOrUpdateContactDialog: React.FC<{
     : { name: "", email: "", phone: "" }
   const [hasFieldErrors, setHasFieldErrors] = useState(false)
 
-  // Get store state and functions
+  // Get store state and functions. If there is a contact we call the update
+  // mutation, if not, the add mutation
   const [addOrUpdateContact, { isLoading, isError, data }] = contact
     ? useUpdateContactByIdMutation()
     : useAddContactMutation()
@@ -101,35 +94,19 @@ const CreateOrUpdateContactDialog: React.FC<{
 
                 return (
                   <Form>
-                    <AppBar position="relative" component="section">
-                      <Toolbar>
-                        <IconButton
-                          edge="start"
-                          color="inherit"
-                          onClick={dialogHelpers.onClose}
-                          aria-label="cerrar"
-                        >
-                          <CloseIcon />
-                        </IconButton>
-
-                        <Typography
-                          variant="h6"
-                          component="h1"
-                          className="app-bar-title dialog-title"
-                        >
-                          {contact ? "Editar" : "Nuevo"} Contacto
-                        </Typography>
-
-                        <Button
-                          autoFocus
-                          color="inherit"
-                          type="submit"
-                          disabled={formik.isSubmitting || isLoading}
-                        >
-                          Guardar
-                        </Button>
-                      </Toolbar>
-                    </AppBar>
+                    <DialogHeader
+                      onClose={dialogHelpers.onClose}
+                      title={(contact ? "Editar" : "Nuevo") + " Contacto"}
+                    >
+                      <Button
+                        autoFocus
+                        color="inherit"
+                        type="submit"
+                        disabled={formik.isSubmitting || isLoading}
+                      >
+                        Guardar
+                      </Button>
+                    </DialogHeader>
 
                     <main className="app-container dialog-form">
                       <TextField
