@@ -2,6 +2,11 @@ import { Slide } from "@material-ui/core"
 import { forwardRef, useState } from "react"
 import { TransitionProps } from "react-transition-group/Transition"
 
+const TransitionComponent = forwardRef<
+  unknown,
+  TransitionProps & { children?: React.ReactElement }
+>((props, ref) => <Slide direction="up" ref={ref} {...props} />)
+
 type Props = {
   children: (dialogHelpers: {
     openDialog: () => void
@@ -20,11 +25,6 @@ const DialogController: React.FC<Props> = ({ children }) => {
   function onClose() {
     setOpen(false)
   }
-
-  const TransitionComponent = forwardRef<
-    unknown,
-    TransitionProps & { children?: React.ReactElement }
-  >((props, ref) => <Slide direction="up" ref={ref} {...props} />)
 
   return <>{children({ openDialog, onClose, open, TransitionComponent })}</>
 }
