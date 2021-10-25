@@ -2,6 +2,7 @@ import { FullTagDescription } from "@reduxjs/toolkit/dist/query/endpointDefiniti
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {
   Contact,
+  ContactsEmailsParams,
   ContactsParams,
   SuccessContactsResponse,
   UpdateContactData,
@@ -25,6 +26,15 @@ export const contactsApi = createApi({
         params: removeDefaultParams(params),
       }),
       providesTags: [contactListTag],
+    }),
+    getContactsEmails: builder.query<string[], ContactsEmailsParams>({
+      query: (params) => ({
+        url: "contacts",
+        params: {
+          ...removeDefaultParams(params),
+          allEmails: true,
+        },
+      }),
     }),
     addContact: builder.mutation<Contact, WithoutId<Contact>>({
       query: (contact) => ({
@@ -60,4 +70,5 @@ export const {
   useAddContactMutation,
   useDeleteContactByIdMutation,
   useUpdateContactByIdMutation,
+  useGetContactsEmailsQuery,
 } = contactsApi

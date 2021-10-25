@@ -22,6 +22,7 @@ export interface FailContactsResponse<FieldErrors = undefined> {
 export type WithoutId<T> = Omit<T, "_id">
 
 export type ContactsParams = ContactsState["params"]
+export type ContactsEmailsParams = Omit<ContactsState["params"], "page">
 
 export type ContactsSortParams = Pick<ContactsParams, "sortField" | "sortOrder">
 
