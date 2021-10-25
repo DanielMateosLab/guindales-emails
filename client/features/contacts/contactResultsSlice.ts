@@ -108,3 +108,12 @@ export const useContactResultsSelector: () => {
 
 export const useParamsOfContactResultsSelector = () =>
   useAppSelector((state) => state.contactResults.params)
+
+export const useGetContactsEmailsParamsSelector = () =>
+  useAppSelector(
+    ({
+      contactResults: {
+        params: { page, ...restOfParams },
+      },
+    }) => restOfParams
+  )
