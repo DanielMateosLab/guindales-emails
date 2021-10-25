@@ -13,6 +13,10 @@ export interface SuccessContactsResponse {
   count: number
 }
 
+export interface ContactsEmailsResponse {
+  contacts: string[]
+}
+
 export interface FailContactsResponse<FieldErrors = undefined> {
   message: string
   /** Used in forms field validation or to give more details */

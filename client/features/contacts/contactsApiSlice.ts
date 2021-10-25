@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {
   Contact,
   ContactsEmailsParams,
+  ContactsEmailsResponse,
   ContactsParams,
   SuccessContactsResponse,
   UpdateContactData,
@@ -27,7 +28,10 @@ export const contactsApi = createApi({
       }),
       providesTags: [contactListTag],
     }),
-    getContactsEmails: builder.query<string[], ContactsEmailsParams>({
+    getContactsEmails: builder.query<
+      ContactsEmailsResponse,
+      ContactsEmailsParams
+    >({
       query: (params) => ({
         url: "contacts",
         params: {
