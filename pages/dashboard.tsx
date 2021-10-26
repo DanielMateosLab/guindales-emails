@@ -1,22 +1,23 @@
 import CheckingSession from "client/common/CheckingSession"
+import useIsAuthenticated from "client/common/useIsAuthenticated"
 import AddContactButton from "client/features/contacts/AddContactButton"
 import ContactListContainer from "client/features/contacts/ContactListContainer"
 import CreateOrUpdateContactDialog from "client/features/contacts/CreateOrUpdateContactDialog"
-import { useSession } from "next-auth/react"
 
-export default function Dashboard() {
-  // TODO: redirect to index page if there is no session
-  // OR return the checking credentials component as body and redirect only if it fails
-  const { status } = useSession({ required: false })
+const Dashboard: React.FC = () => {
+  const isAuthenticated = useIsAuthenticated()
 
-  if (status == "loading") return <CheckingSession />
+  if (isAuthenticated)
+    return (
+      <div>
+        <ContactListContainer />
+        <CreateOrUpdateContactDialog>
+          {(openDialog) => <AddContactButton onClick={openDialog} />}
+        </CreateOrUpdateContactDialog>
+      </div>
+    )
 
-  return (
-    <div>
-      <ContactListContainer />
-      <CreateOrUpdateContactDialog>
-        {(openDialog) => <AddContactButton onClick={openDialog} />}
-      </CreateOrUpdateContactDialog>
-    </div>
-  )
+  return <CheckingSession redirectUnauthenticated />
 }
+
+export default Dashboard
