@@ -1,9 +1,10 @@
-import Header from "client/common/Header"
+import CheckingSession from "client/common/CheckingSession"
+import { useSession } from "next-auth/react"
 
 export default function Home() {
-  return (
-    <div>
-      <Header />
-    </div>
-  )
+  const { status } = useSession({ required: false })
+
+  if (status == "loading") return <CheckingSession />
+
+  return <div className="app-container"></div>
 }
