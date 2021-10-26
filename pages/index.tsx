@@ -1,10 +1,10 @@
+import useIsAuthenticated from "client/common/useIsAuthenticated"
 import CheckingSession from "client/features/authentication/CheckingSession"
-import { useSession } from "next-auth/react"
 
 export default function Home() {
-  const { status } = useSession({ required: false })
+  const isAuthenticated = useIsAuthenticated()
 
-  if (status == "loading") return <CheckingSession />
+  if (!isAuthenticated) return <div className="app-container"></div>
 
-  return <div className="app-container"></div>
+  return <CheckingSession redirectAuthenticated />
 }
