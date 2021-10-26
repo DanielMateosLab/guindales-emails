@@ -1,4 +1,4 @@
-import CheckingSession from "client/common/CheckingSession"
+import CheckingSession from "client/features/authentication/CheckingSession"
 import { useSession } from "next-auth/react"
 
 export default function Home() {

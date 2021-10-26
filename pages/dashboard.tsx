@@ -1,5 +1,5 @@
-import CheckingSession from "client/common/CheckingSession"
 import useIsAuthenticated from "client/common/useIsAuthenticated"
+import CheckingSession from "client/features/authentication/CheckingSession"
 import AddContactButton from "client/features/contacts/AddContactButton"
 import ContactListContainer from "client/features/contacts/ContactListContainer"
 import CreateOrUpdateContactDialog from "client/features/contacts/CreateOrUpdateContactDialog"
