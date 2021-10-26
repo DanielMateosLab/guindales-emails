@@ -17,19 +17,6 @@ const ContactListContainer: React.FC = () => {
       <ContactList contacts={contacts} />
 
       {!isUninitialized && !allContactsShown && <ShowMoreButton />}
-      <style global jsx>
-        {`
-          .app-container {
-            padding: 0.5rem 1rem 1rem 1rem;
-          }
-
-          @media screen and (min-width: 600px) {
-            .app-container {
-              padding: 0.5rem 2rem;
-            }
-          }
-        `}
-      </style>
     </main>
   )
 }
