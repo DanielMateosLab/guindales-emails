@@ -1,4 +1,5 @@
 import { Typography } from "@material-ui/core"
+import ListItem from "client/common/ListItem"
 import useIsAuthenticated from "client/common/useIsAuthenticated"
 import CheckingSession from "client/features/authentication/CheckingSession"
 
@@ -7,28 +8,26 @@ export default function Home() {
 
   if (!isAuthenticated)
     return (
-      <div className="app-container">
-        <Typography variant="h4">
+      <main className="app-container">
+        <Typography variant="h4" className="home-title">
           Gestiona fácilmente todas tus listas de correo
         </Typography>
         <Typography variant="h5">
           <ul>
-            <li> En un solo sitio</li>
-            <li> Siempre accesible</li>
-            <li> Multiplataforma</li>
+            <ListItem> En un solo sitio</ListItem>
+            <ListItem> Siempre accesible</ListItem>
+            <ListItem> Multiplataforma</ListItem>
           </ul>
         </Typography>
 
         <style jsx>
           {`
-            li {
-              list-style-type: none;
-              padding-left: 1rem;
+            :global(.home-title) {
               margin: 1rem 0;
             }
           `}
         </style>
-      </div>
+      </main>
     )
 
   return <CheckingSession redirectAuthenticated />
