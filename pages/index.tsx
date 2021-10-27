@@ -1,7 +1,8 @@
-import { Typography } from "@material-ui/core"
+import { Button, Typography } from "@material-ui/core"
 import ListItem from "client/common/ListItem"
 import useIsAuthenticated from "client/common/useIsAuthenticated"
 import CheckingSession from "client/features/authentication/CheckingSession"
+import { signIn } from "next-auth/react"
 
 export default function Home() {
   const isAuthenticated = useIsAuthenticated()
@@ -12,6 +13,7 @@ export default function Home() {
         <Typography variant="h4" className="home-title">
           Gestiona fácilmente todas tus listas de correo
         </Typography>
+
         <Typography variant="h5">
           <ul>
             <ListItem> En un solo sitio</ListItem>
@@ -20,9 +22,31 @@ export default function Home() {
           </ul>
         </Typography>
 
+        <Button
+          className="login-button"
+          color="primary"
+          variant="contained"
+          onClick={() => signIn()}
+        >
+          Acceder
+        </Button>
+
         <style jsx>
           {`
-            :global(.home-title) {
+            main {
+              max-width: 600px;
+              margin: 0 auto;
+            }
+          `}
+        </style>
+        <style global jsx>
+          {`
+            .login-button {
+              display: block;
+              margin: 2rem auto 0 auto;
+            }
+
+            .home-title {
               margin: 1rem 0;
             }
           `}
