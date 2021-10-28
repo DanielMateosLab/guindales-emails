@@ -1,5 +1,6 @@
 import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core"
-import { Search, Sort } from "@material-ui/icons"
+import { ExitToApp, Search, Sort } from "@material-ui/icons"
+import { signOut } from "next-auth/react"
 import { MenuState, SwitchMenu } from "utils/types"
 import useIsAuthenticated from "./useIsAuthenticated"
 
@@ -31,6 +32,9 @@ const MainBar: React.FC<Props> = ({ menuState, switchMenu }) => {
               aria-label="Mostrar/ocultar menú de orden de resultados"
             >
               <Sort />
+            </IconButton>
+            <IconButton onClick={() => signOut()} aria-label="Cerrar sesión">
+              <ExitToApp />
             </IconButton>
           </section>
         )}
