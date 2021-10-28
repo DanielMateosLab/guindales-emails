@@ -14,12 +14,10 @@ export default function Home() {
           Gestiona fácilmente todas tus listas de correo
         </Typography>
 
-        <Typography variant="h5">
-          <ul>
-            <ListItem> En un solo sitio</ListItem>
-            <ListItem> Siempre accesible</ListItem>
-            <ListItem> Multiplataforma</ListItem>
-          </ul>
+        <Typography variant="h5" className="features">
+          <ListItem>En un solo sitio</ListItem>
+          <ListItem>Siempre accesible</ListItem>
+          <ListItem>Multiplataforma</ListItem>
         </Typography>
 
         <Button
@@ -34,20 +32,18 @@ export default function Home() {
         <style jsx>
           {`
             main {
-              max-width: 600px;
-              margin: 0 auto;
+              text-align: center;
             }
           `}
         </style>
         <style global jsx>
           {`
-            .login-button {
-              display: block;
-              margin: 2rem auto 0 auto;
-            }
-
             .home-title {
               margin: 1rem 0;
+            }
+            .features {
+              max-width: max-content;
+              margin: 2rem auto;
             }
           `}
         </style>

@@ -1,15 +1,14 @@
 import { Done } from "@material-ui/icons"
 
 const ListItem: React.FC = ({ children }) => (
-  <li>
+  <div>
     <Done />
     {children}
 
     <style jsx>
       {`
-        li {
+        div {
           list-style-type: none;
-          padding-left: 1rem;
           margin: 1rem 0;
           display: flex;
           align-items: center;
@@ -17,7 +16,7 @@ const ListItem: React.FC = ({ children }) => (
         }
       `}
     </style>
-  </li>
+  </div>
 )
 
 export default ListItem
