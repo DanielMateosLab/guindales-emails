@@ -3,6 +3,7 @@ import { ExitToApp, Search, Sort } from "@material-ui/icons"
 import { signOut } from "next-auth/react"
 import { MenuState, SwitchMenu } from "utils/types"
 import useIsAuthenticated from "./useIsAuthenticated"
+import Username from "./Username"
 
 interface Props {
   menuState: MenuState
@@ -14,9 +15,11 @@ const MainBar: React.FC<Props> = ({ menuState, switchMenu }) => {
   return (
     <AppBar position="relative" component="section">
       <Toolbar>
-        <Typography variant="h6" component="h1" className="app-bar-title">
+        <Typography variant="h6" component="h1">
           Emails
         </Typography>
+        <Username />
+
         {isAuthenticated && (
           <section className="menu-buttons">
             <IconButton
