@@ -14,6 +14,11 @@ const auth: NextApiHandler = async (req, res) =>
       GitHubProvider({
         clientId: process.env.GITHUB_ID,
         clientSecret: process.env.GITHUB_SECRET,
+        profile: ({ id, name, email }) => ({
+          name,
+          email,
+          id: id as string,
+        }),
       }),
       EmailProvider({
         server: process.env.EMAIL_SERVER,
