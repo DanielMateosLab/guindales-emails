@@ -1,9 +1,10 @@
-import { Button, Typography, useMediaQuery, useTheme } from "@material-ui/core"
+import { Button, Typography, useTheme } from "@material-ui/core"
 import Dialog from "@material-ui/core/Dialog"
 import DialogController from "client/common/DialogController"
 import DialogHeader from "client/common/DialogHeader"
 import { useAppDispatch } from "client/common/reduxHooks"
 import TextField from "client/common/TextField"
+import useIsSmallScreen from "client/common/useIsSmallScreen"
 import { Form, Formik, FormikHelpers } from "formik"
 import React, { useState } from "react"
 import { Contact } from "utils/types"
@@ -27,7 +28,7 @@ const CreateOrUpdateContactDialog: React.FC<{
 }> = ({ contact, children }) => {
   // Declare style vars
   const theme = useTheme()
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
+  const isSmallScreen = useIsSmallScreen()
 
   // Initiate form state
   const formInitialValues = contact
