@@ -8,6 +8,13 @@ export interface Contact {
   phone?: string
 }
 
+export interface User {
+  _id: string
+  name?: string
+  email?: string
+  contacts: Contact[]
+}
+
 export interface SuccessContactsResponse {
   contacts: Contact[]
   count: number
