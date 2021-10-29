@@ -10,6 +10,17 @@ const auth: NextApiHandler = async (req, res) =>
     adapter: MongoDBAdapter({
       db: await connectToDb(),
     }),
+    callbacks: {
+      async session({ session, user }) {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            _id: user.id,
+          },
+        }
+      },
+    },
     providers: [
       GitHubProvider({
         clientId: process.env.GITHUB_ID,
