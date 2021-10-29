@@ -1,5 +1,5 @@
 import CollectionDAO from "@danielmat/api-utils/dist/CollectionDAO"
-import { Db, ObjectId } from "mongodb"
+import { Db, FilterQuery, ObjectId } from "mongodb"
 import { pageSize } from "utils/config"
 import {
   Contact,
@@ -15,17 +15,20 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
     super(db, "contacts")
   }
 
-  async getContacts({
-    filter,
-    sortField = "_id",
-    sortOrder = -1,
-    page = 1,
-  }: Partial<ContactsParams>): Promise<{
+  async getContactsByUserId(
+    user_id: string,
+    {
+      filter,
+      sortField = "_id",
+      sortOrder = -1,
+      page = 1,
+    }: Partial<ContactsParams>
+  ): Promise<{
     contacts: Contact[]
     count: number
   }> {
     const cursor = this.collection
-      .find(filter ? { $text: { $search: filter } } : {})
+      .find(processFilterQuery(user_id, filter))
       .sort({ [sortField]: sortOrder })
       .skip((page - 1) * pageSize)
       .limit(pageSize)
@@ -36,15 +39,14 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
     return { contacts, count }
   }
 
-  async getAllEmails({
-    filter,
-    sortField = "_id",
-    sortOrder = -1,
-  }: Partial<ContactsEmailsParams>): Promise<ContactsEmailsResponse> {
+  async getAllEmailsByUserId(
+    user_id: string,
+    { filter, sortField = "_id", sortOrder = -1 }: Partial<ContactsEmailsParams>
+  ): Promise<ContactsEmailsResponse> {
     const pipeline = []
 
     if (filter) {
-      pipeline.push({ $match: { $text: { $search: filter } } })
+      pipeline.push({ $match: processFilterQuery(user_id, filter) })
     }
     pipeline.push(
       { $sort: { [sortField]: sortOrder } },
@@ -62,6 +64,20 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
       .next()) as unknown as ContactsEmailsResponse
 
     return result
+  }
+
+  async getContactUserId(_id: string): Promise<string | undefined> {
+    const result = await this.collection.findOne(
+      { _id },
+      {
+        projection: {
+          _id: 0,
+          user_id: 1,
+        },
+      }
+    )
+
+    return result?.user_id
   }
 
   /** Adds a contact and returns the generated _id */
@@ -101,4 +117,17 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
 
     return result.deletedCount == 1
   }
+}
+
+function processFilterQuery(
+  user_id: string,
+  filter?: string
+): FilterQuery<Contact> {
+  const filterQuery: FilterQuery<Contact> = { user_id }
+
+  if (filter) {
+    filterQuery.$text = { $search: filter }
+  }
+
+  return filterQuery
 }

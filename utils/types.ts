@@ -3,6 +3,7 @@ import { ContactsState } from "client/features/contacts/contactResultsSlice"
 
 export interface Contact {
   _id: string
+  user_id: string
   name: string
   email: string
   phone?: string
@@ -12,7 +13,6 @@ export interface User {
   _id: string
   name?: string
   email?: string
-  contacts: Contact[]
 }
 
 export interface SuccessContactsResponse {
