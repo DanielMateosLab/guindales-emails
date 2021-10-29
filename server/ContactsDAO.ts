@@ -1,3 +1,4 @@
+import { InternalServerError } from "@danielmat/api-utils"
 import CollectionDAO from "@danielmat/api-utils/dist/CollectionDAO"
 import { Db, FilterQuery, ObjectId } from "mongodb"
 import { pageSize } from "utils/config"
@@ -13,6 +14,18 @@ import {
 export default class ContactsDAO extends CollectionDAO<Contact> {
   constructor(db: Db) {
     super(db, "contacts")
+
+    // TODO: move this logic into a compile or deploy hook
+    this.collection.indexes().then((indexes) => {
+      const requiredIndex = "_id_1_name_text_email_text_phone_text"
+
+      const indexNames: string[] = indexes.map((index: any) => index.name)
+      if (!indexNames.includes(requiredIndex)) {
+        throw new InternalServerError(
+          `"contacts" collection is missing the required index "${requiredIndex}"`
+        )
+      }
+    })
   }
 
   async getContactsByUserId(
