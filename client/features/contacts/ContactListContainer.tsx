@@ -7,10 +7,10 @@ import ShowMoreButton from "./ShowMoreButton"
 const ContactListContainer: React.FC = () => {
   useSyncContactResults()
 
-  const { isUninitialized } = useSearchBarContactsQuery()
-
   const { contacts, count } = useContactResultsSelector()
+
   const allContactsShown = contacts.length == count
+  const { isUninitialized } = useSearchBarContactsQuery()
 
   return (
     <main className="app-container">
