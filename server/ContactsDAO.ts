@@ -56,12 +56,8 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
     user_id: ObjectId,
     { filter, sortField = "_id", sortOrder = -1 }: Partial<ContactsEmailsParams>
   ): Promise<ContactsEmailsResponse> {
-    const pipeline = []
-
-    if (filter) {
-      pipeline.push({ $match: processFilterQuery(user_id, filter) })
-    }
-    pipeline.push(
+    const pipeline = [
+      { $match: processFilterQuery(user_id, filter) },
       { $sort: { [sortField]: sortOrder } },
       {
         $group: {
@@ -69,8 +65,8 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
           contacts: { $push: "$email" },
         },
       },
-      { $project: { _id: 0 } }
-    )
+      { $project: { _id: 0 } },
+    ]
 
     const result = (await this.collection
       .aggregate(pipeline)
