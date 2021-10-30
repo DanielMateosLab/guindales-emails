@@ -68,11 +68,13 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
       { $project: { _id: 0 } },
     ]
 
+    // If there are no contacts the result will be an empty {},
+    // so ContactsEmailsResponse is typed as Partial
     const result = (await this.collection
       .aggregate(pipeline)
-      .next()) as unknown as ContactsEmailsResponse
+      .next()) as unknown as ContactsEmailsResponse | null
 
-    return result
+    return result || { contacts: [] }
   }
 
   async getContactUserId(_id: ObjectId): Promise<ObjectId | undefined> {
