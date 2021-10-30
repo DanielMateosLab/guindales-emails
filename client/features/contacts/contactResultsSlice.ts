@@ -6,9 +6,9 @@ import {
 import { RootState } from "client/app/store"
 import { useAppSelector } from "client/common/reduxHooks"
 import { contactResultsDefaultParams, pageSize } from "utils/config"
-import { Contact, ContactsSortParams } from "utils/types"
+import { ContactsSortParams, HttpContact } from "utils/types"
 
-const contactsAdapter = createEntityAdapter<Contact>({
+const contactsAdapter = createEntityAdapter<HttpContact>({
   selectId: (contact) => contact._id,
 })
 
@@ -43,7 +43,7 @@ const contactsSlice = createSlice({
       {
         payload: { contacts, count },
       }: PayloadAction<{
-        contacts: Contact[]
+        contacts: HttpContact[]
         count: number
       }>
     ) {
@@ -54,7 +54,7 @@ const contactsSlice = createSlice({
     deleteContactResultById(state, action: PayloadAction<string>) {
       contactsAdapter.removeOne(state.data.contacts, action.payload)
     },
-    updateContactResult(state, action: PayloadAction<Contact>) {
+    updateContactResult(state, action: PayloadAction<HttpContact>) {
       const { _id: id, ...changes } = action.payload
       contactsAdapter.updateOne(state.data.contacts, { id, changes })
     },
@@ -98,7 +98,7 @@ const contactSelectors = contactsAdapter.getSelectors<RootState>(
 )
 
 export const useContactResultsSelector: () => {
-  contacts: Contact[]
+  contacts: HttpContact[]
   count: number
 } = () =>
   useAppSelector((state) => ({

@@ -10,6 +10,9 @@ export interface Contact {
   phone?: string
 }
 
+/** Contacts retrieved by an http response have their ids in string format */
+export type HttpContact = Contact & { _id: string; user_id: string }
+
 export interface User {
   _id: ObjectId
   name?: string
@@ -17,7 +20,7 @@ export interface User {
 }
 
 export interface SuccessContactsResponse {
-  contacts: Contact[]
+  contacts: HttpContact[]
   count: number
 }
 

@@ -6,11 +6,11 @@ import Divider from "client/common/Divider"
 import { useAppDispatch } from "client/common/reduxHooks"
 import { deleteContactResultById } from "client/features/contacts/contactResultsSlice"
 import React from "react"
-import { Contact } from "utils/types"
+import { HttpContact } from "utils/types"
 import { useDeleteContactByIdMutation } from "./contactsApiSlice"
 import CreateOrUpdateContactDialog from "./CreateOrUpdateContactDialog"
 
-const ContactItem: React.FC<{ contact: Contact }> = ({ contact }) => {
+const ContactItem: React.FC<{ contact: HttpContact }> = ({ contact }) => {
   const email = contact.email
   const isLongEmail = email.length >= 25
   const shortenEmail = (email: string): string =>
