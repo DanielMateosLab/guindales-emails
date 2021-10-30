@@ -4,5 +4,5 @@ abstract class HttpError extends Error {
 
 export class UnauthorizedError extends HttpError {
   statusCode = 401
-  message = "Authentication is required"
+  message = "Insuficient permissions to complete the action"
 }
