@@ -1,16 +1,17 @@
+import { ObjectId } from "bson"
 import { initialMenuState } from "client/common/menuReducer"
 import { ContactsState } from "client/features/contacts/contactResultsSlice"
 
 export interface Contact {
-  _id: string
-  user_id: string
+  _id: ObjectId
+  user_id: ObjectId
   name: string
   email: string
   phone?: string
 }
 
 export interface User {
-  _id: string
+  _id: ObjectId
   name?: string
   email?: string
 }

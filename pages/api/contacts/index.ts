@@ -1,8 +1,8 @@
 import { MethodNotAllowedError } from "@danielmat/api-utils"
 import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiHandler } from "next"
-import getUserIdFromRequest from "server/getContactIdFromRequest"
 import setUpContactsDAO from "server/setUpContactsDAO"
+import { getUserIdFromRequestSession } from "server/utils"
 import {
   Contact,
   ContactsEmailsResponse,
@@ -34,7 +34,7 @@ const getHandler: NextApiHandler<
   const { allEmails, ...restOfParams } = req.query
 
   const params = await getQueryParamsValidation.validate(restOfParams)
-  const user_id = await getUserIdFromRequest(req)
+  const user_id = await getUserIdFromRequestSession(req)
 
   const result = allEmails
     ? await contactsDAO.getAllEmailsByUserId(user_id, params)
@@ -47,7 +47,7 @@ const postHandler: NextApiHandler<Contact> = async (req, res) => {
   const contactsDAO = await setUpContactsDAO()
 
   const contact = await addContactValidation.validate(req.body)
-  const user_id = await getUserIdFromRequest(req)
+  const user_id = await getUserIdFromRequestSession(req)
 
   const contactId = await contactsDAO.addContact({ ...contact, user_id })
 

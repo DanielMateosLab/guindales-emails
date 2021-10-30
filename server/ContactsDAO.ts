@@ -29,7 +29,7 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
   }
 
   async getContactsByUserId(
-    user_id: string,
+    user_id: ObjectId,
     {
       filter,
       sortField = "_id",
@@ -53,7 +53,7 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
   }
 
   async getAllEmailsByUserId(
-    user_id: string,
+    user_id: ObjectId,
     { filter, sortField = "_id", sortOrder = -1 }: Partial<ContactsEmailsParams>
   ): Promise<ContactsEmailsResponse> {
     const pipeline = []
@@ -79,7 +79,7 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
     return result
   }
 
-  async getContactUserId(_id: string): Promise<string | undefined> {
+  async getContactUserId(_id: ObjectId): Promise<ObjectId | undefined> {
     const result = await this.collection.findOne(
       { _id },
       {
@@ -94,20 +94,19 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
   }
 
   /** Adds a contact and returns the generated _id */
-  async addContact(contact: WithoutId<Contact>): Promise<string> {
-    // Have to use "as any" in insertOne params to avoid the required _id field"
-    const result = await this.collection.insertOne(contact as any)
+  async addContact(contact: WithoutId<Contact>): Promise<ObjectId> {
+    const result = await this.collection.insertOne(contact)
 
     return result.insertedId
   }
 
   async updateContactById(
-    _id: string,
+    _id: ObjectId,
     updatedData: UpdateContactData
   ): Promise<Contact | undefined> {
     const result = await this.collection.findOneAndUpdate(
       {
-        _id: new ObjectId(_id) as any,
+        _id,
       },
       {
         $set: {
@@ -123,9 +122,9 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
    * Removes the contact with the given id.
    * Returns true if one contact was deleted or false otherwise.
    */
-  async deleteContactById(_id: string): Promise<boolean> {
+  async deleteContactById(_id: ObjectId): Promise<boolean> {
     const result = await this.collection.deleteOne({
-      _id: new ObjectId(_id) as any,
+      _id,
     })
 
     return result.deletedCount == 1
@@ -133,7 +132,7 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
 }
 
 function processFilterQuery(
-  user_id: string,
+  user_id: ObjectId,
   filter?: string
 ): FilterQuery<Contact> {
   const filterQuery: FilterQuery<Contact> = { user_id }
