@@ -1,5 +1,5 @@
 import { screen, waitFor } from "@testing-library/react"
-import Dashboard from "../pages/dashboard"
+import Home from "../pages"
 import { render } from "./utils"
 
 describe("index", () => {
@@ -11,7 +11,7 @@ describe("index", () => {
           count: 1,
         })
       )
-      render(<Dashboard />)
+      render(<Home />)
 
       await waitFor(() => {
         expect(

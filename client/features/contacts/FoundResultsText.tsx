@@ -30,8 +30,6 @@ const FoundResultsText: React.FC<{
       <style global jsx>
         {`
           .found-results {
-            display: flex;
-            align-items: center;
             min-height: 1.875rem;
           }
         `}

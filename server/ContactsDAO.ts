@@ -1,6 +1,5 @@
-import { InternalServerError } from "@danielmat/api-utils"
 import CollectionDAO from "@danielmat/api-utils/dist/CollectionDAO"
-import { Db, FilterQuery, ObjectId } from "mongodb"
+import { Db, ObjectId } from "mongodb"
 import { pageSize } from "utils/config"
 import {
   Contact,
@@ -14,34 +13,19 @@ import {
 export default class ContactsDAO extends CollectionDAO<Contact> {
   constructor(db: Db) {
     super(db, "contacts")
-
-    // TODO: move this logic into a compile or deploy hook
-    this.collection.indexes().then((indexes) => {
-      const requiredIndex = "_id_1_name_text_email_text_phone_text"
-
-      const indexNames: string[] = indexes.map((index: any) => index.name)
-      if (!indexNames.includes(requiredIndex)) {
-        throw new InternalServerError(
-          `"contacts" collection is missing the required index "${requiredIndex}"`
-        )
-      }
-    })
   }
 
-  async getContactsByUserId(
-    user_id: ObjectId,
-    {
-      filter,
-      sortField = "_id",
-      sortOrder = -1,
-      page = 1,
-    }: Partial<ContactsParams>
-  ): Promise<{
+  async getContacts({
+    filter,
+    sortField = "_id",
+    sortOrder = -1,
+    page = 1,
+  }: Partial<ContactsParams>): Promise<{
     contacts: Contact[]
     count: number
   }> {
     const cursor = this.collection
-      .find(processFilterQuery(user_id, filter))
+      .find(filter ? { $text: { $search: filter } } : {})
       .sort({ [sortField]: sortOrder })
       .skip((page - 1) * pageSize)
       .limit(pageSize)
@@ -52,12 +36,17 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
     return { contacts, count }
   }
 
-  async getAllEmailsByUserId(
-    user_id: ObjectId,
-    { filter, sortField = "_id", sortOrder = -1 }: Partial<ContactsEmailsParams>
-  ): Promise<ContactsEmailsResponse> {
-    const pipeline = [
-      { $match: processFilterQuery(user_id, filter) },
+  async getAllEmails({
+    filter,
+    sortField = "_id",
+    sortOrder = -1,
+  }: Partial<ContactsEmailsParams>): Promise<ContactsEmailsResponse> {
+    const pipeline = []
+
+    if (filter) {
+      pipeline.push({ $match: { $text: { $search: filter } } })
+    }
+    pipeline.push(
       { $sort: { [sortField]: sortOrder } },
       {
         $group: {
@@ -65,46 +54,31 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
           contacts: { $push: "$email" },
         },
       },
-      { $project: { _id: 0 } },
-    ]
-
-    // If there are no contacts the result will be an empty {},
-    // so ContactsEmailsResponse is typed as Partial
-    const result = (await this.collection
-      .aggregate(pipeline)
-      .next()) as unknown as ContactsEmailsResponse | null
-
-    return result || { contacts: [] }
-  }
-
-  async getContactUserId(_id: ObjectId): Promise<ObjectId | undefined> {
-    const result = await this.collection.findOne(
-      { _id },
-      {
-        projection: {
-          _id: 0,
-          user_id: 1,
-        },
-      }
+      { $project: { _id: 0 } }
     )
 
-    return result?.user_id
+    const result = (await this.collection
+      .aggregate(pipeline)
+      .next()) as unknown as ContactsEmailsResponse
+
+    return result
   }
 
   /** Adds a contact and returns the generated _id */
-  async addContact(contact: WithoutId<Contact>): Promise<ObjectId> {
-    const result = await this.collection.insertOne(contact)
+  async addContact(contact: WithoutId<Contact>): Promise<string> {
+    // Have to use "as any" in insertOne params to avoid the required _id field"
+    const result = await this.collection.insertOne(contact as any)
 
     return result.insertedId
   }
 
   async updateContactById(
-    _id: ObjectId,
+    _id: string,
     updatedData: UpdateContactData
   ): Promise<Contact | undefined> {
     const result = await this.collection.findOneAndUpdate(
       {
-        _id,
+        _id: new ObjectId(_id) as any,
       },
       {
         $set: {
@@ -120,24 +94,11 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
    * Removes the contact with the given id.
    * Returns true if one contact was deleted or false otherwise.
    */
-  async deleteContactById(_id: ObjectId): Promise<boolean> {
+  async deleteContactById(_id: string): Promise<boolean> {
     const result = await this.collection.deleteOne({
-      _id,
+      _id: new ObjectId(_id) as any,
     })
 
     return result.deletedCount == 1
   }
-}
-
-function processFilterQuery(
-  user_id: ObjectId,
-  filter?: string
-): FilterQuery<Contact> {
-  const filterQuery: FilterQuery<Contact> = { user_id }
-
-  if (filter) {
-    filterQuery.$text = { $search: filter }
-  }
-
-  return filterQuery
 }

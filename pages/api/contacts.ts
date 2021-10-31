@@ -2,7 +2,6 @@ import { MethodNotAllowedError } from "@danielmat/api-utils"
 import catchErrors from "@danielmat/api-utils/dist/catchErrors"
 import type { NextApiHandler } from "next"
 import setUpContactsDAO from "server/setUpContactsDAO"
-import { getUserIdFromRequestSession } from "server/utils"
 import {
   Contact,
   ContactsEmailsResponse,
@@ -34,11 +33,10 @@ const getHandler: NextApiHandler<
   const { allEmails, ...restOfParams } = req.query
 
   const params = await getQueryParamsValidation.validate(restOfParams)
-  const user_id = await getUserIdFromRequestSession(req)
 
   const result = allEmails
-    ? await contactsDAO.getAllEmailsByUserId(user_id, params)
-    : await contactsDAO.getContactsByUserId(user_id, params)
+    ? await contactsDAO.getAllEmails(params)
+    : await contactsDAO.getContacts(params)
 
   res.status(200).json({ ...result })
 }
@@ -47,11 +45,10 @@ const postHandler: NextApiHandler<Contact> = async (req, res) => {
   const contactsDAO = await setUpContactsDAO()
 
   const contact = await addContactValidation.validate(req.body)
-  const user_id = await getUserIdFromRequestSession(req)
 
-  const contactId = await contactsDAO.addContact({ ...contact, user_id })
+  const contactId = await contactsDAO.addContact(contact)
 
-  res.status(201).json({ ...contact, _id: contactId, user_id })
+  res.status(201).json({ ...contact, _id: contactId })
 }
 
 export default catchErrors(handler)

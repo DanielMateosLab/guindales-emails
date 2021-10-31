@@ -11,10 +11,7 @@ import DatabaseErrorAlert from "client/common/DatabaseErrorAlert"
 import DialogController from "client/common/DialogController"
 import DialogHeader from "client/common/DialogHeader"
 import { useState } from "react"
-import {
-  useContactResultsSelector,
-  useGetContactsEmailsParamsSelector,
-} from "./contactResultsSlice"
+import { useGetContactsEmailsParamsSelector } from "./contactResultsSlice"
 import { useGetContactsEmailsQuery } from "./contactsApiSlice"
 import EmailsCopiedText from "./EmailsCopiedText"
 
@@ -29,22 +26,18 @@ const AllContactsDialog: React.FC = () => {
     navigator.clipboard.writeText(allEmails || "").then(() => setCopied(true))
   }
 
-  const { count } = useContactResultsSelector()
-
   return (
     <>
       <DialogController>
         {({ openDialog, ...dialogProps }) => (
           <>
-            {count > 0 && (
-              <Button
-                size="small"
-                className="see-all-button"
-                onClick={openDialog}
-              >
-                Ver todos
-              </Button>
-            )}
+            <Button
+              size="small"
+              className="see-all-button"
+              onClick={openDialog}
+            >
+              Ver todos
+            </Button>
 
             <Dialog {...dialogProps} fullScreen>
               <DialogHeader
