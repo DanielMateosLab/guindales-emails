@@ -66,7 +66,7 @@ const AllContactsDialog: React.FC = () => {
 
                 {data && <Typography> {allEmails} </Typography>}
 
-                {isError && <DatabaseErrorAlert refetch={refetch} />}
+                {isError && <DatabaseErrorAlert refetch={fetch} />}
               </main>
             </Dialog>
           </>
