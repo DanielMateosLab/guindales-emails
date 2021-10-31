@@ -3,14 +3,17 @@ import SearchBar from "client/features/contacts/SearchBar"
 import React from "react"
 import MainBar from "./MainBar"
 import { useMenuReducer } from "./menuReducer"
+import useIsAuthenticated from "./useIsAuthenticated"
 
 const Header: React.FC = () => {
   const { state, switchMenu } = useMenuReducer()
 
+  const isAuthenticated = useIsAuthenticated()
+
   return (
     <header>
       <MainBar {...{ menuState: state, switchMenu }} />
-      <SearchBar menuState={state} />
+      {isAuthenticated && <SearchBar menuState={state} />}
 
       <style jsx>
         {`

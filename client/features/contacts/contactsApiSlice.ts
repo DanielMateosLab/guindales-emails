@@ -1,5 +1,6 @@
 import { FullTagDescription } from "@reduxjs/toolkit/dist/query/endpointDefinitions"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { ObjectId } from "bson"
 import {
   Contact,
   ContactsEmailsParams,
@@ -50,7 +51,7 @@ export const contactsApi = createApi({
     }),
     updateContactById: builder.mutation<
       Contact,
-      { _id: string; updateData: UpdateContactData }
+      { _id: ObjectId; updateData: UpdateContactData }
     >({
       query: ({ _id, updateData }) => ({
         url: `contacts/${_id}`,
@@ -59,7 +60,7 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: [contactListTag],
     }),
-    deleteContactById: builder.mutation<void, string>({
+    deleteContactById: builder.mutation<void, ObjectId>({
       query: (_id) => ({
         url: `contacts/${_id}`,
         method: "DELETE",

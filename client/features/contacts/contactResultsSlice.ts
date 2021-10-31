@@ -3,13 +3,14 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit"
+import { ObjectId } from "bson"
 import { RootState } from "client/app/store"
 import { useAppSelector } from "client/common/reduxHooks"
 import { contactResultsDefaultParams, pageSize } from "utils/config"
 import { Contact, ContactsSortParams } from "utils/types"
 
 const contactsAdapter = createEntityAdapter<Contact>({
-  selectId: (contact) => contact._id,
+  selectId: (contact) => contact._id.toHexString(),
 })
 
 export interface ContactsState {
@@ -51,12 +52,18 @@ const contactsSlice = createSlice({
 
       state.data.count = count
     },
-    deleteContactResultById(state, action: PayloadAction<string>) {
-      contactsAdapter.removeOne(state.data.contacts, action.payload)
+    deleteContactResultById(state, action: PayloadAction<ObjectId>) {
+      contactsAdapter.removeOne(
+        state.data.contacts,
+        action.payload.toHexString()
+      )
     },
     updateContactResult(state, action: PayloadAction<Contact>) {
-      const { _id: id, ...changes } = action.payload
-      contactsAdapter.updateOne(state.data.contacts, { id, changes })
+      const { _id, ...changes } = action.payload
+      contactsAdapter.updateOne(state.data.contacts, {
+        id: _id.toHexString(),
+        changes,
+      })
     },
 
     updatePage(state) {

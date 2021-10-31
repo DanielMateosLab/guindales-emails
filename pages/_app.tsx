@@ -2,6 +2,8 @@ import CssBaseline from "@material-ui/core/CssBaseline"
 import { StylesProvider, ThemeProvider } from "@material-ui/core/styles"
 import { store } from "client/app/store"
 import theme from "client/app/theme"
+import Header from "client/common/Header"
+import { SessionProvider } from "next-auth/react"
 import type { AppProps } from "next/app"
 import Head from "next/head"
 import React from "react"
@@ -35,7 +37,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <StylesProvider injectFirst>
           <CssBaseline />
           <Provider store={store}>
-            <Component {...pageProps} />
+            <SessionProvider>
+              <Header />
+              <Component {...pageProps} />
+            </SessionProvider>
           </Provider>
         </StylesProvider>
       </ThemeProvider>

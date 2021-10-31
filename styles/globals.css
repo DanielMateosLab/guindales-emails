@@ -9,3 +9,13 @@ body {
   margin: 0;
   font-weight: normal;
 }
+
+.app-container {
+  padding: 0.5rem 1rem 1rem 1rem;
+}
+
+@media screen and (min-width: 600px) {
+  .app-container {
+    padding: 0.5rem 2rem;
+  }
+}
