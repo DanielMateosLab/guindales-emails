@@ -74,5 +74,5 @@ export const {
   useAddContactMutation,
   useDeleteContactByIdMutation,
   useUpdateContactByIdMutation,
-  useGetContactsEmailsQuery,
+  useLazyGetContactsEmailsQuery,
 } = contactsApi

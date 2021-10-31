@@ -15,12 +15,12 @@ import {
   useContactResultsSelector,
   useGetContactsEmailsParamsSelector,
 } from "./contactResultsSlice"
-import { useGetContactsEmailsQuery } from "./contactsApiSlice"
+import { useLazyGetContactsEmailsQuery } from "./contactsApiSlice"
 import EmailsCopiedText from "./EmailsCopiedText"
 
 const AllContactsDialog: React.FC = () => {
   const params = useGetContactsEmailsParamsSelector()
-  const { data, isError, refetch } = useGetContactsEmailsQuery(params)
+  const [fetch, { data, isError }] = useLazyGetContactsEmailsQuery()
 
   const allEmails = data?.contacts.join("; ")
 
@@ -40,7 +40,10 @@ const AllContactsDialog: React.FC = () => {
               <Button
                 size="small"
                 className="see-all-button"
-                onClick={openDialog}
+                onClick={() => {
+                  openDialog()
+                  fetch(params)
+                }}
               >
                 Ver todos
               </Button>
