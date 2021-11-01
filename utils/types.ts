@@ -19,8 +19,10 @@ export interface User {
   email?: string
 }
 
-export interface SuccessContactsResponse {
-  contacts: HttpContact[]
+export interface SuccessContactsResponse<
+  T extends HttpContact | Contact = HttpContact
+> {
+  contacts: T[]
   count: number
 }
 

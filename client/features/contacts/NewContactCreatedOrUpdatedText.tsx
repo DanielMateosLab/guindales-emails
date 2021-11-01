@@ -1,10 +1,10 @@
 import { Typography } from "@material-ui/core"
 import { Done } from "@material-ui/icons"
 import theme from "client/app/theme"
-import { Contact } from "utils/types"
+import { HttpContact } from "utils/types"
 
 const NewContactCreatedOrUpdatedText: React.FC<{
-  contact: Contact
+  contact: HttpContact
   updated?: boolean
 }> = ({ updated, contact: { name, email, phone } }) => (
   <div className="root">

@@ -27,7 +27,7 @@ const handler: NextApiHandler = async (req, res) => {
 }
 
 const getHandler: NextApiHandler<
-  SuccessContactsResponse | ContactsEmailsResponse
+  SuccessContactsResponse<Contact> | ContactsEmailsResponse
 > = async (req, res) => {
   const contactsDAO = await setUpContactsDAO()
 
