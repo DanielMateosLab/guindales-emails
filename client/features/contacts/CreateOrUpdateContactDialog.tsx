@@ -7,7 +7,7 @@ import TextField from "client/common/TextField"
 import useIsSmallScreen from "client/common/useIsSmallScreen"
 import { Form, Formik, FormikHelpers } from "formik"
 import React, { useState } from "react"
-import { Contact } from "utils/types"
+import { HttpContact } from "utils/types"
 import { addContactValidation } from "utils/validation"
 import { updateContactResult } from "./contactResultsSlice"
 import {
@@ -23,7 +23,7 @@ import parseFieldErrors from "./parseFieldErrors"
  * - Uses Render Props Technique in the children to provide the dialog trigger element.
  * */
 const CreateOrUpdateContactDialog: React.FC<{
-  contact?: Contact
+  contact?: HttpContact
   children: (openDialog: () => void) => JSX.Element
 }> = ({ contact, children }) => {
   // Declare style vars
