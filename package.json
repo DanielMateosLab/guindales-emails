@@ -38,7 +38,6 @@
     "eslint-config-next": "11.0.1",
     "jest": "26",
     "jest-fetch-mock": "^3.0.3",
-    "pptr-testing-library": "^0.6.5",
     "prettier": "^2.3.2",
     "prettier-plugin-organize-imports": "^2.2.0",
     "puppeteer": "^11.0.0",
