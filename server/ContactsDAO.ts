@@ -17,7 +17,7 @@ export default class ContactsDAO extends CollectionDAO<Contact> {
 
     // TODO: move this logic into a compile or deploy hook
     this.collection.indexes().then((indexes) => {
-      const requiredIndex = "_id_1_name_text_email_text_phone_text"
+      const requiredIndex = "user_id_1_name_text_email_text_phone_text"
 
       const indexNames: string[] = indexes.map((index: any) => index.name)
       if (!indexNames.includes(requiredIndex)) {
