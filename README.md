@@ -19,5 +19,4 @@ Feel free to see the live version [here](https://guindales-emails.vercel.app/) o
 I recommend having a look at the [MVP Project](https://github.com/DanielMateosLab/guindales-emails/projects/1).
 Some of the features that I will implement soon are:
 
-- Authentication (and multiple user). At the moment the app is a single email list and is obviously not valid for production use. (Working on it atm)
 - Tags: to better classify the emails. Useful to manage complex or huge email lists.
